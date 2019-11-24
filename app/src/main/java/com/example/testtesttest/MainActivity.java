@@ -1,7 +1,10 @@
 package com.example.testtesttest;
 
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import com.roughike.bottombar.BottomBar;
 import android.os.Build;
@@ -18,6 +21,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -87,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         imageBitmapList.clear();
-        String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        //String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String sdPath = Environment.getDataDirectory().getAbsolutePath();
         loadPath = new File(sdPath+"/DCIM");
         for(File s:loadPath.listFiles()) {
             if(!s.isHidden())
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         imageBitmapList.sort(null);
-        
+
 
 
 
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_accending_name) {
-            
+
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -168,5 +174,52 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-//////////////////>권한 설정
+    //////////////////>권한 설정
+//////////////////-->폴더 검색
+    private ArrayList<imageFolder> getPicturePaths() {
+        ArrayList<imageFolder> picFolders = new ArrayList<>();
+        ArrayList<String> picPaths = new ArrayList<>();
+        Uri allImagesUri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = {MediaStore.Images.ImageColumns.DATA, MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.BUCKET_ID};
+        Cursor cursor = this.getContentResolver().query(allImagesUri, projection, null, null, null);
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+            do {
+                imageFolder folds = new imageFolder();
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
+                String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                String datapath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+
+                //String folderpaths =  datapath.replace(name,"");
+                String folderPaths = datapath.substring(0, datapath.lastIndexOf(folder + "/"));
+                folderPaths = folderPaths + folder + "/";
+                if (!picPaths.contains(folderPaths)) {
+                    picPaths.add(folderPaths);
+
+                    folds.setPath(folderPaths);
+                    folds.setFolderName(folder);
+                    folds.setFirstPic(datapath);//if the folder has only one picture this line helps to set it as first so as to avoid blank image in itemview
+                    folds.addPics();
+                    picFolders.add(folds);
+                } else {
+                    for (int i = 0; i < picFolders.size(); i++) {
+                        if (picFolders.get(i).getPath().equals(folderPaths)) {
+                            picFolders.get(i).setFirstPic(datapath);
+                            picFolders.get(i).addPics();
+                        }
+                    }
+                }
+            } while (cursor.moveToNext());
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < picFolders.size(); i++) {
+            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
+        }
+        return picFolders;
+    }
 }
