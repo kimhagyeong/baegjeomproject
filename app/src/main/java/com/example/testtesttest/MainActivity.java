@@ -83,21 +83,21 @@ public class MainActivity extends AppCompatActivity {
         sideBar.setAdapter(sideAdapter) ;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     public void onResume() {
         super.onResume();
-        imageBitmapList.clear();
-        String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        loadPath = new File(sdPath+"/DCIM");
-        for(File s:loadPath.listFiles()) {
-            if(!s.isHidden())
-                for(File k:s.listFiles())
-                    imageBitmapList.add(k.getAbsolutePath());
-
-        }
-
-        imageBitmapList.sort(null);
+//        imageBitmapList.clear();
+//        String sdPath = Environment.get.getExternalStorageDirectory().getAbsolutePath();
+//        loadPath = new File(sdPath+"/DCIM");
+//        for(File s:loadPath.listFiles()) {
+//            if(!s.isHidden())
+//                for(File k:s.listFiles())
+//                    imageBitmapList.add(k.getAbsolutePath());
+//
+//        }
+//
+//        imageBitmapList.sort(null);
         
 
 
