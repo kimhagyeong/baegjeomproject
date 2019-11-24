@@ -1,12 +1,14 @@
 package com.example.testtesttest;
 
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.roughike.bottombar.BottomBar;
 import android.os.Build;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,8 @@ import android.os.Environment;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -28,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> imageBitmapList = new ArrayList<>();
     GridImageAdapter gridAdapter;
     File loadPath;
-
+    String[] permission_list = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,4 +134,39 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    //////////////////>권한 설정
+    public void checkPermission(){
+        //현재 안드로이드 버전이 6.0미만이면 메서드를 종료한다.
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return;
+
+        for(String permission : permission_list){
+            //권한 허용 여부를 확인한다.
+            int chk = checkCallingOrSelfPermission(permission);
+
+            if(chk == PackageManager.PERMISSION_DENIED){
+                //권한 허용을여부를 확인하는 창을 띄운다
+                requestPermissions(permission_list,0);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==0)
+        {
+            for(int i=0; i<grantResults.length; i++)
+            {
+                //허용됬다면
+                if(grantResults[i]== PackageManager.PERMISSION_GRANTED){
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"앱권한설정하세요",Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        }
+    }
+//////////////////>권한 설정
 }
