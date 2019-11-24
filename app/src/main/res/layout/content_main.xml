@@ -21,7 +21,9 @@
         <LinearLayout
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:fontfamily="@font/lottemart">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sidebar_recycler"
                 android:scrollbars="vertical"
@@ -32,7 +34,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp">
 
             <include layout="@layout/grid_image_area" />
         </LinearLayout>
