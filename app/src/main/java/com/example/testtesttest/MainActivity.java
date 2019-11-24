@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
+               // Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
 
             }
         });

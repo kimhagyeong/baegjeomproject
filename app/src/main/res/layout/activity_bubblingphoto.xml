@@ -29,19 +29,10 @@
 
 
     <include
-        layout="@layout/content_main"/>
+        layout="@layout/content_rename_main"/>
 
 
 
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="bottom"
-            app:bb_behavior="iconsOnly"
-            app:bb_tabXmlResource="@xml/bottombar_tabs" >
 
-
-        </com.roughike.bottombar.BottomBar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
