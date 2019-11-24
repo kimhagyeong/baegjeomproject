@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Formatter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -54,7 +55,17 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-               // Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
+                /*
+                switch (tabId) {
+                    case R.id.tab_photo:
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.tab_folder:
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+                        break;
+                }*/
+
+                Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
 
             }
         });

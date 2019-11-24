@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
-        id="@+id/tab_favorites"
+        id="@+id/tab_photo"
         icon="@drawable/folderimg"
         title="Bubbling Photo"
         />
     <tab
-        id="@+id/tab_nearby"
+        id="@+id/tab_folder"
         icon="@drawable/folderimg"
         title="Bubbling Folder"
         />
