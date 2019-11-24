@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     RecyclerView gridImage;
     ArrayList<String> imageBitmapList = new ArrayList<>();
+    ArrayList<imageFolder> imageFolderList = new ArrayList<>();
     GridImageAdapter gridAdapter;
     File loadPath;
     String[] permission_list = {
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
 
         // 리사이클러뷰에 SideImageAdapter 객체 지정.
-        SideImageAdapter sideAdapter = new SideImageAdapter(list) ;
+        SideImageAdapter sideAdapter = new SideImageAdapter(imageFolderList, this) ;
         sideBar.setAdapter(sideAdapter) ;
     }
 
@@ -91,18 +92,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        imageBitmapList.clear();
-        //String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String sdPath = Environment.getDataDirectory().getAbsolutePath();
-        loadPath = new File(sdPath+"/DCIM");
-        for(File s:loadPath.listFiles()) {
-            if(!s.isHidden())
-                for(File k:s.listFiles())
-                    imageBitmapList.add(k.getAbsolutePath());
-
-        }
-
-        imageBitmapList.sort(null);
+        imageFolderList = getPicturePaths();
+//        imageBitmapList.clear();
+//        String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+//        loadPath = new File(sdPath+"/DCIM");
+//        for(File s:loadPath.listFiles()) {
+//            if(!s.isHidden())
+//                for(File k:s.listFiles())
+//                    imageBitmapList.add(k.getAbsolutePath());
+//
+//        }
+//
+//        imageBitmapList.sort(null);
 
 
 
