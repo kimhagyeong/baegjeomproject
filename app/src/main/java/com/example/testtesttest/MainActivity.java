@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.icu.text.Normalizer;
 import android.net.Uri;
 import android.os.Bundle;
 import com.roughike.bottombar.BottomBar;
@@ -85,26 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        bottomBar.setDefaultTab(R.id.tab_Home);
-        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
-            @Override
-            public void onTabReSelected(@IdRes int tabId) {
-                switch (tabId) {
-                    case R.id.tab_Home:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
-                        break;
-                    case R.id.tab_photo:
-                        Intent in = new Intent(MainActivity.this, BubblingPhotoActivity.class);
-                        startActivity(in);
-                        break;
-                    case R.id.tab_folder:
-                        Intent in2 = new Intent(MainActivity.this, BubblingFolderActivity.class);
-                        startActivity(in2);
-                        break;
-                }
-            }
-        });
         gridImage = findViewById(R.id.gridImage_recycler) ;
         gridImage.setHasFixedSize(true);
         gridImage.setLayoutManager(new GridLayoutManager(this, 3)) ;
@@ -128,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         imageFolderList = getPicturePaths();
         imageFolderList.add(0,imageFolderList.get(0));
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTab(R.id.tab_Home);
+
 //        File targetFolder;
 //        if (folderSelectState==0) {
 //            targetFolder = new File(imageFolderList.get(0).getPath());

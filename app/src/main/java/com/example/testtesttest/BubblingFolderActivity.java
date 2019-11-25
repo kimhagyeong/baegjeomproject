@@ -11,7 +11,7 @@ public class BubblingFolderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubblingfolder);
-        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBarFolder);
         bottomBar.setDefaultTab(R.id.tab_folder);
 
         //Test용 객체 생성..
@@ -24,7 +24,7 @@ public class BubblingFolderActivity extends AppCompatActivity {
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
 
         // 리사이클러뷰에 SideImageAdapter 객체 지정.
-        SideImageAdapter sideAdapter = new SideImageAdapter(list) ;
-        sideBar.setAdapter(sideAdapter) ;
+       // SideImageAdapter sideAdapter = new SideImageAdapter(list) ;
+        //sideBar.setAdapter(sideAdapter) ;
     }
 }
