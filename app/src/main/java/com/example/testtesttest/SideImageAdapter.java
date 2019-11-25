@@ -1,6 +1,7 @@
 package com.example.testtesttest;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +50,8 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
         mContext = parent.getContext() ;
         sideFolderSize = parent.getWidth();
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
-
         View view = inflater.inflate(R.layout.recyclerview_item_sidebar, parent, false) ;
         SideImageAdapter.ViewHolder vh = new SideImageAdapter.ViewHolder(view) ;
-
         return vh ;
     }
 
@@ -66,13 +65,10 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
                 .apply(new RequestOptions().centerCrop())
                 .into(holder.imageView);
         final int t = position;
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.example.testtesttest;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -29,7 +30,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> imageBitmapList = new ArrayList<>();
     ArrayList<imageFolder> imageFolderList = new ArrayList<>();
     GridImageAdapter gridAdapter;
+    int folderSelectState=0;
     File loadPath;
     String[] permission_list = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -70,15 +75,6 @@ public class MainActivity extends AppCompatActivity {
         gridAdapter = new GridImageAdapter(imageBitmapList, this) ;
         gridImage.setAdapter(gridAdapter) ;
 
-
-
-        //Test용 객체 생성..
-        ArrayList<String> list = new ArrayList<>();
-        for (int i=0; i<30; i++) {
-            list.add(String.format("TEXT %d", i)) ;
-        }
-
-
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
         RecyclerView sideBar = findViewById(R.id.sidebar_recycler) ;
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
@@ -88,30 +84,22 @@ public class MainActivity extends AppCompatActivity {
         sideBar.setAdapter(sideAdapter) ;
     }
 
+    @SuppressLint("NewApi")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
         imageFolderList = getPicturePaths();
-//        imageBitmapList.clear();
-//        String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        loadPath = new File(sdPath+"/DCIM");
-//        for(File s:loadPath.listFiles()) {
-//            if(!s.isHidden())
-//                for(File k:s.listFiles())
-//                    imageBitmapList.add(k.getAbsolutePath());
-//
+        imageFolderList.add(0,imageFolderList.get(0));
+//        File targetFolder;
+//        if (folderSelectState==0) {
+//            targetFolder = new File(imageFolderList.get(0).getPath());
+//            for(File f: targetFolder.listFiles())
 //        }
-//
-//        imageBitmapList.sort(null);
-
-
-
 
     }
 
     //////////////////////////////////////////buttomlistenr
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -177,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //////////////////>권한 설정
 //////////////////-->폴더 검색
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     private ArrayList<imageFolder> getPicturePaths() {
         ArrayList<imageFolder> picFolders = new ArrayList<>();
         ArrayList<String> picPaths = new ArrayList<>();
@@ -187,39 +176,38 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (cursor != null) {
                 cursor.moveToFirst();
-            }
-            do {
-                imageFolder folds = new imageFolder();
-                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
-                String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
-                String datapath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
 
-                //String folderpaths =  datapath.replace(name,"");
-                String folderPaths = datapath.substring(0, datapath.lastIndexOf(folder + "/"));
-                folderPaths = folderPaths + folder + "/";
-                if (!picPaths.contains(folderPaths)) {
-                    picPaths.add(folderPaths);
-
-                    folds.setPath(folderPaths);
-                    folds.setFolderName(folder);
-                    folds.setFirstPic(datapath);//if the folder has only one picture this line helps to set it as first so as to avoid blank image in itemview
-                    folds.addPics();
-                    picFolders.add(folds);
-                } else {
-                    for (int i = 0; i < picFolders.size(); i++) {
-                        if (picFolders.get(i).getPath().equals(folderPaths)) {
-                            picFolders.get(i).setFirstPic(datapath);
-                            picFolders.get(i).addPics();
+                do {
+                    imageFolder folds = new imageFolder();
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
+                    String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                    String datapath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                    //String folderpaths =  datapath.replace(name,"");
+                    String folderPaths = datapath.substring(0, datapath.lastIndexOf(folder + "/"));
+                    folderPaths = folderPaths + folder + "/";
+                    if (!picPaths.contains(folderPaths)) {
+                        picPaths.add(folderPaths);
+                        folds.setPath(folderPaths);
+                        folds.setFolderName(folder);
+                        folds.setFirstPic(datapath);
+                        folds.addPics();
+                        picFolders.add(folds);
+                    } else {
+                        for (int i = 0; i < picFolders.size(); i++) {
+                            if (picFolders.get(i).getPath().equals(folderPaths)) {
+                                picFolders.get(i).setFirstPic(datapath);
+                                picFolders.get(i).addPics();
+                            }
                         }
                     }
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         for (int i = 0; i < picFolders.size(); i++) {
-            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
+            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getFirstPic() + " " + picFolders.get(i).getNumberOfPics());
         }
         return picFolders;
     }
