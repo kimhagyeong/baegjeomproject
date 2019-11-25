@@ -2,6 +2,7 @@ package com.example.testtesttest;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -40,22 +41,28 @@ import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView gridImage;
-    ArrayList<String> imageBitmapList = new ArrayList<>();
-    ArrayList<imageFolder> imageFolderList = new ArrayList<>();
-    GridImageAdapter gridAdapter;
-    int folderSelectState=0;
+    public static Context mContext;
+    private RecyclerView gridImage;
+    private RecyclerView sideBar;
+    private ArrayList<String> imageBitmapList = new ArrayList<>();
+    private ArrayList<imageFolder> imageFolderList = new ArrayList<>();
+    private GridImageAdapter gridAdapter;
+    private SideImageAdapter sideAdapter;
+    private int folderSelectState;
     File loadPath;
     String[] permission_list = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
+    public void setFolderSelectState(int i) {folderSelectState = i;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mContext = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        folderSelectState = 1;
+        checkPermission();
         ///////툴바랑 하단메뉴바 설정중
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
         gridImage.setAdapter(gridAdapter) ;
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView sideBar = findViewById(R.id.sidebar_recycler) ;
+        sideBar = findViewById(R.id.sidebar_recycler) ;
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
 
         // 리사이클러뷰에 SideImageAdapter 객체 지정.
-        SideImageAdapter sideAdapter = new SideImageAdapter(imageFolderList, this) ;
+        sideAdapter = new SideImageAdapter(imageFolderList, this) ;
         sideBar.setAdapter(sideAdapter) ;
     }
 
@@ -107,8 +114,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        imageFolderList = getPicturePaths();
+        setImageFolderList();
+        setImageBitmapList();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public void setImageFolderList() {
+        imageFolderList.clear();
+        imageFolderList.addAll(getPicturePaths());
         imageFolderList.add(0,imageFolderList.get(0));
+<<<<<<< HEAD
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_Home);
 
@@ -118,9 +132,32 @@ public class MainActivity extends AppCompatActivity {
 //            for(File f: targetFolder.listFiles())
 //        }
 
+=======
+        sideAdapter.notifyDataSetChanged();
     }
-
-    //////////////////////////////////////////buttomlistenr
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setImageBitmapList(){
+        imageBitmapList.clear();
+        if (folderSelectState==0) {
+            imageFolderList.subList(1,imageFolderList.size()).stream()
+                    .forEach(i->{
+                        File a = new File(i.getPath());
+                        Arrays.asList(a.listFiles())
+                                .stream()
+                                .map(f->f.getAbsolutePath())
+                                .forEach(p->imageBitmapList.add(p));
+                    });
+        }
+        else {
+            File target = new File(imageFolderList.get(folderSelectState).getPath());
+            Arrays.asList(target.listFiles())
+                    .stream()
+                    .map(f->f.getAbsolutePath())
+                    .forEach(p->imageBitmapList.add(p));
+        }
+        gridAdapter.notifyDataSetChanged();
+>>>>>>> e0d4e0218f109d4bf8124ae6e8b1f18657dedba7
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -203,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
                     String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                     String datapath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                    //String date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN));
                     //String folderpaths =  datapath.replace(name,"");
                     String folderPaths = datapath.substring(0, datapath.lastIndexOf(folder + "/"));
                     folderPaths = folderPaths + folder + "/";
