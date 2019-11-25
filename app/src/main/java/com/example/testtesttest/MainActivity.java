@@ -122,17 +122,7 @@ public class MainActivity extends AppCompatActivity {
         imageFolderList.clear();
         imageFolderList.addAll(getPicturePaths());
         imageFolderList.add(0,imageFolderList.get(0));
-<<<<<<< HEAD
-        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_Home);
 
-//        File targetFolder;
-//        if (folderSelectState==0) {
-//            targetFolder = new File(imageFolderList.get(0).getPath());
-//            for(File f: targetFolder.listFiles())
-//        }
-
-=======
         sideAdapter.notifyDataSetChanged();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -156,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     .forEach(p->imageBitmapList.add(p));
         }
         gridAdapter.notifyDataSetChanged();
->>>>>>> e0d4e0218f109d4bf8124ae6e8b1f18657dedba7
+
     }
 
     @Override
