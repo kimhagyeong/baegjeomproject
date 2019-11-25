@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +68,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 .load(imageBitmapList.get(position))
                 .thumbnail(0.5f)
                 .into(holder.imageView);
-
-//        holder.imageView.setAdjustViewBounds(false);
-//        holder.imageView.setImageBitmap(imageBitmapList.get(position));
+        Log.e("asdsd",imageBitmapList.get(position));
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
