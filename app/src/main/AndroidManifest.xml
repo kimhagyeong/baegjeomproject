@@ -33,8 +33,11 @@
             android:name=".BubblingPhotoActivity"
             android:label="Photo"/>
         <activity
-            android:name=".BubblingFolderActivity"
-            android:label="Folder"/>
+        android:name=".BubblingFolderActivity"
+        android:label="Folder"/>
+        <activity
+            android:name=".AllalbumActivity"
+            android:label="Allalbum"/>
     </application>
 
 </manifest>
