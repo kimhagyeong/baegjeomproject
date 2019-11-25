@@ -1,6 +1,7 @@
 package com.example.testtesttest;
 
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.roughike.bottombar.BottomBar;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView gridImage;
     ArrayList<String> imageBitmapList = new ArrayList<>();
     GridImageAdapter gridAdapter;
+    int GET_PHOTO=0;
     File loadPath;
     String[] permission_list = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -51,21 +53,30 @@ public class MainActivity extends AppCompatActivity {
         //이름은 이렇게 바꿔요
         toolbar.setTitle("tt");
 
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        //bottomBar.setDefaultTab(R.id.tab_photo);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                /*
+
                 switch (tabId) {
-                    case R.id.tab_photo:
+                    case R.id.tab_Home:
                         Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.tab_photo:
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId+1), Toast.LENGTH_LONG).show();
+                        Intent in = new Intent(MainActivity.this, BubblingPhotoActivity.class);
+                        startActivity(in);
+
                         break;
                     case R.id.tab_folder:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId+2), Toast.LENGTH_LONG).show();
+                        Intent in2 = new Intent(MainActivity.this, BubblingFolderActivity.class);
+                        startActivity(in2);
                         break;
-                }*/
+                }
 
-                Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -74,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         gridImage.setHasFixedSize(true);
         gridImage.setLayoutManager(new GridLayoutManager(this, 3)) ;
         gridAdapter = new GridImageAdapter(imageBitmapList, this) ;
+
         gridImage.setAdapter(gridAdapter) ;
 
 
@@ -93,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         SideImageAdapter sideAdapter = new SideImageAdapter(list) ;
         sideBar.setAdapter(sideAdapter) ;
     }
-
 
     @Override
     public void onResume() {

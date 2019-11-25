@@ -8,12 +8,12 @@
     <tab
         id="@+id/tab_photo"
         icon="@drawable/folderimg"
-        title="Bubbling Photo"
+        title="Refresh"
         />
     <tab
-        id="@+id/tab_folder"
+        id="@+id/tab_next"
         icon="@drawable/folderimg"
-        title="Bubbling Folder"
+        title="Next"
         />
 
 </tabs>

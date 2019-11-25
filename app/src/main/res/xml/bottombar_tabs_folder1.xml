@@ -6,14 +6,14 @@
         title="Home"
         />
     <tab
-        id="@+id/tab_photo"
-        icon="@drawable/folderimg"
-        title="Bubbling Photo"
-        />
-    <tab
         id="@+id/tab_folder"
         icon="@drawable/folderimg"
-        title="Bubbling Folder"
+        title="Refresh"
+        />
+    <tab
+        id="@+id/tab_next"
+        icon="@drawable/folderimg"
+        title="Next"
         />
 
 </tabs>

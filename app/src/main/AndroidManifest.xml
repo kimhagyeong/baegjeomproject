@@ -28,5 +28,13 @@
             </intent-filter>
         </activity>
         <!--여기까지 스플래시인데 오류가있다면 말해주세용-->
+
+        <activity
+            android:name=".BubblingPhotoActivity"
+            android:label="Photo"/>
+        <activity
+            android:name=".BubblingFolderActivity"
+            android:label="Folder"/>
     </application>
+
 </manifest>

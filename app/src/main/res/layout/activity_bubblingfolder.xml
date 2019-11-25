@@ -18,7 +18,7 @@
         android:layout_height="60dp"
         android:layout_gravity="bottom"
         app:bb_behavior="iconsOnly"
-        app:bb_tabXmlResource="@xml/bottombar_tabs_photo1" >
+        app:bb_tabXmlResource="@xml/bottombar_tabs_folder1" >
 
 
     </com.roughike.bottombar.BottomBar>
