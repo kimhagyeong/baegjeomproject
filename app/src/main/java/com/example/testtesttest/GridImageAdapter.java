@@ -68,7 +68,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 .load(imageBitmapList.get(position))
                 .thumbnail(0.5f)
                 .into(holder.imageView);
-        Log.e("asdsd",imageBitmapList.get(position));
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

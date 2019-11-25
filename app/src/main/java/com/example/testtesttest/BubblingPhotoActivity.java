@@ -24,7 +24,7 @@ public class BubblingPhotoActivity extends AppCompatActivity {
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
 
         // 리사이클러뷰에 SideImageAdapter 객체 지정.
-        SideImageAdapter sideAdapter = new SideImageAdapter(list) ;
-        sideBar.setAdapter(sideAdapter) ;
+//        SideImageAdapter sideAdapter = new SideImageAdapter(list) ;
+//        sideBar.setAdapter(sideAdapter) ;
     }
 }

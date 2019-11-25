@@ -6,10 +6,10 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/sidebar_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sidebar_source"
-        android:textSize="20sp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:adjustViewBounds="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

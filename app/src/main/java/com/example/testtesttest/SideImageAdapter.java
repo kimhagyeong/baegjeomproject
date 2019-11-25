@@ -1,6 +1,7 @@
 package com.example.testtesttest;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.ViewHolder> {
@@ -60,15 +63,19 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     @Override
     public void onBindViewHolder(SideImageAdapter.ViewHolder holder, int position) {
         imageFolder folder = mData.get(position) ;
+        File image = new File(folder.getFirstPic());
         Glide.with(mContext)
-                .load(folder.getFirstPic())
+                .load(image)
                 .apply(new RequestOptions().centerCrop())
                 .into(holder.imageView);
         final int t = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
+                ((MainActivity)MainActivity.mContext).setFolderSelectState(t);
+                ((MainActivity)MainActivity.mContext).setImageBitmapList();
             }
         });
     }
