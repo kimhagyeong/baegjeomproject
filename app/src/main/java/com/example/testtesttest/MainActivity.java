@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.roughike.bottombar.BottomBar;
 import android.os.Build;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import androidx.annotation.NonNull;
@@ -54,33 +55,47 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("tt");
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        //bottomBar.setDefaultTab(R.id.tab_photo);
+
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-
                 switch (tabId) {
                     case R.id.tab_Home:
                         Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
                         break;
                     case R.id.tab_photo:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId+1), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId + 1), Toast.LENGTH_LONG).show();
                         Intent in = new Intent(MainActivity.this, BubblingPhotoActivity.class);
                         startActivity(in);
-
                         break;
                     case R.id.tab_folder:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId+2), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId + 2), Toast.LENGTH_LONG).show();
                         Intent in2 = new Intent(MainActivity.this, BubblingFolderActivity.class);
                         startActivity(in2);
                         break;
                 }
-
-                //Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
-
             }
         });
 
+        bottomBar.setDefaultTab(R.id.tab_Home);
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+            @Override
+            public void onTabReSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.tab_Home:
+                        Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.tab_photo:
+                        Intent in = new Intent(MainActivity.this, BubblingPhotoActivity.class);
+                        startActivity(in);
+                        break;
+                    case R.id.tab_folder:
+                        Intent in2 = new Intent(MainActivity.this, BubblingFolderActivity.class);
+                        startActivity(in2);
+                        break;
+                }
+            }
+        });
         gridImage = findViewById(R.id.gridImage_recycler) ;
         gridImage.setHasFixedSize(true);
         gridImage.setLayoutManager(new GridLayoutManager(this, 3)) ;
