@@ -22,11 +22,11 @@ public class BubblingPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubblingphoto);
 
-        View inflatedView = getLayoutInflater().inflate(R.layout.activity_bubblingphoto, null);
-        BottomBar bottomBar = (BottomBar) inflatedView.findViewById(R.id.bottomBarPhoto);
+       // View inflatedView = getLayoutInflater().inflate(R.layout.activity_bubblingphoto, null);
+        //BottomBar bottomBar = (BottomBar) inflatedView.findViewById(R.id.bottomBarPhoto);
 
-//        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBarPhoto);
-//        bottomBar.setDefaultTab(R.id.tab_photo);
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBarPhoto);
+        bottomBar.setDefaultTab(R.id.tab_photo);
 
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

@@ -174,6 +174,15 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setTitle("ss");
             return true;
         }
+        else if (id == R.id.action_accending_date) {
+
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            //이름은 이렇게 바꿔요
+            toolbar.setTitle("ss");
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
