@@ -16,15 +16,18 @@
         android:layout_marginBottom="60dp"
         android:orientation="horizontal"
         tools:layout_editor_absoluteX="305dp"
-        tools:layout_editor_absoluteY="2dp">
+        tools:layout_editor_absoluteY="2dp"
+        >
 
         <LinearLayout
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sidebar_recycler"
                 android:scrollbars="vertical"
+                android:layout_margin="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
