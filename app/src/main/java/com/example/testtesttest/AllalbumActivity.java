@@ -97,6 +97,8 @@ public class AllalbumActivity extends AppCompatActivity {
         super.onResume();
         setImageFolderList();
         setImageBitmapList();
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTab(R.id.tab_Home);
     }
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void setImageFolderList() {

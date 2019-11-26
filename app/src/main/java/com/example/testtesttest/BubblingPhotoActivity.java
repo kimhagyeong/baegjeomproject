@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class BubblingPhotoActivity extends AppCompatActivity {
        // View inflatedView = getLayoutInflater().inflate(R.layout.activity_bubblingphoto, null);
         //BottomBar bottomBar = (BottomBar) inflatedView.findViewById(R.id.bottomBarPhoto);
 
-        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBarPhoto);
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_photo);
 
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -36,15 +37,22 @@ public class BubblingPhotoActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.tab_photo:
-                        Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
                         break;
-                   /* case R.id.tab_next:
+                    case R.id.tab_next:
                         Toast.makeText(getApplicationContext(), "사진처리하고 종료", Toast.LENGTH_LONG).show();
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
-                        finish();
-                       break;*/
+
+                       break;
                 }
+            }
+        });
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+            @Override
+            public void onTabReSelected(@IdRes int tabId) {
+                if(R.id.tab_photo==tabId)
+                    Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
             }
         });
         builder = new AlertDialog.Builder(BubblingPhotoActivity.this);
@@ -56,6 +64,7 @@ public class BubblingPhotoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id)
             {
                 Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

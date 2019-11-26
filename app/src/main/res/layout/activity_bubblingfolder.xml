@@ -13,7 +13,7 @@
         layout="@layout/content_main"/>
 
     <com.roughike.bottombar.BottomBar
-        android:id="@+id/bottomBarFolder"
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
