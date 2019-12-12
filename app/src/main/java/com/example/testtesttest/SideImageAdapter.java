@@ -74,8 +74,8 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
-                ((AllalbumActivity)AllalbumActivity.mContext).setFolderSelectState(t);
-                ((AllalbumActivity)AllalbumActivity.mContext).setImageBitmapList();
+                ((GalleryActivity)GalleryActivity.mContext).setFolderSelectState(t);
+                ((GalleryActivity)GalleryActivity.mContext).setImageBitmapList();
             }
         });
     }
