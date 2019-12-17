@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.io.File;
@@ -32,13 +33,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AllalbumActivity extends GalleryActivity {
-
+    int homeState=0;
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allalbum);
         createAndSetAdapter();
         folderSelectState = 0;
+
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -47,6 +49,7 @@ public class AllalbumActivity extends GalleryActivity {
                 switch (tabId) {
                     case R.id.tab_Home:
                         Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
+
                         break;
                     case R.id.tab_photo:
                         Toast.makeText(getApplicationContext(), Integer.toString(tabId + 1), Toast.LENGTH_LONG).show();
@@ -63,7 +66,18 @@ public class AllalbumActivity extends GalleryActivity {
                 }
             }
         });
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+            @Override
+            public void onTabReSelected(@IdRes int tabId) {
+                if(R.id.tab_Home==tabId)
+                    if(homeState==0) homeState+=1;
+                    else {
+                        homeState-=1;
+                        finish();}
+            }
+        });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -100,5 +114,13 @@ public class AllalbumActivity extends GalleryActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onResume(){
+        super.onResume();
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTab(R.id.tab_Home);
+
     }
 }
