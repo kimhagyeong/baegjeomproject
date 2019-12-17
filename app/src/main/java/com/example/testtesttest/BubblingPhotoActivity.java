@@ -35,6 +35,7 @@ import java.util.Arrays;
 public class BubblingPhotoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     public static Context mContext;
+    int photoState=0;
 
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
@@ -54,10 +55,10 @@ public class BubblingPhotoActivity extends GalleryActivity {
                         finish();
                         break;
                     case R.id.tab_photo:
-                        //Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
+
                         break;
                     case R.id.tab_next:
-                        Toast.makeText(getApplicationContext(), "사진처리하고 종료", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "사진처리하고 종료", Toast.LENGTH_SHORT).show();
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
 
@@ -68,8 +69,7 @@ public class BubblingPhotoActivity extends GalleryActivity {
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                if(R.id.tab_photo==tabId)
-                    Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "되돌리기", Toast.LENGTH_SHORT).show();
             }
         });
         builder = new AlertDialog.Builder(BubblingPhotoActivity.this);
@@ -122,5 +122,12 @@ public class BubblingPhotoActivity extends GalleryActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onResume(){
+        super.onResume();
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTab(R.id.tab_photo);
     }
 }

@@ -33,16 +33,32 @@ public class MainActivity extends AppCompatActivity {
         //이름은 이렇게 바꿔요
         toolbar.setTitle("Bubble");
 
-        Button button = findViewById(R.id.button4 );
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
+        Button button1 = findViewById(R.id.allAlbum );
+        Button button2 = findViewById(R.id.bubblingPhoto );
+        Button button3 = findViewById(R.id.bubblingFolder );
+
+        View.OnClickListener Buttons=new View.OnClickListener(){
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this, AllalbumActivity.class);
-                startActivity(in);
+                switch (v.getId()){
+                    case R.id.allAlbum:
+                        Intent in1 = new Intent(MainActivity.this, AllalbumActivity.class);
+                        startActivity(in1);
+                        break;
+                    case R.id.bubblingPhoto:
+                        Intent in2 = new Intent(MainActivity.this, BubblingPhotoActivity.class);
+                        startActivity(in2);
+                        break;
+                    case R.id.bubblingFolder:
+                        Intent in3 = new Intent(MainActivity.this, BubblingFolderActivity.class);
+                        startActivity(in3);
+                        break;
+                }
+
             }
-        });
-
-
+        };
+        button1.setOnClickListener(Buttons);
+        button2.setOnClickListener(Buttons);
+        button3.setOnClickListener(Buttons);
     }
     //////////////////>권한 설정
     public void checkPermission(){

@@ -33,7 +33,7 @@ import java.util.Arrays;
 public class BubblingFolderActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     public static Context mContext;
-
+    int folderState=0;
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
         super.onCreate(savedInstanceState);
@@ -43,7 +43,6 @@ public class BubblingFolderActivity extends GalleryActivity {
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_folder);
-
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -51,8 +50,8 @@ public class BubblingFolderActivity extends GalleryActivity {
                     case R.id.tab_Home:
                         finish();
                         break;
-                    case R.id.tab_photo:
-                        //Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
+                    case R.id.tab_folder:
+
                         break;
                     case R.id.tab_next:
                         Toast.makeText(getApplicationContext(), "사진처리하고 종료", Toast.LENGTH_LONG).show();
@@ -66,8 +65,7 @@ public class BubblingFolderActivity extends GalleryActivity {
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                if(R.id.tab_photo==tabId)
-                    Toast.makeText(getApplicationContext(), "지우는 함수", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "되돌리기", Toast.LENGTH_SHORT).show();
             }
         });
         builder = new AlertDialog.Builder(BubblingFolderActivity.this);
@@ -120,5 +118,12 @@ public class BubblingFolderActivity extends GalleryActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onResume(){
+        super.onResume();
+        BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        bottomBar.setDefaultTab(R.id.tab_folder);
     }
 }
