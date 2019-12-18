@@ -44,6 +44,11 @@
             android:label="@string/allalbum"
             android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity
+            android:name=".PhotoPopupActivity"
+            android:label="@string/photopopup"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>
