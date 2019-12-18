@@ -5,14 +5,8 @@ public class imageFolder {
         private  String FolderName;
         private int numberOfPics = 0;
         private String firstPic;
-        private String date;
 
         public imageFolder(){
-        }
-
-        public imageFolder(String path, String folderName) {
-            this.path = path;
-            FolderName = folderName;
         }
 
         public String getPath() {
@@ -33,10 +27,6 @@ public class imageFolder {
 
         public int getNumberOfPics() {
             return numberOfPics;
-        }
-
-        public void setNumberOfPics(int numberOfPics) {
-            this.numberOfPics = numberOfPics;
         }
 
         public void addPics(){

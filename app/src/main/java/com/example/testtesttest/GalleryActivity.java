@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +25,7 @@ import com.roughike.bottombar.BottomBar;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public abstract class GalleryActivity extends AppCompatActivity {
     public static Context mContext;
@@ -31,11 +36,45 @@ public abstract class GalleryActivity extends AppCompatActivity {
     protected GridImageAdapter gridAdapter;
     protected SideImageAdapter sideAdapter;
     protected int folderSelectState = 0;
-
+    protected  Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toolbar = (Toolbar)findViewById(R.id.gallery_toolbar);
+        setSupportActionBar(toolbar);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_accending_name:
+                //이름은 이렇게 바꿔요
+                toolbar.setTitle("이름순");
+                break;
+            case R.id.action_accending_date:
+                //이름은 이렇게 바꿔요
+                toolbar.setTitle("시간순");
+                break;
+            case R.id.action_accending_ASC:
+                toolbar.setTitle("오름차순");
+                break;
+            case R.id.action_accending_DESC:
+                toolbar.setTitle("내림차순");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void createAndSetAdapter() { //어댑터 생성 및 지정
         //그리드 이미지 불러올 어댑터 지정
         gridImage = findViewById(R.id.gridImage_recycler) ;
@@ -77,17 +116,17 @@ public abstract class GalleryActivity extends AppCompatActivity {
             imageFolderList.subList(1,imageFolderList.size()).stream()
                     .forEach(i->{
                         File a = new File(i.getPath());
-                        Arrays.asList(a.listFiles())
-                                .stream()
-                                .map(f->f.getAbsolutePath())
+                        Arrays.stream(a.listFiles())
+                                .map(File::getAbsolutePath)
+                                .sorted(String::compareTo)
                                 .forEach(p->imageBitmapList.add(p));
                     });
         }
         else {  //폴더 하나 내부의 사진 출력
             File target = new File(imageFolderList.get(folderSelectState).getPath());
-            Arrays.asList(target.listFiles())
-                    .stream()
-                    .map(f->f.getAbsolutePath())
+            Arrays.stream(target.listFiles())
+                    .map(File::getAbsolutePath)
+                    .sorted(String::compareTo)
                     .forEach(p->imageBitmapList.add(p));
         }
         gridAdapter.notifyDataSetChanged();
