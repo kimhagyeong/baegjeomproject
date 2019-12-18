@@ -64,19 +64,24 @@ public class BubblingFolderActivity extends GalleryActivity {
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                Toast.makeText(getApplicationContext(), "되돌리기", Toast.LENGTH_SHORT).show();
-                gridAdapter.clearSelectedItem();
+                if(tabId==R.id.tab_photo){
+                    gridAdapter.clearSelectedItem();
+                }else if(tabId==R.id.tab_next){
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
             }
         });
         builder = new AlertDialog.Builder(BubblingFolderActivity.this);
 
-        builder.setTitle("Bubbling Photo complete!").setMessage("사진을 선택한 사진 옆으로 이동했어요!");
+        builder.setTitle("Let's go Bubbling!").setMessage("사진을 선택한 사진 옆으로 이동할까요?");
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
                 Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                //여기서 메타데이터 수정하는 메소드
                 finish();
             }
         });
