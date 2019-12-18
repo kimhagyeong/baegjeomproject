@@ -104,9 +104,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 //아이템 클릭시 선택한 녀석만 포지션을 저장해서 noti 시켜가지구 다시 바인딩 할 수 있도록
                 strr=((GalleryActivity)context).str;
                 toggleItemSelected(t);
-                Intent img= new Intent(context,PhotoPop.class);
-                img.putExtra("path",imgPath);
-                context.startActivity(img);
             }
         });
     }
@@ -124,7 +121,12 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     }
 
     private void toggleItemSelected(int position){
-        if(strr.equals("All Album")){   notifyItemChanged(position);    }
+        if(strr.equals("All Album")){
+            Intent img= new Intent(context,PhotoPopupActivity.class);
+            img.putExtra("path",imageBitmapList.get(position).getImagePath());
+            context.startActivity(img);
+            notifyItemChanged(position);
+        }
         else if(strr.equals("Photo")) {
             if (mSelectedItems.get(position, false)) {
                 mSelectedItems.delete(position);

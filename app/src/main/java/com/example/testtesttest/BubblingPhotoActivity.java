@@ -46,15 +46,6 @@ public class BubblingPhotoActivity extends GalleryActivity {
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_photo);
-//
-        Intent img = getIntent();
-        String path = img.getStringExtra("path");
-        ImageView iv = findViewById(R.id);
-        Uri uri = new Uri.Builder()
-                            .path(path)
-                            .build();
-        iv.setImageURI(uri);
-//
 
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

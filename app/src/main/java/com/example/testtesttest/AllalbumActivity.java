@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AllalbumActivity extends GalleryActivity {
-    int homeState=0;
+    public static int homeState=0;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
@@ -82,6 +82,7 @@ public class AllalbumActivity extends GalleryActivity {
     public void onResume(){
         super.onResume();
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
+        homeState=0;
         bottomBar.setDefaultTab(R.id.tab_Home);
 
     }
