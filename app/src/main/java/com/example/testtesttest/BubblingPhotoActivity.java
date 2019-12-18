@@ -34,13 +34,12 @@ import java.util.Arrays;
 
 public class BubblingPhotoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
-    public static Context mContext;
     int photoState=0;
 
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubblingphoto);
+        super.onCreate(savedInstanceState);
         createAndSetAdapter();
         folderSelectState = getIntent().getIntExtra("folderState",0);
 

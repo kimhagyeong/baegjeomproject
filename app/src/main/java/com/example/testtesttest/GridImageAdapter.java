@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableWrapper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.ViewHolder> {
 
     private int chipSize = 10;
-    private ArrayList<String> imageBitmapList = null ;
+    private ArrayList<dateImage> imageBitmapList = null ;
     private Context context;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
@@ -42,7 +44,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    GridImageAdapter(ArrayList<String> list, Context c) {
+    GridImageAdapter(ArrayList<dateImage> list, Context c) {
         imageBitmapList = list ;
         chipSize = 10;
         context = c;
@@ -65,7 +67,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     @Override
     public void onBindViewHolder(GridImageAdapter.ViewHolder holder, int position) {
         Glide.with(context)
-                .load(imageBitmapList.get(position))
+                .load(imageBitmapList.get(position).getImagePath())
                 .thumbnail(0.5f)
                 .into(holder.imageView);
     }

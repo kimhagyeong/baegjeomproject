@@ -36,8 +36,8 @@ public class AllalbumActivity extends GalleryActivity {
     int homeState=0;
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allalbum);
+        super.onCreate(savedInstanceState);
         createAndSetAdapter();
         folderSelectState = 0;
 

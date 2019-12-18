@@ -28,6 +28,7 @@ import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.ViewHolder> {
     private int sideFolderSize = 10;
@@ -37,9 +38,11 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        TextView textView;
         ViewHolder(View itemView) {
             super(itemView) ;
             // 뷰 객체에 대한 참조. (hold strong reference)
+            textView = itemView.findViewById(R.id.side_text);
             imageView = itemView.findViewById(R.id.sidebar_source) ;
             ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)
                     imageView.getLayoutParams();
@@ -74,6 +77,8 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     public void onBindViewHolder(SideImageAdapter.ViewHolder holder, int position) {
         imageFolder folder = mData.get(position) ;
         File image = new File(folder.getFirstPic());
+        String folderTitle = position==0?"All Folders":folder.getFolderName();
+        holder.textView.setText(folderTitle);
         Glide.with(mContext)
                 .load(image)
                 .apply(new RequestOptions().centerCrop())
