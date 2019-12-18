@@ -1,6 +1,7 @@
 package com.example.testtesttest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
@@ -54,7 +55,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         imageBitmapList = list ;
         chipSize = 10;
         context = c;
-
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -90,9 +90,9 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 holder.imageView.setClipToOutline(true);
             }
         }
-
+        String imgPath = imageBitmapList.get(position).getImagePath();
         Glide.with(context)
-                .load(imageBitmapList.get(position).getImagePath())
+                .load(imgPath)
                 .thumbnail(0.5f)
                 .into(holder.imageView);
 
@@ -104,7 +104,9 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 //아이템 클릭시 선택한 녀석만 포지션을 저장해서 noti 시켜가지구 다시 바인딩 할 수 있도록
                 strr=((GalleryActivity)context).str;
                 toggleItemSelected(t);
-
+                Intent img= new Intent(context,PhotoPop.class);
+                img.putExtra("path",imgPath);
+                context.startActivity(img);
             }
         });
     }
