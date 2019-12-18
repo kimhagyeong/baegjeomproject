@@ -30,7 +30,8 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
 
     //선택된 아이템들 저장하는 클래스
     public SparseBooleanArray mSelectedItems=new SparseBooleanArray(0);
-
+    String strr;
+    private int total=0;
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -53,6 +54,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         imageBitmapList = list ;
         chipSize = 10;
         context = c;
+
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -62,7 +64,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
         chipSize = parent.getWidth()/3;
         View view = inflater.inflate(R.layout.recyclerview_item_gridimage, parent, false) ;
-
         GridImageAdapter.ViewHolder vh = new GridImageAdapter.ViewHolder(view) ;
 
         return vh ;
@@ -101,7 +102,9 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             public void onClick(View v) {
                 Toast.makeText(context, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
                 //아이템 클릭시 선택한 녀석만 포지션을 저장해서 noti 시켜가지구 다시 바인딩 할 수 있도록
+                strr=((GalleryActivity)context).str;
                 toggleItemSelected(t);
+
             }
         });
     }
@@ -119,12 +122,30 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     }
 
     private void toggleItemSelected(int position){
-        if(mSelectedItems.get(position, false)){
-            mSelectedItems.delete(position);
-            notifyItemChanged(position);
-        }else{
-            mSelectedItems.put(position,true);
-            notifyItemChanged(position);
+        if(strr.equals("All Album")){   notifyItemChanged(position);    }
+        else if(strr.equals("Photo")) {
+            if (mSelectedItems.get(position, false)) {
+                mSelectedItems.delete(position);
+                notifyItemChanged(position);
+                total -= 1;
+            } else {
+                if (total < 2) {
+                    mSelectedItems.put(position, true);
+                    notifyItemChanged(position);
+                    total += 1;
+                }
+            }
+        }
+        else{
+            if (mSelectedItems.get(position, false)) {
+                mSelectedItems.delete(position);
+                notifyItemChanged(position);
+                total -= 1;
+            } else {
+                mSelectedItems.put(position, true);
+                notifyItemChanged(position);
+                total += 1;
+            }
         }
     }
 
@@ -137,6 +158,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         for (int i = 0; i < mSelectedItems.size(); i++) {
             position = mSelectedItems.keyAt(i);
             mSelectedItems.put(position, false);
+            total-=1;
             notifyItemChanged(position);
         }
         mSelectedItems.clear();

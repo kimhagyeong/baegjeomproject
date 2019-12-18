@@ -44,8 +44,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     private Context mContext;
     private GridImageAdapter ga;
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
-    protected Toolbar toolbar;
-    private String str;
+
     static String folderStr="";
     //
     private SparseBooleanArray mSelectedItems=new SparseBooleanArray(0);
@@ -72,7 +71,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
         ga = g;
         mData = list ;
         mContext = context;
-        str=((GalleryActivity)mContext).toolbar.getTitle().toString();
+        ((GalleryActivity)mContext).str=((GalleryActivity)mContext).toolbar.getTitle().toString();
     }
     public void setmContext(Context c) {mContext = c;}
 
@@ -85,9 +84,9 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
         View view = inflater.inflate(R.layout.recyclerview_item_sidebar, parent, false) ;
         SideImageAdapter.ViewHolder vh = new SideImageAdapter.ViewHolder(view) ;
         if(folderStr.equals("")){
-            ((GalleryActivity)mContext).toolbar.setTitle(str);
+            ((GalleryActivity)mContext).toolbar.setTitle(((GalleryActivity)mContext).str);
         }else{
-            ((GalleryActivity)mContext).toolbar.setTitle(str+"/"+folderStr);
+            ((GalleryActivity)mContext).toolbar.setTitle(((GalleryActivity)mContext).str+"/"+folderStr);
         }
         return vh ;
     }
@@ -121,7 +120,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
             Log.d("sd",Integer.toString(ga.mSelectedItems.size()));
             ga.restoreSelected();
             folderStr=holder.textView.getText().toString();
-            ((GalleryActivity)mContext).toolbar.setTitle(str+"/"+folderStr);
+            ((GalleryActivity)mContext).toolbar.setTitle(((GalleryActivity)mContext).str+"/"+folderStr);
         });
     }
 

@@ -41,6 +41,8 @@ public abstract class GalleryActivity extends AppCompatActivity {
     private String sortString = "name";
     private boolean ascDesc = true;
 
+    //
+    public static String str;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
