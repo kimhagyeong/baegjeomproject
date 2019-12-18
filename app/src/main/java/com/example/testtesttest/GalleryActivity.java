@@ -40,11 +40,20 @@ public abstract class GalleryActivity extends AppCompatActivity {
     protected Toolbar toolbar;
     private String sortString = "name";
     private boolean ascDesc = true;
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbar = findViewById(R.id.gallery_toolbar);
         setSupportActionBar(toolbar);
+        imageFolderList.addAll(getPicturePaths());
+
+        try {
+            imageFolderList.add(0, (imageFolder) imageFolderList.get(0).clone());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -83,9 +92,6 @@ public abstract class GalleryActivity extends AppCompatActivity {
                 item.setChecked(true);
                 break;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            setImageFolderList();
-        }
         setImageBitmapList();
         return super.onOptionsItemSelected(item);
     }
@@ -101,28 +107,20 @@ public abstract class GalleryActivity extends AppCompatActivity {
         //사이드바 폴더 불러올 어댑터 지정
         sideBar = findViewById(R.id.sidebar_recycler) ;
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
-        sideAdapter = new SideImageAdapter(imageFolderList, this) ;
+        sideAdapter = new SideImageAdapter(imageFolderList, this, gridAdapter) ;
         sideBar.setAdapter(sideAdapter) ;
     }
     public void setFolderSelectState(int state) {
         this.folderSelectState = state;
     }
+    public int getFolderSelectState() {return folderSelectState;}
 
     @SuppressLint("NewApi")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
-        setImageFolderList();
         setImageBitmapList();
-    }
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    public void setImageFolderList() {  //폴더 갱신
-        imageFolderList.clear();
-        imageFolderList.addAll(getPicturePaths());
-        imageFolderList.add(0,imageFolderList.get(0));  //전체 폴더와 첫 번째 폴더
-
-        sideAdapter.notifyDataSetChanged();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

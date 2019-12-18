@@ -36,6 +36,7 @@ public class BubblingPhotoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     int photoState=0;
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
         setContentView(R.layout.activity_bubblingphoto);

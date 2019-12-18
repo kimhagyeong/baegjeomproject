@@ -33,6 +33,7 @@ import java.util.Arrays;
 public class BubblingFolderActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     int folderState=0;
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
         setContentView(R.layout.activity_bubblingfolder);
