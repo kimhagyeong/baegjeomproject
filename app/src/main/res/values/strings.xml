@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">testtesttest</string>
     <string name="action_settings">Settings</string>
+    <string name="allalbum">All Album</string>
+    <string name="photo">Bubbling Photo</string>
+    <string name="folder">Bubbling Folder</string>
 </resources>

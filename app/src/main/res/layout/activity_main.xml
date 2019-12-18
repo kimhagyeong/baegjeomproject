@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#FF0000"
+            android:background="#B7DEE1"
             android:gravity="start"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -27,21 +27,46 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <include
-        layout="@layout/content_main"/>
-
-
-
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottomBar"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="458dp"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="40dp"
+        android:padding="0dp">
+
+
+        <Button
+            android:id="@+id/allAlbum"
+            android:layout_width="110dp"
             android:layout_height="60dp"
-            android:layout_gravity="bottom"
-            app:bb_behavior="iconsOnly"
-            app:bb_tabXmlResource="@xml/bottombar_tabs" >
+            android:text="all\ngallery"/>
 
+        <Button
+            android:id="@+id/bubblingPhoto"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:text="Bubbling\nPhoto" />
 
-        </com.roughike.bottombar.BottomBar>
+        <Button
+            android:id="@+id/bubblingFolder"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:text="Bubbling\nFolder" />
+    </LinearLayout>
+
+    </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
