@@ -70,6 +70,7 @@ public class BubblingPhotoActivity extends GalleryActivity {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
                 Toast.makeText(getApplicationContext(), "되돌리기", Toast.LENGTH_SHORT).show();
+                gridAdapter.clearSelectedItem();
             }
         });
         builder = new AlertDialog.Builder(BubblingPhotoActivity.this);

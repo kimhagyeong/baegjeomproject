@@ -5,7 +5,6 @@ public class imageFolder {
         private  String FolderName;
         private int numberOfPics = 0;
         private String firstPic;
-        private String date;
 
         public imageFolder(){
         }
