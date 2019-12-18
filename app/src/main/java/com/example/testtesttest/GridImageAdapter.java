@@ -31,7 +31,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     //선택된 아이템들 저장하는 클래스
     public SparseBooleanArray mSelectedItems=new SparseBooleanArray(0);
     String strr;
-    private int total=0;
+    public int total=0;
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -146,7 +146,9 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 notifyItemChanged(position);
                 total += 1;
             }
+
         }
+        ((GalleryActivity)GalleryActivity.mContext).setVisibleMenu();
     }
 
     private boolean isItemSelected(int position) {

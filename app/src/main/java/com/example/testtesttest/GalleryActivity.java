@@ -12,8 +12,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuCompat;
@@ -42,6 +44,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
     private boolean ascDesc = true;
 
     //
+    public Menu menuIn;
     public static String str;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -63,7 +66,26 @@ public abstract class GalleryActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuCompat.setGroupDividerEnabled(menu, true);
+        menuIn=menu;
         return true;
+    }
+
+    public void setVisibleMenu(){
+        MenuItem item1 = menuIn.findItem(R.id.action_accending_name);
+        MenuItem item2 = menuIn.findItem(R.id.action_accending_date);
+        MenuItem item3 = menuIn.findItem(R.id.action_accending_ASC);
+        MenuItem item4 = menuIn.findItem(R.id.action_accending_DESC);
+        if(gridAdapter.total>=1){
+            item1.setVisible(false);
+            item2.setVisible(false);
+            item3.setVisible(false);
+            item4.setVisible(false);
+        }else{
+            item1.setVisible(true);
+            item2.setVisible(true);
+            item3.setVisible(true);
+            item4.setVisible(true);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -73,23 +95,23 @@ public abstract class GalleryActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_accending_name:
                 //이름은 이렇게 바꿔요
-                toolbar.setTitle("이름순");
                 sortString = "name";
                 item.setChecked(true);
+
                 break;
             case R.id.action_accending_date:
                 //이름은 이렇게 바꿔요
-                toolbar.setTitle("시간순");
                 sortString = "date";
                 item.setChecked(true);
+                if(item.isChecked())
+                {
+                    Toast.makeText(getApplicationContext(), "tt", Toast.LENGTH_SHORT).show();}
                 break;
             case R.id.action_accending_ASC:
-                toolbar.setTitle("오름차순");
                 ascDesc = true;
                 item.setChecked(true);
                 break;
             case R.id.action_accending_DESC:
-                toolbar.setTitle("내림차순");
                 ascDesc = false;
                 item.setChecked(true);
                 break;
