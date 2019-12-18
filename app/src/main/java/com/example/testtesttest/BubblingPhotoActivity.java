@@ -41,7 +41,6 @@ public class BubblingPhotoActivity extends GalleryActivity {
         mContext = this;    //this
         setContentView(R.layout.activity_bubblingphoto);
         super.onCreate(savedInstanceState);
-        createAndSetAdapter();
         folderSelectState = getIntent().getIntExtra("folderState",0);
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
@@ -77,6 +76,7 @@ public class BubblingPhotoActivity extends GalleryActivity {
                 }
             }
         });
+        createAndSetAdapter();
         builder = new AlertDialog.Builder(BubblingPhotoActivity.this);
 
         builder.setTitle("Let's go Bubbling").setMessage("사진을 선택한 사진 옆으로 이동할까요?");

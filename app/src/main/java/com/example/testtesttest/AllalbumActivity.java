@@ -39,8 +39,9 @@ public class AllalbumActivity extends GalleryActivity {
         mContext = this;
         setContentView(R.layout.activity_allalbum);
         super.onCreate(savedInstanceState);
-        createAndSetAdapter();
+
         folderSelectState = 0;
+
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -76,6 +77,7 @@ public class AllalbumActivity extends GalleryActivity {
                         finish();}
             }
         });
+        createAndSetAdapter();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

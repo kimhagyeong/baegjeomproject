@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -43,7 +44,9 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     private Context mContext;
     private GridImageAdapter ga;
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
-
+    protected Toolbar toolbar;
+    private String str;
+    static String folderStr="";
     //
     private SparseBooleanArray mSelectedItems=new SparseBooleanArray(0);
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,6 +72,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
         ga = g;
         mData = list ;
         mContext = context;
+        str=((GalleryActivity)mContext).toolbar.getTitle().toString();
     }
     public void setmContext(Context c) {mContext = c;}
 
@@ -80,6 +84,11 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
         View view = inflater.inflate(R.layout.recyclerview_item_sidebar, parent, false) ;
         SideImageAdapter.ViewHolder vh = new SideImageAdapter.ViewHolder(view) ;
+        if(folderStr.equals("")){
+            ((GalleryActivity)mContext).toolbar.setTitle(str);
+        }else{
+            ((GalleryActivity)mContext).toolbar.setTitle(str+"/"+folderStr);
+        }
         return vh ;
     }
 
@@ -111,7 +120,8 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
             ga.mSelectedItems = mData.get(t).mSelectedItems.clone();
             Log.d("sd",Integer.toString(ga.mSelectedItems.size()));
             ga.restoreSelected();
-
+            folderStr=holder.textView.getText().toString();
+            ((GalleryActivity)mContext).toolbar.setTitle(str+"/"+folderStr);
         });
     }
 

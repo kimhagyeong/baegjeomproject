@@ -37,7 +37,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
     protected GridImageAdapter gridAdapter;
     protected SideImageAdapter sideAdapter;
     protected int folderSelectState = 0;
-    protected Toolbar toolbar;
+    public Toolbar toolbar;
     private String sortString = "name";
     private boolean ascDesc = true;
 

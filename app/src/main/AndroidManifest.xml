@@ -31,17 +31,17 @@
 
         <activity
             android:name=".BubblingPhotoActivity"
-            android:label="Photo"
+            android:label="@string/photo"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
         android:name=".BubblingFolderActivity"
-        android:label="Folder"
+        android:label="@string/folder"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".AllalbumActivity"
-            android:label="Allalbum"
+            android:label="@string/allalbum"
             android:theme="@style/AppTheme.NoActionBar"
             />
     </application>

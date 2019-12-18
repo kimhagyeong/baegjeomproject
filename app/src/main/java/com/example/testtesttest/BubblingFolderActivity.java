@@ -38,7 +38,6 @@ public class BubblingFolderActivity extends GalleryActivity {
         mContext = this;    //this
         setContentView(R.layout.activity_bubblingfolder);
         super.onCreate(savedInstanceState);
-        createAndSetAdapter();
         folderSelectState = getIntent().getIntExtra("folderState",0);
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
@@ -65,7 +64,7 @@ public class BubblingFolderActivity extends GalleryActivity {
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                if(tabId==R.id.tab_photo){
+                if(tabId==R.id.tab_folder){
                     gridAdapter.clearSelectedItem();
                 }else if(tabId==R.id.tab_next){
                     AlertDialog alertDialog = builder.create();
@@ -73,6 +72,8 @@ public class BubblingFolderActivity extends GalleryActivity {
                 }
             }
         });
+
+        createAndSetAdapter();
         builder = new AlertDialog.Builder(BubblingFolderActivity.this);
 
         builder.setTitle("Let's go Bubbling!").setMessage("사진을 선택한 사진 옆으로 이동할까요?");
