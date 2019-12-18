@@ -76,7 +76,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         final int t = position;
         //선택된 녀석만 동그라미에 회색 필터
         if ( mSelectedItems.get(position, false) ){
-            holder.imageView.setColorFilter((R.color.grey), PorterDuff.Mode.DARKEN);
+            holder.imageView.setColorFilter((R.color.white), PorterDuff.Mode.SCREEN);
             holder.imageView.setBackground(new ShapeDrawable(new OvalShape()));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.imageView.setClipToOutline(true);
