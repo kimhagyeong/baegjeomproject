@@ -4,4 +4,5 @@
     <string name="allalbum">All Album</string>
     <string name="photo">Photo</string>
     <string name="folder">Folder</string>
+    <string name="photopopup">PhotoPopup</string>
 </resources>
