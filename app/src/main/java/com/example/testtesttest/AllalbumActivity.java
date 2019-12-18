@@ -49,17 +49,14 @@ public class AllalbumActivity extends GalleryActivity {
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_Home:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId), Toast.LENGTH_LONG).show();
 
                         break;
                     case R.id.tab_photo:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId + 1), Toast.LENGTH_LONG).show();
                         Intent in = new Intent(AllalbumActivity.this, BubblingPhotoActivity.class);
                         in.putExtra("folderState", folderSelectState);
                         startActivity(in);
                         break;
                     case R.id.tab_folder:
-                        Toast.makeText(getApplicationContext(), Integer.toString(tabId + 2), Toast.LENGTH_LONG).show();
                         Intent in2 = new Intent(AllalbumActivity.this, BubblingFolderActivity.class);
                         in2.putExtra("folderState", folderSelectState);
                         startActivity(in2);

@@ -100,7 +100,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
                 //아이템 클릭시 선택한 녀석만 포지션을 저장해서 noti 시켜가지구 다시 바인딩 할 수 있도록
                 strr=((GalleryActivity)context).str;
                 toggleItemSelected(t);
@@ -162,8 +162,10 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             mSelectedItems.put(position, false);
             total-=1;
             notifyItemChanged(position);
+            ((GalleryActivity)GalleryActivity.mContext).setVisibleMenu();
         }
         mSelectedItems.clear();
+
     }
 
 

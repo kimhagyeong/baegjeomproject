@@ -94,18 +94,13 @@ public abstract class GalleryActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_accending_name:
-                //이름은 이렇게 바꿔요
                 sortString = "name";
                 item.setChecked(true);
 
                 break;
             case R.id.action_accending_date:
-                //이름은 이렇게 바꿔요
                 sortString = "date";
                 item.setChecked(true);
-                if(item.isChecked())
-                {
-                    Toast.makeText(getApplicationContext(), "tt", Toast.LENGTH_SHORT).show();}
                 break;
             case R.id.action_accending_ASC:
                 ascDesc = true;

@@ -53,7 +53,6 @@ public class BubblingFolderActivity extends GalleryActivity {
 
                         break;
                     case R.id.tab_next:
-                        Toast.makeText(getApplicationContext(), "사진처리하고 종료", Toast.LENGTH_LONG).show();
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
 
@@ -82,8 +81,6 @@ public class BubblingFolderActivity extends GalleryActivity {
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
-                Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
-                //여기서 메타데이터 수정하는 메소드
                 finish();
             }
         });

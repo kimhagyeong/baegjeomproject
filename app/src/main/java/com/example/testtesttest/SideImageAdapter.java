@@ -111,7 +111,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
         final int t = position;
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(mContext, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
             //현재 선택 상태 저장
             mData.get(((GalleryActivity)mContext).getFolderSelectState()).mSelectedItems = ga.mSelectedItems.clone();
             ((GalleryActivity)mContext).setFolderSelectState(t);
