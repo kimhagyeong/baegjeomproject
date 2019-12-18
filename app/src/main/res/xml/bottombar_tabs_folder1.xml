@@ -2,17 +2,17 @@
 <tabs>
     <tab
         id="@+id/tab_Home"
-        icon="@drawable/folderimg"
+        icon="@drawable/back"
         title="Home"
         />
     <tab
         id="@+id/tab_folder"
-        icon="@drawable/folderimg"
+        icon="@drawable/bubblingfolder"
         title="Refresh"
         />
     <tab
         id="@+id/tab_next"
-        icon="@drawable/folderimg"
+        icon="@drawable/next"
         title="Next"
         />
 
