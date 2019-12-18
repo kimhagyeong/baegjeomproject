@@ -32,12 +32,11 @@ import java.util.Arrays;
 
 public class BubblingFolderActivity extends GalleryActivity {
     AlertDialog.Builder builder;
-    public static Context mContext;
     int folderState=0;
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubblingfolder);
+        super.onCreate(savedInstanceState);
         createAndSetAdapter();
         folderSelectState = getIntent().getIntExtra("folderState",0);
 
@@ -83,43 +82,6 @@ public class BubblingFolderActivity extends GalleryActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuCompat.setGroupDividerEnabled(menu, true);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_accending_name) {
-
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            //이름은 이렇게 바꿔요
-            toolbar.setTitle("ss");
-            return true;
-        }
-        else if (id == R.id.action_accending_date) {
-
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            //이름은 이렇게 바꿔요
-            toolbar.setTitle("ss");
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume(){
