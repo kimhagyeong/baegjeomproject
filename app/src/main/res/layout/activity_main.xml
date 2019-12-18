@@ -49,43 +49,52 @@
                 app:srcCompat="@drawable/bubblesoap" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
+            android:layout_marginBottom="40dp"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/allAlbum"
-                android:background="@drawable/button_act"
-                android:textSize="13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="all\ngallery" />
+                android:background="@drawable/button_act"
+                android:text="all\ngallery"
+                android:textSize="13dp"
+                app:layout_constraintEnd_toStartOf="@+id/bubblingPhoto"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/bubblingPhoto"
-                android:background="@drawable/button_act"
-                android:textSize="13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Bubbling\nPhoto" />
+                android:background="@drawable/button_act"
+                android:text="Bubbling\nPhoto"
+                android:textSize="13dp"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintEnd_toStartOf="@+id/bubblingFolder"
+                app:layout_constraintStart_toEndOf="@+id/allAlbum"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/bubblingFolder"
-                android:background="@drawable/button_act"
-                android:textSize="13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="Bubbling\nFolder" />
-        </LinearLayout>
+                android:background="@drawable/button_act"
+                android:text="Bubbling\nFolder"
+                android:textSize="13dp"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/bubblingPhoto"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
