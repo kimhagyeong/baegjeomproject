@@ -1,8 +1,14 @@
 package com.example.testtesttest;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +42,8 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     private Context mContext;
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
 
+    //
+    private SparseBooleanArray mSelectedItems=new SparseBooleanArray(0);
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
@@ -73,12 +81,16 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     // 클릭이벤트 여기야 여기
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(SideImageAdapter.ViewHolder holder, int position) {
+
         imageFolder folder = mData.get(position) ;
         File image = new File(folder.getFirstPic());
         String folderTitle = position==0?"All Folders":folder.getFolderName();
         holder.textView.setText(folderTitle);
+        //onClickColor(holder,position);
         Glide.with(mContext)
                 .load(image)
                 .apply(new RequestOptions().centerCrop())
@@ -91,10 +103,29 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
                 Toast.makeText(mContext, String.format("%d 선택", t), Toast.LENGTH_SHORT).show();
                 ((GalleryActivity)GalleryActivity.mContext).setFolderSelectState(t);
                 ((GalleryActivity)GalleryActivity.mContext).setImageBitmapList();
+               // toggleItemSelected(t);
+
             }
         });
     }
 
+    private void onClickColor(SideImageAdapter.ViewHolder holder, int position){
+        if ( mSelectedItems.get(position, false) ){
+            holder.imageView.setColorFilter((R.color.white), PorterDuff.Mode.DARKEN);
+        } else {
+            holder.imageView.setColorFilter(null);
+        }
+    }
+
+    private void toggleItemSelected(int position){
+        if(mSelectedItems.get(position,false)==true){
+            mSelectedItems.delete(position);
+            notifyItemChanged(position);
+        }else{
+            mSelectedItems.put(position,true);
+            notifyItemChanged(position);
+        }
+    }
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
