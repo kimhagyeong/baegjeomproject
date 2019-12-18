@@ -34,6 +34,7 @@ import java.util.Arrays;
 
 public class AllalbumActivity extends GalleryActivity {
     int homeState=0;
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
         setContentView(R.layout.activity_allalbum);
