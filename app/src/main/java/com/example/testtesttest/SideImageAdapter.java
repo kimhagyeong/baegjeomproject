@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -99,7 +100,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     public void onBindViewHolder(SideImageAdapter.ViewHolder holder, int position) {
 
         imageFolder folder = mData.get(position) ;
-        File image = new File(folder.getFirstPic());
+        Uri image = folder.getFirstPic();
         String folderTitle = position==0?"All Folders":folder.getFolderName();
         holder.textView.setText(folderTitle);
         //onClickColor(holder,position);

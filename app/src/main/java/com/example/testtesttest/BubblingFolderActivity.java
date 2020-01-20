@@ -61,6 +61,7 @@ public class BubblingFolderActivity extends GalleryActivity {
             }
         });
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
+            //가운데 아이템이 활성화 되어있는 상태고 다시 눌렀을 때 선택한거 다사라짐
             @Override
             public void onTabReSelected(@IdRes int tabId) {
                 if(tabId==R.id.tab_folder){

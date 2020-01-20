@@ -26,8 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.roughike.bottombar.BottomBar;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Objects;
 
 public abstract class GalleryActivity extends AppCompatActivity {
@@ -61,6 +66,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
         }
     }
 
+    //상단 옵션메뉴들
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -69,7 +75,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
         menuIn=menu;
         return true;
     }
-
+    //초기에는 이르순, 오름차순이 활성화 되어있음
     public void setVisibleMenu(){
         MenuItem item1 = menuIn.findItem(R.id.action_accending_name);
         MenuItem item2 = menuIn.findItem(R.id.action_accending_date);
@@ -167,50 +173,76 @@ public abstract class GalleryActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private ArrayList<imageFolder> getPicturePaths() {  //모든 사진을 검색하여 폴더 경로 리스트 반환
         ArrayList<imageFolder> picFolders = new ArrayList<>();
-        ArrayList<String> picPaths = new ArrayList<>();
-        Uri allImagesUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String[] projection = {MediaStore.Images.Media._ID,MediaStore.Images.ImageColumns.DATA, MediaStore.Images.Media.DISPLAY_NAME,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.BUCKET_ID, MediaStore.Images.Media.DATE_TAKEN,
-                MediaStore.Images.Media.LATITUDE,MediaStore.Images.Media.LONGITUDE};
+        ArrayList<String> folderNames = new ArrayList<>();
+        //배열로 grid를 매핑시킬것
+
+        //최상단 Uri를 받아오고
+        Uri allImagesUri= MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+        //사용할 속성들
+        String[] projection = {
+                MediaStore.Images.ImageColumns._ID,
+                MediaStore.Images.ImageColumns.DISPLAY_NAME,
+                MediaStore.Images.ImageColumns.DATE_TAKEN,
+                MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.ImageColumns.DATA,
+
+        };
+        //최상단 아래있는 모든 이미지 파일들을 검사할것
         Cursor cursor = this.getContentResolver().query(allImagesUri, projection, null, null, null);
         try {
             if (cursor != null) {
                 cursor.moveToFirst();
 
                 do {
-                    String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
-                    String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
-                    String datapath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-                    String date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN));
-                    String latt = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.LATITUDE));
-                    String lngt = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.LONGITUDE));
-                    if (datapath.contains("HEIC")) continue;
-                    String folderPaths = datapath.substring(0, datapath.lastIndexOf(folder + "/"));
-                    folderPaths = folderPaths + folder + "/";
+                    int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID);
+                    Long id = cursor.getLong(idColumn);
+                    Uri contentUri = Uri.withAppendedPath(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            id.toString()
+                    );
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+                    String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
+                    String date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN));
+
+                    //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
+                    String format = "MM-dd-yyyy HH:mm:ss";
+                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
+                    Long T=Long.parseLong(date);
+                    String dateTime = formatter.format(new Date(T));
+                    Log.e("test1",dateTime+ "|"+date);
+                    //여기까지
+
+                    // if (datapath.contains("HEIC")) continue; //아이폰만 있는 확장자제거
                     imageFolder folds = new imageFolder();
-                    if (!picPaths.contains(folderPaths)) {
-                        picPaths.add(folderPaths);
-                        folds.setPath(folderPaths);
+
+                    //이미 있는 폴더가 아니면 새로운 폴더 리스트를 추가해주고
+                    if (!folderNames.contains(folder)) {
+                        folderNames.add(folder);
                         folds.setFolderName(folder);
-                        folds.addPics(datapath, date);
+                        folds.addPics(contentUri, date,name);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
                         folds.setFirstPic();
                         picFolders.add(folds);
-                    } else {
+                    } else { //이미 있는 폴더면 폴더 안에 파일을 넣어줌
                         for (int i = 0; i < picFolders.size(); i++) {
-                            if (picFolders.get(i).getPath().equals(folderPaths)) {
-                                picFolders.get(i).addPics(datapath, date);
+                            if (picFolders.get(i).getFolderName().equals(folder)) {
+                                picFolders.get(i).addPics(contentUri, date, name);
+                                break;
                             }
                         }
                     }
+                    //Log.d("test1", "[name ="+name +"], ["+date+']'+contentUri+"["+folder);
                 } while (cursor.moveToNext());
                 cursor.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < picFolders.size(); i++) {
-            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
-        }
+//        for (int i = 0; i < picFolders.size(); i++) {
+//            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
+//        }
+
+
         return picFolders;
     }
 }

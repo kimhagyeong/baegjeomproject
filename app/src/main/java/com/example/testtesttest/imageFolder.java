@@ -2,11 +2,10 @@ package com.example.testtesttest;
 
 import android.util.Log;
 import android.util.SparseBooleanArray;
-
+import android.net.Uri;
 import java.util.ArrayList;
 
 public class imageFolder implements Cloneable{
-    private  String path;
     private  String FolderName;
     private int numberOfPics = 0;
     private dateImage firstPic;
@@ -22,12 +21,6 @@ public class imageFolder implements Cloneable{
         picPathList = new ArrayList<>();
     }
 
-    public String getPath() {
-            return path;
-        }
-    public void setPath(String path) {
-            this.path = path;
-        }
 
     public String getFolderName() {
             return FolderName;
@@ -41,12 +34,12 @@ public class imageFolder implements Cloneable{
         return numberOfPics;
     }
 
-    public void addPics(String p, String d){
+    public void addPics(Uri p, String d,String n){
         this.numberOfPics++;
-        picPathList.add(new dateImage(p,d));
+        picPathList.add(new dateImage(p,d,n));
     }
 
-    public String getFirstPic() {
+    public Uri getFirstPic() {
             return firstPic.getImagePath();
         }
     public void setFirstPic(dateImage firstPic) {

@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-
+//이미지들을 격자로 출력하는 클래스
 public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.ViewHolder> {
 
     private int chipSize = 10;
@@ -90,7 +91,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 holder.imageView.setClipToOutline(true);
             }
         }
-        String imgPath = imageBitmapList.get(position).getImagePath();
+        Uri imgPath = imageBitmapList.get(position).getImagePath();
         Glide.with(context)
                 .load(imgPath)
                 .thumbnail(0.5f)
@@ -123,7 +124,9 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     private void toggleItemSelected(int position){
         if(strr.equals("All Album")){
             Intent img= new Intent(context,PhotoPopupActivity.class);
-            img.putExtra("path",imageBitmapList.get(position).getImagePath());
+            img.putExtra("path",imageBitmapList.get(position).getImagePath().toString());
+//            Uri uu=imageBitmapList.get(position).getImagePath();
+//            Log.e("test1",uu.toString());
             context.startActivity(img);
             notifyItemChanged(position);
         }
