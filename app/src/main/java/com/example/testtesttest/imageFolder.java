@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class imageFolder implements Cloneable{
     private  String FolderName;
     private int numberOfPics = 0;
-    private dateImage firstPic;
+    public String folderdate;
+    public dateImage firstPic;
     public SparseBooleanArray mSelectedItems = new SparseBooleanArray(0);
     public ArrayList<dateImage> picPathList;
 
@@ -45,7 +46,7 @@ public class imageFolder implements Cloneable{
     public void setFirstPic(dateImage firstPic) {
         this.firstPic = firstPic;
     }
-    public void setFirstPic() {
-        this.firstPic = picPathList.get(0);
+    public void setFirstPic(int i) {
+        this.firstPic = picPathList.get(i);
     }
 }

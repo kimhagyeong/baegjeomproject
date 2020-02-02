@@ -6,8 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.location.Geocoder;
+
+import androidx.annotation.RequiresApi;
 import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
@@ -24,6 +27,7 @@ import androidx.core.view.MenuCompat;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -32,6 +36,7 @@ import java.util.List;
 public class PhotoPopupActivity extends AppCompatActivity {
     Geocoder geocoder;
     AlertDialog.Builder builder;
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +46,15 @@ public class PhotoPopupActivity extends AppCompatActivity {
 
         //adapter에서 클릭하고나서 intent시작됨
         String path = img.getStringExtra("path");
+        String date = img.getStringExtra("date");
         Uri uriPath=Uri.parse(path);
+//        uriPath=MediaStore.setRequireOriginal((uriPath));
+        InputStream stream= null;
+        try {
+            stream = getContentResolver().openInputStream(uriPath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         //사진출력
         ImageView iv = findViewById(R.id.photopop);
@@ -54,7 +67,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
         //exif출력 작동안됨. 오픈라이브러리 가져왔음
         ExifInterface exif = null;
         try {
-            exif = new ExifInterface(uriPath.getPath());
+            exif = new ExifInterface(stream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,8 +75,8 @@ public class PhotoPopupActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
         //여기가 원래 exif가 불려지는 함수인데 버전업이 되고 나서는 되지 않아요
-//        builder.setTitle(path)
-//                .setMessage(showExif(exif));
+        builder.setTitle(date)
+                .setMessage(showExif(exif));
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
@@ -78,11 +91,11 @@ public class PhotoPopupActivity extends AppCompatActivity {
     }
 
     private String showExif(ExifInterface exif) {
-        String attrLATITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-        String attrLATITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-        String attrLONGITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-        String attrLONGITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-        List list = null;  //Geocoder 객체 + Address 객체를 통해 제공되는 주소 서비스 결과를 리턴함
+//        String attrLATITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+//        String attrLATITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+//        String attrLONGITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+//        String attrLONGITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+//        List list = null;  //Geocoder 객체 + Address 객체를 통해 제공되는 주소 서비스 결과를 리턴함
 
         String myAttribute = "[Exif information] \n\n";
 

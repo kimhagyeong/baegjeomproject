@@ -125,6 +125,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         if(strr.equals("All Album")){
             Intent img= new Intent(context,PhotoPopupActivity.class);
             img.putExtra("path",imageBitmapList.get(position).getImagePath().toString());
+            img.putExtra("date",imageBitmapList.get(position).getImageDate());
 //            Uri uu=imageBitmapList.get(position).getImagePath();
 //            Log.e("test1",uu.toString());
             context.startActivity(img);

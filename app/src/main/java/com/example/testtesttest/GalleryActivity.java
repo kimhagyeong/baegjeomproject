@@ -58,7 +58,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.gallery_toolbar);
         setSupportActionBar(toolbar);
         imageFolderList.addAll(getPicturePaths());
-
+        imageFolderList.sort((i,j)->j.folderdate.compareTo(i.folderdate));
         try {
             imageFolderList.add(0, (imageFolder) imageFolderList.get(0).clone());
         } catch (CloneNotSupportedException e) {
@@ -184,13 +184,16 @@ public abstract class GalleryActivity extends AppCompatActivity {
                 MediaStore.Images.ImageColumns._ID,
                 MediaStore.Images.ImageColumns.DISPLAY_NAME,
                 MediaStore.Images.ImageColumns.DATE_TAKEN,
+                MediaStore.Images.ImageColumns.DATE_ADDED,
+//                MediaStore.Images.ImageColumns.DATE_MODIFIED,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
                 MediaStore.Images.ImageColumns.DATA,
 
         };
-        //최상단 아래있는 모든 이미지 파일들을 검사할것
-        Cursor cursor = this.getContentResolver().query(allImagesUri, projection, null, null, null);
+        Cursor cursor=null;
         try {
+            //최상단 아래있는 모든 이미지 파일들을 검사할것
+             cursor= this.getContentResolver().query(allImagesUri, projection, null, null, null);
             if (cursor != null) {
                 cursor.moveToFirst();
 
@@ -203,14 +206,23 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     );
                     String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME));
                     String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
-                    String date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN));
+                    String dateTaken = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN));
+                    String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
+//                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
+
+                    String date = null;
+                    if (dateTaken != null && dateAdded != null) date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;
+                    else {
+                        date = dateTaken==null?(dateAdded==null?"":dateAdded):dateTaken;
+                    }
 
                     //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
-                    String format = "MM-dd-yyyy HH:mm:ss";
-                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
-                    Long T=Long.parseLong(date);
-                    String dateTime = formatter.format(new Date(T));
-                    Log.e("test1",dateTime+ "|"+date);
+//                    String format = "MM-dd-yyyy HH:mm:ss";
+//                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
+//                        Long T = Long.parseLong(date);
+//                        String dateTime = formatter.format(new Date(T));
+//                        Log.e("test1", dateTime + "|" + date);
+//                    }
                     //여기까지
 
                     // if (datapath.contains("HEIC")) continue; //아이폰만 있는 확장자제거
@@ -221,12 +233,15 @@ public abstract class GalleryActivity extends AppCompatActivity {
                         folderNames.add(folder);
                         folds.setFolderName(folder);
                         folds.addPics(contentUri, date,name);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
-                        folds.setFirstPic();
+                        folds.setFirstPic(0);
+                        folds.folderdate = date;
                         picFolders.add(folds);
                     } else { //이미 있는 폴더면 폴더 안에 파일을 넣어줌
                         for (int i = 0; i < picFolders.size(); i++) {
                             if (picFolders.get(i).getFolderName().equals(folder)) {
                                 picFolders.get(i).addPics(contentUri, date, name);
+                                if (picFolders.get(i).folderdate.compareTo(date)==-1)
+                                    picFolders.get(i).folderdate = date;
                                 break;
                             }
                         }
@@ -237,6 +252,9 @@ public abstract class GalleryActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally{
+            cursor.close();
         }
 //        for (int i = 0; i < picFolders.size(); i++) {
 //            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
