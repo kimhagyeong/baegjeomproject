@@ -94,6 +94,46 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/bubblingPhoto"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/bubblingMemo"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="64dp"
+                android:background="@drawable/button_act"
+                android:text="Bubbling\nMemo "
+                android:textSize="13dp"
+                app:layout_constraintEnd_toStartOf="@+id/bubblingFace"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/bubblingFace"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="64dp"
+                android:background="@drawable/button_act"
+                android:text=" Bubbling \nFace"
+                android:textSize="13dp"
+                app:layout_constraintEnd_toStartOf="@+id/Howtouse"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@+id/bubblingMemo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Howtouse"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="64dp"
+                android:background="@drawable/button_act"
+                android:text=" How to\nUse"
+                android:textSize="13dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toEndOf="@+id/bubblingFace"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

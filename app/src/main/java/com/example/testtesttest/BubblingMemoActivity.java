@@ -2,6 +2,8 @@ package com.example.testtesttest;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
@@ -11,7 +13,7 @@ import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 
-public class BubblingFolderActivity extends GalleryActivity {
+public class BubblingMemoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     int folderState=0;
     String strPicFolder;
@@ -56,34 +58,34 @@ public class BubblingFolderActivity extends GalleryActivity {
         });
 
         createAndSetAdapter();
-        builder = new AlertDialog.Builder(BubblingFolderActivity.this);
-//        final String[] items = {"Apple", "Banana", "Orange", "Grapes"};
-        final String[] items = publicfolderNames.toArray(new String[publicfolderNames.size()]);
+        builder = new AlertDialog.Builder(BubblingMemoActivity.this);
 
-        builder.setTitle("Let's go Bubbling!")
-                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        strPicFolder=items[which];
-                        Toast.makeText(getApplicationContext(), items[which]+ " is clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+        final EditText input = new EditText(BubblingMemoActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+
+        builder.setTitle("남길 메모를 작성하세요!");
+        builder.setView(input);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int id)
-            {
-               AlertDialog.Builder innBuilder = new AlertDialog.Builder( BubblingFolderActivity.this);
-               innBuilder.setMessage("이 폴더로 모든 사진을 이동합니다");
-               innBuilder.setTitle(strPicFolder);
-               innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
-                   public void onClick( DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                       finish();
-                   }
-               }); innBuilder.show();
+            public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                AlertDialog.Builder innBuilder = new AlertDialog.Builder( BubblingMemoActivity.this);
+                innBuilder.setMessage(input.getText().toString());
+                innBuilder.setTitle("선택한 사진 옆에\n메모가 생깁니다!");
+                innBuilder.setCancelable(false);
+                innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
+                    public void onClick( DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }); innBuilder.show();
             }
         });
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

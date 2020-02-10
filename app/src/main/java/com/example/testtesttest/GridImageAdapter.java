@@ -144,6 +144,21 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 }
             }
         }
+        else if(strr.equals("Memo")) {
+            if (mSelectedItems.get(position, false)) {
+                mSelectedItems.delete(position);
+                notifyItemChanged(position);
+                total -= 1;
+            } else {
+                if (total < 1) {
+                    mSelectedItems.put(position, true);
+                    notifyItemChanged(position);
+                    total += 1;
+                }
+            }
+            Log.d("test1",mSelectedItems.toString());
+            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
+        }
         else{
             if (mSelectedItems.get(position, false)) {
                 mSelectedItems.delete(position);
@@ -154,7 +169,8 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 notifyItemChanged(position);
                 total += 1;
             }
-
+            Log.d("test1",mSelectedItems.toString());
+            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
         }
         ((GalleryActivity)GalleryActivity.mContext).setVisibleMenu();
     }

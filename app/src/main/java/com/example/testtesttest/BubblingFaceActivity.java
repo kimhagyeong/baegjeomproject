@@ -11,7 +11,7 @@ import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 
-public class BubblingFolderActivity extends GalleryActivity {
+public class BubblingFaceActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     int folderState=0;
     String strPicFolder;
@@ -56,7 +56,7 @@ public class BubblingFolderActivity extends GalleryActivity {
         });
 
         createAndSetAdapter();
-        builder = new AlertDialog.Builder(BubblingFolderActivity.this);
+        builder = new AlertDialog.Builder(BubblingFaceActivity.this);
 //        final String[] items = {"Apple", "Banana", "Orange", "Grapes"};
         final String[] items = publicfolderNames.toArray(new String[publicfolderNames.size()]);
 
@@ -71,15 +71,15 @@ public class BubblingFolderActivity extends GalleryActivity {
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
-               AlertDialog.Builder innBuilder = new AlertDialog.Builder( BubblingFolderActivity.this);
-               innBuilder.setMessage("이 폴더로 모든 사진을 이동합니다");
-               innBuilder.setTitle(strPicFolder);
-               innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
-                   public void onClick( DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                       finish();
-                   }
-               }); innBuilder.show();
+                AlertDialog.Builder innBuilder = new AlertDialog.Builder( BubblingFaceActivity.this);
+                innBuilder.setMessage("이 폴더로 모든 사진을 이동합니다");
+                innBuilder.setTitle(strPicFolder);
+                innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
+                    public void onClick( DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }); innBuilder.show();
 
 
             }

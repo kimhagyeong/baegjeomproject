@@ -91,14 +91,17 @@ public class PhotoPopupActivity extends AppCompatActivity {
     }
 
     private String showExif(ExifInterface exif) {
-//        String attrLATITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-//        String attrLATITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-//        String attrLONGITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-//        String attrLONGITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-//        List list = null;  //Geocoder 객체 + Address 객체를 통해 제공되는 주소 서비스 결과를 리턴함
+        String attrLATITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+        String attrLATITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+        String attrLONGITUDE = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+        String attrLONGITUDE_REF = exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+        List list = null;  //Geocoder 객체 + Address 객체를 통해 제공되는 주소 서비스 결과를 리턴함
 
         String myAttribute = "[Exif information] \n\n";
-
+        myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
+        myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE_REF, exif);
+        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE, exif);
+        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);
         myAttribute += getTagString(ExifInterface.TAG_DATETIME, exif);
         myAttribute += getTagString(ExifInterface.TAG_DATETIME_ORIGINAL, exif);
         myAttribute += getTagString(ExifInterface.TAG_DATETIME_DIGITIZED, exif);

@@ -45,9 +45,11 @@ public abstract class GalleryActivity extends AppCompatActivity {
     protected SideImageAdapter sideAdapter;
     protected int folderSelectState = 0;
     public Toolbar toolbar;
-    private String sortString = "name";
-    private boolean ascDesc = true;
+    private String sortString = "date";
+    private boolean ascDesc = false;
 
+    //
+    public ArrayList<String> publicfolderNames = new ArrayList<>();
     //
     public Menu menuIn;
     public static String str;
@@ -102,7 +104,6 @@ public abstract class GalleryActivity extends AppCompatActivity {
             case R.id.action_accending_name:
                 sortString = "name";
                 item.setChecked(true);
-
                 break;
             case R.id.action_accending_date:
                 sortString = "date";
@@ -231,6 +232,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     //이미 있는 폴더가 아니면 새로운 폴더 리스트를 추가해주고
                     if (!folderNames.contains(folder)) {
                         folderNames.add(folder);
+                        publicfolderNames.add(folder);
                         folds.setFolderName(folder);
                         folds.addPics(contentUri, date,name);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
                         folds.setFirstPic(0);

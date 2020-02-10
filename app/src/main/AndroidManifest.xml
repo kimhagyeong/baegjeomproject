@@ -46,6 +46,22 @@
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
+            android:name=".BubblingMemoActivity"
+            android:label="Memo"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
+            android:name=".BubblingFaceActivity"
+            android:label="Face"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
+        <activity
+            android:name=".HowtouseActivity"
+            android:label="Howtouse"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
             android:name=".PhotoPopupActivity"
             android:label="@string/photopopup"
             android:theme="@style/AppTheme"

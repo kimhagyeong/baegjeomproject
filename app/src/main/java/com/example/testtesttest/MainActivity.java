@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         Button button1 = findViewById(R.id.allAlbum );
         Button button2 = findViewById(R.id.bubblingPhoto );
         Button button3 = findViewById(R.id.bubblingFolder );
+        Button button4 = findViewById(R.id.bubblingMemo );
+        Button button5 = findViewById(R.id.bubblingFace );
+        Button button6 = findViewById(R.id.Howtouse );
 
         View.OnClickListener Buttons=new View.OnClickListener(){
             public void onClick(View v) {
@@ -52,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
                         Intent in3 = new Intent(MainActivity.this, BubblingFolderActivity.class);
                         startActivity(in3);
                         break;
+                    case R.id.bubblingMemo:
+                        Intent in4 = new Intent(MainActivity.this, BubblingMemoActivity.class);
+                        startActivity(in4);
+                        break;
+                    case R.id.bubblingFace:
+                        Intent in5 = new Intent(MainActivity.this, BubblingFaceActivity.class);
+                        startActivity(in5);
+                        break;
+                    case R.id.Howtouse:
+                        Intent in6 = new Intent(MainActivity.this, HowtouseActivity.class);
+                        startActivity(in6);
+                        break;
                 }
 
             }
@@ -59,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(Buttons);
         button2.setOnClickListener(Buttons);
         button3.setOnClickListener(Buttons);
+        button4.setOnClickListener(Buttons);
+        button5.setOnClickListener(Buttons);
+        button6.setOnClickListener(Buttons);
     }
     //////////////////>권한 설정
     public void checkPermission(){

@@ -9,12 +9,13 @@
         <item
             android:id="@+id/action_accending_name"
             android:orderInCategory="100"
-            android:checked="true"
+
             android:title="이름순"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_accending_date"
             android:orderInCategory="100"
+            android:checked="true"
             android:title="시간순"
             app:showAsAction="never" /></group>
     <group
@@ -25,11 +26,11 @@
             android:id="@+id/action_accending_ASC"
             android:orderInCategory="100"
             android:title="오름차순"
-            android:checked="true"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_accending_DESC"
             android:orderInCategory="100"
+            android:checked="true"
             android:title="내림차순"
             app:showAsAction="never" />
     </group>
