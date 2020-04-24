@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -47,6 +48,8 @@ public abstract class GalleryActivity extends AppCompatActivity {
     public Toolbar toolbar;
     private String sortString = "date";
     private boolean ascDesc = false;
+
+    public ArrayList<String> imgs = new ArrayList<String>();
 
     //
     public ArrayList<String> publicfolderNames = new ArrayList<>();

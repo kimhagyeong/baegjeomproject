@@ -2,6 +2,7 @@ package com.example.testtesttest;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
@@ -76,6 +77,15 @@ public class BubblingFolderActivity extends GalleryActivity {
                innBuilder.setTitle(strPicFolder);
                innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
                    public void onClick( DialogInterface dialog, int which) {
+
+                       //여기서 메타데이터 수정 이벤트
+                       for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
+                           //이건 키 값
+                           Log.e("test1",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
+                           //이건 주소 값
+                           Log.d("test1",imageBitmapList.get(i).getImagePath().toString());
+                       }
+
                        dialog.dismiss();
                        finish();
                    }

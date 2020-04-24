@@ -156,8 +156,8 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                     total += 1;
                 }
             }
-            Log.d("test1",mSelectedItems.toString());
-            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
+//            Log.d("test1",mSelectedItems.toString());
+//            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
         }
         else{
             if (mSelectedItems.get(position, false)) {
@@ -169,8 +169,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 notifyItemChanged(position);
                 total += 1;
             }
-            Log.d("test1",mSelectedItems.toString());
-            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
         }
         ((GalleryActivity)GalleryActivity.mContext).setVisibleMenu();
     }
@@ -191,7 +189,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
         mSelectedItems.clear();
 
     }
-
 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override

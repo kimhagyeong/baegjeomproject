@@ -86,6 +86,12 @@ public class BubblingPhotoActivity extends GalleryActivity {
             public void onClick(DialogInterface dialog, int id)
             {
                 //여기서 메타데이터 수정 이벤트
+                for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
+                    //이건 키 값
+                    Log.e("test1",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
+                    //이건 주소 값
+                    Log.d("test1",imageBitmapList.get(i).getImagePath().toString());
+                }
                 finish();
             }
         });
