@@ -1,7 +1,22 @@
 package com.example.testtesttest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ImageDecoder;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -9,15 +24,29 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class BubblingMemoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
     int folderState=0;
     String strPicFolder;
+
+    Context context;
+    Resources resources;
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
@@ -81,11 +110,13 @@ public class BubblingMemoActivity extends GalleryActivity {
                 innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
                     public void onClick( DialogInterface dialog, int which) {
                         //여기서 메타데이터 수정 이벤트
+                        Toast.makeText(getApplicationContext(),input.getText().toString(), Toast.LENGTH_SHORT).show();
                         for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
                             //이건 키 값
                             Log.e("test1",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
                             //이건 주소 값
                             Log.d("test1",imageBitmapList.get(i).getImagePath().toString());
+                            inputToGallery(imageBitmapList.get(i).getImagePath(),input.getText().toString());
                         }
                         dialog.dismiss();
                         finish();
@@ -94,6 +125,125 @@ public class BubblingMemoActivity extends GalleryActivity {
             }
         });
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void inputToGallery(Uri path, String memo){
+        context = getApplicationContext();
+        resources = getResources();
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+
+//        Bitmap bitmap = null;
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), path);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.photo2,options);
+
+
+//        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), path);
+//        Bitmap bitmap = null;
+//        try {
+//            bitmap = ImageDecoder.decodeBitmap(source);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
+        Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+//
+//        Bitmap tempBitmap = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.HARDWARE);
+//        }
+
+        Canvas canvas = new Canvas(tempBitmap);
+
+        Paint paint1 = new Paint();
+        paint1.setARGB(80,204,204,204);
+
+        TextPaint paint2 = new TextPaint();
+        int textSize=bitmap.getWidth()/10;
+        paint2.setTextSize(textSize);
+        paint2.setColor(Color.LTGRAY);
+        paint2.setAntiAlias(true);
+
+
+//        StaticLayout.Builder builder = StaticLayout.Builder.obtain(memo, 0, memo.length(), paint2,  bitmap.getWidth()-textSize );
+//        StaticLayout textLayout = builder.build();
+
+        StaticLayout.Builder builder = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            builder = StaticLayout.Builder.obtain(memo, 0, memo.length(), paint2,  bitmap.getWidth()-textSize );
+        }
+        StaticLayout textLayout = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            textLayout = builder.build();
+        }
+
+        canvas.drawBitmap(bitmap, 0, 0, paint1);
+        canvas.translate( textSize/2, textSize/2 );
+        textLayout.draw(canvas);
+
+        //storage
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, "fileName");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
+        // 파일을 write중이라면 다른곳에서 데이터요구를 무시하겠다는 의미입니다.
+        values.put(MediaStore.Images.Media.IS_PENDING, 1);
+
+        ContentResolver contentResolver = getContentResolver();
+        Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+        Uri item = contentResolver.insert(collection, values);
+
+        try {
+            ParcelFileDescriptor pdf = contentResolver.openFileDescriptor(item, "w", null);
+            if (pdf == null) {
+
+            } else {
+                InputStream inputStream = getImageInputStream(tempBitmap);
+                byte[] strToByte = getBytes(inputStream);
+                FileOutputStream fos = new FileOutputStream(pdf.getFileDescriptor());
+                fos.write(strToByte);
+                fos.close();
+                inputStream.close();
+                pdf.close();
+                contentResolver.update(item, values, null, null);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        values.clear();
+        // 파일을 모두 write하고 다른곳에서 사용할 수 있도록 0으로 업데이트를 해줍니다.
+        values.put(MediaStore.Images.Media.IS_PENDING, 0);
+        contentResolver.update(item, values, null, null);
+//        canvas.restore();
+
+    }
+    private InputStream getImageInputStream(Bitmap bmp) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        byte[] bitmapData = bytes.toByteArray();
+        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapData);
+
+        return bs;
+    }
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

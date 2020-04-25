@@ -41,8 +41,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             super(itemView) ;
             // 뷰 객체에 대한 참조. (hold strong reference)
             imageView = itemView.findViewById(R.id.chipImageView) ;
-            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)
-                    imageView.getLayoutParams();
+            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)imageView.getLayoutParams();
             params.width = chipSize;
             params.height = chipSize;
             imageView.setLayoutParams(params);
