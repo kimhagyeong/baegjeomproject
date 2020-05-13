@@ -40,9 +40,7 @@ public class imageFolder implements Cloneable{
         picPathList.add(new dateImage(p,d,n));
     }
 
-    public Uri getFirstPic() {
-            return firstPic.getImagePath();
-        }
+    public Uri getFirstPic() {return firstPic.getImagePath(); }
     public void setFirstPic(dateImage firstPic) {
         this.firstPic = firstPic;
     }

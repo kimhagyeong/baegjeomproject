@@ -74,7 +74,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
 
 
         builder = new AlertDialog.Builder(this);
-        //여기가 원래 exif가 불려지는 함수인데 버전업이 되고 나서는 되지 않아요
+
         builder.setTitle(date)
                 .setMessage(showExif(exif));
 

@@ -56,12 +56,14 @@ public abstract class GalleryActivity extends AppCompatActivity {
     //
     public Menu menuIn;
     public static String str;
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbar = findViewById(R.id.gallery_toolbar);
         setSupportActionBar(toolbar);
+        makeDB();
         imageFolderList.addAll(getPicturePaths());
         imageFolderList.sort((i,j)->j.folderdate.compareTo(i.folderdate));
         try {
@@ -69,6 +71,8 @@ public abstract class GalleryActivity extends AppCompatActivity {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+        //bubblingFaceActivity에서만 사용
+
     }
 
     //상단 옵션메뉴들
@@ -138,6 +142,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
         sideBar.setLayoutManager(new LinearLayoutManager(this)) ;
         sideAdapter = new SideImageAdapter(imageFolderList, this, gridAdapter) ;
         sideBar.setAdapter(sideAdapter) ;
+
     }
     public void setFolderSelectState(int state) {
         this.folderSelectState = state;
@@ -173,6 +178,15 @@ public abstract class GalleryActivity extends AppCompatActivity {
         sideAdapter.notifyItemChanged(folderSelectState);   //side 이미지 갱신
     }
 
+    //bubblingFaceActivity에서 오버라이딩
+    public void makeDB(){
+
+    }
+    //bubblingFaceActivity에서 오버라이딩
+    public void insertDB(String name,Uri uri, String date, String position){
+
+    }
+
     //폴더에서 이미지 검색
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private ArrayList<imageFolder> getPicturePaths() {  //모든 사진을 검색하여 폴더 경로 리스트 반환
@@ -191,7 +205,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
                 MediaStore.Images.ImageColumns.DATE_ADDED,
 //                MediaStore.Images.ImageColumns.DATE_MODIFIED,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.ImageColumns.DATA,
+//                MediaStore.Images.ImageColumns.DATA,
 
         };
         Cursor cursor=null;
@@ -252,6 +266,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
                         }
                     }
                     //Log.d("test1", "[name ="+name +"], ["+date+']'+contentUri+"["+folder);
+                    insertDB(name, contentUri,date,"");
                 } while (cursor.moveToNext());
                 cursor.close();
             }
