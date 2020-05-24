@@ -205,13 +205,13 @@ public abstract class GalleryActivity extends AppCompatActivity {
                 MediaStore.Images.ImageColumns.DATE_ADDED,
 //                MediaStore.Images.ImageColumns.DATE_MODIFIED,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
-//                MediaStore.Images.ImageColumns.DATA,
+                MediaStore.Images.ImageColumns.DATA,
 
         };
         Cursor cursor=null;
         try {
             //최상단 아래있는 모든 이미지 파일들을 검사할것
-             cursor= this.getContentResolver().query(allImagesUri, projection, null, null, null);
+            cursor= this.getContentResolver().query(allImagesUri, projection, null, null, null);
             if (cursor != null) {
                 cursor.moveToFirst();
 
@@ -226,6 +226,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
                     String dateTaken = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN));
                     String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
+                    String data = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 //                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
 
                     String date = null;
@@ -237,9 +238,9 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
                     String format = "MM-dd-yyyy HH:mm:ss";
                     SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
-                        Long T = Long.parseLong(date);
-                        String dateTime = formatter.format(new Date(T));
-                        Log.e("test1", dateTime + "|" + date);
+                    Long T = Long.parseLong(date);
+                    String dateTime = formatter.format(new Date(T));
+                    Log.e("test1", dateTime + "|" + date);
 //                    }
                     //여기까지
 
@@ -251,14 +252,14 @@ public abstract class GalleryActivity extends AppCompatActivity {
                         folderNames.add(folder);
                         publicfolderNames.add(folder);
                         folds.setFolderName(folder);
-                        folds.addPics(contentUri, date,name);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
+                        folds.addPics(contentUri, date, name, data);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
                         folds.setFirstPic(0);
                         folds.folderdate = date;
                         picFolders.add(folds);
                     } else { //이미 있는 폴더면 폴더 안에 파일을 넣어줌
                         for (int i = 0; i < picFolders.size(); i++) {
                             if (picFolders.get(i).getFolderName().equals(folder)) {
-                                picFolders.get(i).addPics(contentUri, date, name);
+                                picFolders.get(i).addPics(contentUri, date, name, data);
                                 if (picFolders.get(i).folderdate.compareTo(date)==-1)
                                     picFolders.get(i).folderdate = date;
                                 break;

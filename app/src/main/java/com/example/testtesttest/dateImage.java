@@ -9,14 +9,17 @@ public class dateImage{
     private Uri path;
     private String date;
     private String name;
-    public dateImage(Uri path, String date, String name) {
+    private String abPate;
+    public dateImage(Uri path, String date, String name, String ab) {
         this.path = path;
         this.date= date;
         this.name= name;
+        this.abPate = ab;
     }
     public Uri getImagePath() {return path;}
     public String getImageDate() {return date;}
     public String getImageName() {return name;}
+    public String getImageAbPate() {return abPate;}
     public int compareTo(dateImage a, String rules, boolean ascDesc){
         switch (rules) {
             case "name":

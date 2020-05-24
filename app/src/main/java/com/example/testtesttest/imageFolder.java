@@ -24,20 +24,20 @@ public class imageFolder implements Cloneable{
 
 
     public String getFolderName() {
-            return FolderName;
-        }
+        return FolderName;
+    }
 
     public void setFolderName(String folderName) {
-            FolderName = folderName;
-        }
+        FolderName = folderName;
+    }
 
     public int getNumberOfPics() {
         return numberOfPics;
     }
 
-    public void addPics(Uri p, String d,String n){
+    public void addPics(Uri p, String d,String n, String a){
         this.numberOfPics++;
-        picPathList.add(new dateImage(p,d,n));
+        picPathList.add(new dateImage(p,d,n,a));
     }
 
     public Uri getFirstPic() {return firstPic.getImagePath(); }

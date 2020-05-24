@@ -12,11 +12,14 @@ import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -47,6 +50,11 @@ public class PhotoPopupActivity extends AppCompatActivity {
         //adapter에서 클릭하고나서 intent시작됨
         String path = img.getStringExtra("path");
         String date = img.getStringExtra("date");
+        final String abPath = img.getStringExtra("abPath");
+        //abPath = abPath.substring(1);
+        Log.e("abPath",abPath);
+        Log.e("abPath",Environment.getExternalStorageDirectory().getAbsolutePath());
+
         Uri uriPath=Uri.parse(path);
 //        uriPath=MediaStore.setRequireOriginal((uriPath));
         InputStream stream= null;
@@ -56,32 +64,53 @@ public class PhotoPopupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        EditText GPS_Lati = new EditText(this);
+
         //사진출력
         ImageView iv = findViewById(R.id.photopop);
         File imgFile = new File(path);
         Glide.with(this)
-                    .load(uriPath)
-                    .into(iv);
+                .load(uriPath)
+                .into(iv);
 
-
+        //String data = new String();
         //exif출력 작동안됨. 오픈라이브러리 가져왔음
+        builder = new AlertDialog.Builder(this);
         ExifInterface exif = null;
         try {
             exif = new ExifInterface(stream);
+            builder.setTitle(date)
+                    .setMessage(showExif(exif))
+                    .setView(GPS_Lati);
+            //data = showExif(exif);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        builder = new AlertDialog.Builder(this);
-
-        builder.setTitle(date)
-                .setMessage(showExif(exif));
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
+                InputStream st = null;
+                try {
+                    st = getContentResolver().openInputStream(uriPath);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Log.e("Input Stream", e.toString());
+                }
+                if (GPS_Lati.getParent() != null)
+                    ((ViewGroup) GPS_Lati.getParent()).removeView(GPS_Lati);
+                try {
+                    ExifInterface exif = new ExifInterface(abPath);
+                    exif.setAttribute(android.media.ExifInterface.TAG_ORIENTATION, GPS_Lati.getText().toString());
+                    exif.saveAttributes();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("set attribute error", e.toString());
+                }
             }
         });
     }
@@ -98,22 +127,12 @@ public class PhotoPopupActivity extends AppCompatActivity {
         List list = null;  //Geocoder 객체 + Address 객체를 통해 제공되는 주소 서비스 결과를 리턴함
 
         String myAttribute = "[Exif information] \n\n";
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE_REF, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);
         myAttribute += getTagString(ExifInterface.TAG_DATETIME, exif);
         myAttribute += getTagString(ExifInterface.TAG_DATETIME_ORIGINAL, exif);
         myAttribute += getTagString(ExifInterface.TAG_DATETIME_DIGITIZED, exif);
         myAttribute += getTagString(ExifInterface.TAG_GPS_DATESTAMP, exif);
         myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE_REF, exif);
         myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);
-        myAttribute += getTagString(ExifInterface.TAG_IMAGE_LENGTH, exif);
-        myAttribute += getTagString(ExifInterface.TAG_IMAGE_WIDTH, exif);
-        myAttribute += getTagString(ExifInterface.TAG_MAKE, exif);
-        myAttribute += getTagString(ExifInterface.TAG_MODEL, exif);
         myAttribute += getTagString(ExifInterface.TAG_ORIENTATION, exif);
         myAttribute += getTagString(ExifInterface.TAG_WHITE_BALANCE, exif);
 
