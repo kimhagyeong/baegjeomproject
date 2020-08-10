@@ -236,11 +236,11 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     }
 
                     //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
-                    String format = "MM-dd-yyyy HH:mm:ss";
-                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
-                    Long T = Long.parseLong(date);
-                    String dateTime = formatter.format(new Date(T));
-                    Log.e("test1", dateTime + "|" + date);
+//                    String format = "MM-dd-yyyy HH:mm:ss";
+//                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
+//                    Long T = Long.parseLong(date);
+//                    String dateTime = formatter.format(new Date(T));
+//                    Log.e("test1", dateTime + "|" + date);
 //                    }
                     //여기까지
 
