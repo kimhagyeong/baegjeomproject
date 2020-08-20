@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuCompat;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.bumptech.glide.Glide;
 
@@ -34,11 +35,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+
+import android.content.Context;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.util.Log;
+
 //allalbum에서 클릭했을 때 사진 크게 보여주고 메타데이터 보여주는 액티비티
 //메타데이터는 업그레이드되면서 안보여짐..
 public class PhotoPopupActivity extends AppCompatActivity {
     Geocoder geocoder;
     AlertDialog.Builder builder;
+    Context mContext = this;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +113,14 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     ((ViewGroup) GPS_Lati.getParent()).removeView(GPS_Lati);
                 try {
                     ExifInterface exif = new ExifInterface(abPath);
-                    exif.setAttribute(android.media.ExifInterface.TAG_ORIENTATION, GPS_Lati.getText().toString());
+                    exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, "2020:08:05 19:15:15");
+                    exif.setAttribute(ExifInterface.TAG_DATETIME, "2020:08:05 19:15:15");
+                    exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, "2020:08:05 19:15:15");
                     exif.saveAttributes();
+
+                    new SingleMediaScanner(mContext, abPath);
+                    ///////////
+
 
                 } catch (IOException e) {
                     e.printStackTrace();

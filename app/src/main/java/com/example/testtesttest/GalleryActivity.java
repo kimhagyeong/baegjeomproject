@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuCompat;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -228,9 +229,11 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
                     String data = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 //                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
+//                    ExifInterface exif = new ExifInterface(abPath0);
 
                     String date = null;
-                    if (dateTaken != null && dateAdded != null) date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;
+                    if (dateTaken != null && dateAdded != null) {date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;
+                        Log.d("resultDate",date);}
                     else {
                         date = dateTaken==null?(dateAdded==null?"":dateAdded):dateTaken;
                     }
