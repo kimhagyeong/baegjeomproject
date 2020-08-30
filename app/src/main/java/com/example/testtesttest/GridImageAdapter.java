@@ -29,6 +29,8 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     private int chipSize = 10;
     private ArrayList<dateImage> imageBitmapList;
     private Context context;
+    //마지막 선택한 path
+    public int lastAbPath=-1;
 
     //선택된 아이템들 저장하는 클래스
     public SparseBooleanArray mSelectedItems=new SparseBooleanArray(0);
@@ -51,10 +53,11 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    GridImageAdapter(ArrayList<dateImage> list, Context c) {
+    GridImageAdapter(ArrayList<dateImage> list, int lastAb,Context c) {
         imageBitmapList = list ;
         chipSize = 10;
         context = c;
+        lastAbPath=lastAb;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -136,11 +139,13 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 mSelectedItems.delete(position);
                 notifyItemChanged(position);
                 total -= 1;
+                lastAbPath=-1;
             } else {
                 if (total < 2) {
                     mSelectedItems.put(position, true);
                     notifyItemChanged(position);
                     total += 1;
+                    lastAbPath=position;
                 }
             }
         }
@@ -186,6 +191,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             notifyItemChanged(position);
             ((GalleryActivity)GalleryActivity.mContext).setVisibleMenu();
         }
+        lastAbPath=-1;
         mSelectedItems.clear();
 
     }

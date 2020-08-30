@@ -51,15 +51,14 @@ import java.util.Locale;
 
 public class BubblingPhotoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
+//    Context BubbleContext;
     int photoState=0;
-
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
-        mContext = this;    //this
         setContentView(R.layout.activity_bubblingphoto);
         super.onCreate(savedInstanceState);
         folderSelectState = getIntent().getIntExtra("folderState",0);
-
+//        BubbleContext=getApplicationContext();
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_photo);
 
@@ -101,220 +100,148 @@ public class BubblingPhotoActivity extends GalleryActivity {
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
-                //0번째 사진이 1번째 사진 옆에 배치
-                Uri path0=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImagePath();
-                String abPath0 = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageAbPate();
 
-                Uri path1=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImagePath();
-                String abPath1 = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageAbPate();
+//                Log.e("lastAB",gridAdapter.lastAbPath);
+                if(gridAdapter.lastAbPath!=-1&&gridAdapter.mSelectedItems.size()==2) {
+//                    Log.e("lengthAB",gridAdapter.mSelectedItems.size());
+                        Uri editPath;
+                        String editAbPath;
 
-                String path1_Date = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageDate();
+                        Uri targetPath;
+                        String targetAbPath;
+
+                        String name;
+                        String targetPath_Date;
+                        if(gridAdapter.lastAbPath==gridAdapter.mSelectedItems.keyAt(1)){
+                            //0번째 사진이 1번째 사진 옆에 배치
+                            editPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImagePath();
+                            editAbPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageAbPate();
+
+                            targetPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImagePath();
+                            targetAbPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageAbPate();
+
+                            name = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageName();
+                            targetPath_Date = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageDate();
+
+                        }
+                        else{
+                            editPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImagePath();
+                            editAbPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageAbPate();
+
+                            targetPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImagePath();
+                            targetAbPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageAbPate();
+
+                            name = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageName();
+                            targetPath_Date = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageDate();
+                        }
 
 
-                //exif 변경
-                InputStream st = null;
-                try {
-                    st = getContentResolver().openInputStream(path1);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Log.e("Input Stream", e.toString());
+                        //exif 변경
+                        InputStream st = null;
+                        try {
+                            st = getContentResolver().openInputStream(targetPath);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                            Log.e("Input Stream", e.toString());
+                        }
+
+                        try {
+                            ExifInterface exif = new ExifInterface(editAbPath);
+
+                            //time Formatting
+                            //1번째 사진의 시간 데이터로 입력 "2020:08:05 19:15:15"
+                            String format = "yyyy:MM:dd HH:mm:ss";
+                            SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
+    //                    Long T = Long.parseLong(Long.toString( Long.parseLong(targetPath_Date)*1000));
+                            Long tmpTargetDate = Long.parseLong(targetPath_Date) - 32400000 + 1000;
+                            Long T1 = Long.parseLong(Long.toString(Long.parseLong(targetPath_Date) + 1000));
+                            Long T2 = Long.parseLong(Long.toString(tmpTargetDate));
+                            String dateTime = formatter.format(new Date(T1));
+                            String dateTime2 = formatter.format(new Date(T2));
+                            Log.d("testDate1", targetPath_Date);
+                            Log.e("testDate", dateTime);
+
+                            exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, dateTime2);
+                            exif.setAttribute(ExifInterface.TAG_DATETIME, dateTime);
+                            exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, dateTime);
+                            exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, dateTime2);
+
+    //                    좌표 넣는거
+                            String tmpLat = "null";
+                            String tmpLong = "null";
+
+                            try {
+                                ExifInterface exifOrigin = new ExifInterface(targetAbPath);
+
+                                tmpLat = exifOrigin.getAttribute(ExifInterface.TAG_GPS_LATITUDE) + "";
+                                tmpLong = exifOrigin.getAttribute(ExifInterface.TAG_GPS_LONGITUDE) + "";
+
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (!tmpLat.equals("null") && !tmpLong.equals("null")) {
+                                exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE, tmpLat);
+                                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, tmpLong);
+                            }
+
+
+                            exif.saveAttributes();
+
+                            new SingleMediaScanner(mContext, editAbPath);
+
+                            ///////////
+
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e("set attribute error", e.toString());
+                        }
+
+                        //mediastore 변경
+                        ContentValues values = new ContentValues();
+                        ContentResolver resolver = mContext.getContentResolver();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            values.put(MediaStore.Images.Media.IS_PENDING, 1);
+                            int update = resolver.update(editPath, values, null, null);
+                            values.clear();
+                        }
+    //                int update = resolver.update(editPath, values, null, null);
+    //
+    //                values.clear();
+
+                        String title = name.substring(0, name.lastIndexOf("."));
+                        String tag = name.substring(name.lastIndexOf("."));
+                        Log.d("nameTitle", title + "2" + tag);
+                        values.put(MediaStore.Images.Media.TITLE, title + "2" + tag);
+                        values.put(MediaStore.Images.Media.DISPLAY_NAME, title + "2" + tag);
+    //                values.put(MediaStore.Images.Media.DESCRIPTION, "NewNa");
+    //                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+                        Long tmp_targetPath_Date = Long.parseLong(targetPath_Date) / 1000 + 1;
+    //                Long tmp_targetPath_Date = Long.parseLong(targetPath_Date);
+                        String tmp_str_targetPath = Long.toString(tmp_targetPath_Date);
+    //                values.put(MediaStore.Images.Media.DATE_ADDED, targetPath_Date);
+    //                values.put(MediaStore.Images.Media.DATE_TAKEN, targetPath_Date);
+    //                values.put(MediaStore.Images.Media.DATE_MODIFIED,targetPath_Date);
+                        values.put(MediaStore.Images.Media.DATE_ADDED, tmp_str_targetPath);
+                        values.put(MediaStore.Images.Media.DATE_TAKEN, tmp_str_targetPath);
+                        values.put(MediaStore.Images.Media.DATE_MODIFIED, tmp_str_targetPath);
+
+                        int update2 = resolver.update(editPath, values, null, null);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            values.clear();
+                            values.put(MediaStore.Images.Media.IS_PENDING, 0);
+                            int update3 = resolver.update(editPath, values, null, null);
+                        }
+                        new SingleMediaScanner(mContext, editAbPath);
+    //                mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, editPath));
+    //                MediaScanner scanner = MediaScanner.newInstance(mContext);
+    //                scanner.mediaScanning(editPath.getPath());
+    //                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+    //                File file = new File(editPath.toString());
                 }
-
-
-                try {
-                    ExifInterface exif = new ExifInterface(abPath0);
-//                    ExifInterface exifOrigin = new ExifInterface(abPath1);
-
-//                    String Lat = getTagString(ExifInterface.TAG_GPS_LATITUDE, exifOrigin);
-//                    getTagString(ExifInterface.TAG_GPS_LONGITUDE, exifOrigin);
-
-//                    String Latitude =exifOrigin.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-//                    String Longitude = exifOrigin.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-
-
-                    //time Formatting
-                    //1번째 사진의 시간 데이터로 입력
-                    String format = "yyyy:MM:dd HH:mm:ss";
-                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.KOREA);
-                    Long T = Long.parseLong(Long.toString( Long.parseLong(path1_Date)*1000));
-                    String dateTime = formatter.format(new Date(T));
-                    Log.d("testDate1",path1_Date);
-                    Log.e("testDate", dateTime);
-                    exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, dateTime);
-                    exif.setAttribute(ExifInterface.TAG_DATETIME, dateTime);
-                    exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, dateTime);
-//                    exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE,exifOrigin.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
-//                    exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, exifOrigin.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-                    exif.saveAttributes();
-
-                    new SingleMediaScanner(mContext, abPath0);
-                    ///////////
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("set attribute error", e.toString());
-                }
-
-                //mediastore 변경
-                ContentValues values = new ContentValues();
-                ContentResolver resolver = mContext.getContentResolver();
-
-                values.put(MediaStore.Images.Media.IS_PENDING, 1);
-                int update = resolver.update(path0, values, null, null);
-
-                values.clear();
-//                values.put(MediaStore.Images.Media.TITLE, "NewNa.jpg");
-//                values.put(MediaStore.Images.Media.DISPLAY_NAME, "NewNa");
-//                values.put(MediaStore.Images.Media.DESCRIPTION, "NewNa");
-//                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-                values.put(MediaStore.Images.Media.DATE_ADDED, path1_Date);
-                values.put(MediaStore.Images.Media.DATE_TAKEN, path1_Date);
-                values.put(MediaStore.Images.Media.DATE_MODIFIED,path1_Date);
-                int update2=resolver.update(path0, values, null, null);
-                values.clear();
-
-                values.put(MediaStore.Images.Media.IS_PENDING, 0);
-                int update3=resolver.update(path0, values, null, null);
-
-                new SingleMediaScanner(mContext, abPath0);
-
-
-
-
-                //여기까지!!!!
-
-
-                //여기서 메타데이터 수정 이벤트
-//                for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
-//                    //이건 키 값
-//                    Log.e("test2",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
-//                    Uri path=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImagePath();
-//                    String abPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImageAbPate();
-//                    //이건 주소 값
-//                    Log.d("test2",path.toString());
-//
-//                    //exif 변경
-//                    InputStream st = null;
-//                    try {
-//                        st = getContentResolver().openInputStream(path);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                        Log.e("Input Stream", e.toString());
-//                    }
-//
-//                    try {
-//                        ExifInterface exif = new ExifInterface(abPath);
-//                        exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, "2020:08:05 19:15:15");
-//                        exif.setAttribute(ExifInterface.TAG_DATETIME, "2020:08:05 19:15:15");
-//                        exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, "2020:08:05 19:15:15");
-//                        exif.saveAttributes();
-//
-//                        new SingleMediaScanner(mContext, abPath);
-//                        ///////////
-//
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        Log.e("set attribute error", e.toString());
-//                    }
-//
-//                    //여기까지
-//
-//                    ContentValues values = new ContentValues();
-////                    values.put(MediaStore.Images.Media.TITLE, "ChangeName");
-////                    values.put(MediaStore.Images.Media.DISPLAY_NAME, "ChangeName");
-////                    values.put(MediaStore.Images.Media.DESCRIPTION, "ChangeName");
-////                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-////                    values.put(MediaStore.Images.Media.DATA, imageBitmapList.get(i).getImageAbPate());
-//                    // Add the date meta data to ensure the image is added at the front of the gallery
-////                    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis());
-////                    values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-//
-//                    ContentResolver resolver = mContext.getContentResolver();
-////                    try {
-////                        resolver.insert(imageBitmapList.get(i).getImagePath(), values);
-////                    } catch (Exception e) {
-////
-////                    }
-//
-////                    ContentValues values = new ContentValues();
-////                    values.put(MediaStore.Images.Media.DISPLAY_NAME, "ChangeName.JPG");
-////                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-////                    values.put(MediaStore.Images.Media.IS_PENDING, 1);
-////
-////                    ContentResolver resolver = mContext.getContentResolver();
-////                    Uri collection = imageBitmapList.get(i).getImagePath();
-////                    Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-////                    Uri item = resolver.insert(collection, values);
-//////                    try (ParcelFileDescriptor pfd = resolver.openFileDescriptor(item, "w", null)) {
-//////                        // Write data into the pending image.
-//////                    } catch (IOException e) {
-//////                        e.printStackTrace();
-////////                    }
-////                    try {
-////                        ParcelFileDescriptor pdf = resolver.openFileDescriptor(imageBitmapList.get(path).getImagePath(), "w", null);
-////                        //if (pdf == null) {
-//////
-//////                        } else {
-////////                            InputStream inputStream = getImageInputStream(tempBitmap);
-////////                            byte[] strToByte = imageBitmapList.get(i).getImageAbPate().getBytes();
-//////                            FileOutputStream fos = new FileOutputStream(pdf.getFileDescriptor());
-//////                            fos.write(strToByte);
-//////                            fos.close();
-//////                            pdf.close();
-//////                        }
-////                    } catch (SecurityException securityException) {
-////                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
-////
-////                            RecoverableSecurityException recoverableSecurityException;
-////                            if(securityException instanceof RecoverableSecurityException){
-////                                recoverableSecurityException=(RecoverableSecurityException)securityException;
-////                            }
-////                            else{
-////                                throw new RuntimeException(securityException.getMessage(), securityException);
-////                            }
-////                            IntentSender intentSender = recoverableSecurityException.getUserAction().getActionIntent().getIntentSender();
-////                            try {
-////                                startIntentSenderForResult(intentSender, 1,null,0,0,0,null);
-////                            } catch (IntentSender.SendIntentException e) {
-////                                e.printStackTrace();
-////
-////                            }
-////                        }
-////                        else{
-////                            throw new RuntimeException(
-////                                    securityException.getMessage(),securityException);
-////                        }
-////
-////                    } catch (IOException e) {
-////                        e.printStackTrace();
-////                    }
-////
-////                    // Now that we're finished, release the "pending" status, and allow other apps
-////                    // to view the image.
-////                    values.clear();
-//                    values.put(MediaStore.Images.Media.IS_PENDING, 1);
-//                    int update = resolver.update(path, values, null, null);
-//                    Log.e("test2",Integer.toString(update));
-//                    values.clear();
-//                    values.put(MediaStore.Images.Media.TITLE, "NewNa.jpg");
-//                    values.put(MediaStore.Images.Media.DISPLAY_NAME, "NewNa");
-//                    values.put(MediaStore.Images.Media.DESCRIPTION, "NewNa");
-////                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-//                    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis()/1000);
-//                    values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis()/1000);
-//                    values.put(MediaStore.Images.Media.DATE_MODIFIED,System.currentTimeMillis()/1000);
-//                    int update2=resolver.update(path, values, null, null);
-//                    values.clear();
-//                    values.put(MediaStore.Images.Media.IS_PENDING, 0);
-//                    int update3=resolver.update(path, values, null, null);
-//
-//                    new SingleMediaScanner(mContext, abPath);
-//
-//                    Log.e("test2",Integer.toString(update2));
-//                    Log.e("resultDDDD",Long.toString(System.currentTimeMillis()));
-//                }
                 finish();
             }
         });

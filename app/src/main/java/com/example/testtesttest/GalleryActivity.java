@@ -28,7 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.roughike.bottombar.BottomBar;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -58,10 +63,13 @@ public abstract class GalleryActivity extends AppCompatActivity {
     public Menu menuIn;
     public static String str;
 
+    public int lastAbPath=-1;
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         toolbar = findViewById(R.id.gallery_toolbar);
         setSupportActionBar(toolbar);
         makeDB();
@@ -135,7 +143,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
         gridImage = findViewById(R.id.gridImage_recycler) ;
         gridImage.setHasFixedSize(true);
         gridImage.setLayoutManager(new GridLayoutManager(this, 3)) ;
-        gridAdapter = new GridImageAdapter(imageBitmapList, this) ;
+        gridAdapter = new GridImageAdapter(imageBitmapList,lastAbPath, this) ;
         gridImage.setAdapter(gridAdapter) ;
 
         //사이드바 폴더 불러올 어댑터 지정
@@ -227,24 +235,69 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
                     String dateTaken = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN));
                     String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
-                    String data = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
+                    String abPath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 //                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
-//                    ExifInterface exif = new ExifInterface(abPath0);
+                    Log.d("Aburl",abPath);
+                    String exifDate="null";
+                    try {
+                        ExifInterface exif = new ExifInterface(abPath);
+                        String tmpStr = exif.getAttribute(ExifInterface.TAG_DATETIME)+"";
 
-                    String date = null;
-                    if (dateTaken != null && dateAdded != null) {date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;
-                        Log.d("resultDate",date);}
-                    else {
-                        date = dateTaken==null?(dateAdded==null?"":dateAdded):dateTaken;
+                        if(!tmpStr.equals("null")){
+                            Log.d("tmpStr1",tmpStr);
+                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+                            Date to = transFormat.parse(tmpStr);
+                            exifDate=to.getTime()+"";
+                        }
+                        else{
+                            exifDate="null";
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
+                   String date = "null";
+                    if(exifDate.equals("null")){
+                        if (dateTaken != null && dateAdded != null) {date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;}
+                        else {
+                            date = dateTaken==null?(dateAdded==null?"":dateAdded):dateTaken;
+                        }
+
+                        Long tmpD =Long.parseLong(date)/1000000000;
+                        Log.d("Ohhhh3",Long.toString(tmpD));
+                        if(tmpD<=1){
+                            date=Long.toString(Long.parseLong(date)*1000);
+                        }
+                        Log.e("Ohhhh2",date);
+                    }
+                    else{
+//                        Long tmpDate = Long.parseLong(exifDate);
+                        Long tmpD = Long.parseLong(exifDate)/1000000000;
+                        Log.d("Ohhhh3",Long.toString(tmpD));
+                        Long tmpDate = Long.parseLong(exifDate);
+
+                        if(tmpD<=1){
+                            tmpDate = Long.parseLong(exifDate)*1000;
+//                            Log.e("test3","나는 작아2"+tmpD);
+                        }
+//                        if(Long.parseLong(date)/1000000000<=1){
+//                            Log.e("test3","나는 넘어");
+////                           tmpDate=tmpDate*1000;
+//                        }
+
+                        date=Long.toString(tmpDate);
+                        Log.d("Ohhhh2",date);
+                    }
+
+
                     //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
-//                    String format = "MM-dd-yyyy HH:mm:ss";
-//                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
-//                    Long T = Long.parseLong(date);
-//                    String dateTime = formatter.format(new Date(T));
-//                    Log.e("test1", dateTime + "|" + date);
-//                    }
+                    String format = "MM-dd-yyyy HH:mm:ss";
+                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.KOREAN);
+                    Long T = Long.parseLong(date);
+                    String dateTime = formatter.format(new Date(T));
+                    Log.e("test1", name + "|" + dateTime);
+
                     //여기까지
 
                     // if (datapath.contains("HEIC")) continue; //아이폰만 있는 확장자제거
@@ -255,14 +308,14 @@ public abstract class GalleryActivity extends AppCompatActivity {
                         folderNames.add(folder);
                         publicfolderNames.add(folder);
                         folds.setFolderName(folder);
-                        folds.addPics(contentUri, date, name, data);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
+                        folds.addPics(contentUri, date, name, abPath);   //addpic을 통해서 새로운 파일을 추가한다는 뜻
                         folds.setFirstPic(0);
                         folds.folderdate = date;
                         picFolders.add(folds);
                     } else { //이미 있는 폴더면 폴더 안에 파일을 넣어줌
                         for (int i = 0; i < picFolders.size(); i++) {
                             if (picFolders.get(i).getFolderName().equals(folder)) {
-                                picFolders.get(i).addPics(contentUri, date, name, data);
+                                picFolders.get(i).addPics(contentUri, date, name, abPath);
                                 if (picFolders.get(i).folderdate.compareTo(date)==-1)
                                     picFolders.get(i).folderdate = date;
                                 break;

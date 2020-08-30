@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
+import android.util.Log;
 
 public class SingleMediaScanner implements MediaScannerConnectionClient {
 
