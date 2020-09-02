@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
@@ -116,7 +117,11 @@ public class BubblingMemoActivity extends GalleryActivity {
                             Log.e("test1",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
                             //이건 주소 값
                             Log.d("test1",imageBitmapList.get(i).getImagePath().toString());
-                            inputToGallery(imageBitmapList.get(i).getImagePath(),input.getText().toString());
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                                Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
+                            }else{
+                                inputToGallery(imageBitmapList.get(i).getImagePath(),input.getText().toString());
+                            }
                         }
                         dialog.dismiss();
                         finish();
@@ -191,8 +196,11 @@ public class BubblingMemoActivity extends GalleryActivity {
 
         //storage
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, "fileName");
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, "fileName.jpg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
+
+//        String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
+//        values.put(MediaStore.Images.Media.BUCKET_DISPLAY_NAME,"Camera");
         // 파일을 write중이라면 다른곳에서 데이터요구를 무시하겠다는 의미입니다.
         values.put(MediaStore.Images.Media.IS_PENDING, 1);
 

@@ -84,6 +84,7 @@ public class BubblingFolderActivity extends GalleryActivity {
                            Log.e("test1",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
                            //이건 주소 값
                            Log.d("test1",imageBitmapList.get(i).getImagePath().toString());
+
                        }
 
                        dialog.dismiss();

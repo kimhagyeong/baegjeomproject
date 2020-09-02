@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,9 +39,12 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -111,7 +116,12 @@ public class BubblingPhotoActivity extends GalleryActivity {
                         String targetAbPath;
 
                         String name;
+                        String date;
+                        String targetName;
                         String targetPath_Date;
+
+                        Boolean isTakenCamera=false;
+
                         if(gridAdapter.lastAbPath==gridAdapter.mSelectedItems.keyAt(1)){
                             //0번째 사진이 1번째 사진 옆에 배치
                             editPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImagePath();
@@ -120,7 +130,10 @@ public class BubblingPhotoActivity extends GalleryActivity {
                             targetPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImagePath();
                             targetAbPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageAbPate();
 
-                            name = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageName();
+                            name=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageName();
+                            targetName = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageName();
+
+                            date=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageDate();
                             targetPath_Date = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageDate();
 
                         }
@@ -131,7 +144,10 @@ public class BubblingPhotoActivity extends GalleryActivity {
                             targetPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImagePath();
                             targetAbPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageAbPate();
 
-                            name = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageName();
+                            name=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageName();
+                            targetName = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageName();
+
+                            date=imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(1)).getImageDate();
                             targetPath_Date = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImageDate();
                         }
 
@@ -161,23 +177,41 @@ public class BubblingPhotoActivity extends GalleryActivity {
                             Log.d("testDate1", targetPath_Date);
                             Log.e("testDate", dateTime);
 
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                                exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, dateTime);
+                                exif.setAttribute(ExifInterface.TAG_DATETIME, dateTime);
+                                exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, dateTime);
+                                exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, dateTime);
+
+                            }
+                            else{
                             exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, dateTime2);
                             exif.setAttribute(ExifInterface.TAG_DATETIME, dateTime);
                             exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, dateTime);
                             exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, dateTime2);
-
+                            }
     //                    좌표 넣는거
                             String tmpLat = "null";
                             String tmpLong = "null";
-
                             try {
                                 ExifInterface exifOrigin = new ExifInterface(targetAbPath);
 
                                 tmpLat = exifOrigin.getAttribute(ExifInterface.TAG_GPS_LATITUDE) + "";
                                 tmpLong = exifOrigin.getAttribute(ExifInterface.TAG_GPS_LONGITUDE) + "";
 
+//                                String tmpCamera=exifOrigin.getAttribute(ExifInterface.TAG_CAMERA_OWNER_NAME)+"";
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                                    String tmpCamera=exifOrigin.getAttribute(ExifInterface.TAG_SOFTWARE)+"";
 
-                            } catch (IOException e) {
+                                    //카메라로 찍은 사진일 경우!! 복사해서 새롭게 저장하자아~
+                                    Log.e("CameraTMP",tmpCamera);
+                                    if(!tmpCamera.equals("null")){
+                                        Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            } catch (Exception e) {
+                               Log.e("RealBad..","잘못햇어여어ㅠ");
                                 e.printStackTrace();
                             }
 
@@ -188,42 +222,39 @@ public class BubblingPhotoActivity extends GalleryActivity {
 
 
                             exif.saveAttributes();
-
                             new SingleMediaScanner(mContext, editAbPath);
 
-                            ///////////
-
-
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            Log.e("set attribute error", e.toString());
+                            Log.e("AttributeError", e.toString());
+                            isTakenCamera=true;
+                            try {
+                                createIMG(editPath,editAbPath,name);
+                            } catch (FileNotFoundException ex) {
+                                ex.printStackTrace();
+                            }
                         }
 
-                        //mediastore 변경
+
+                        ////////////////mediastore 변경////////////////////
+                    if(!isTakenCamera){
+
                         ContentValues values = new ContentValues();
                         ContentResolver resolver = mContext.getContentResolver();
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             values.put(MediaStore.Images.Media.IS_PENDING, 1);
                             int update = resolver.update(editPath, values, null, null);
                             values.clear();
                         }
-    //                int update = resolver.update(editPath, values, null, null);
-    //
-    //                values.clear();
 
-                        String title = name.substring(0, name.lastIndexOf("."));
-                        String tag = name.substring(name.lastIndexOf("."));
+                        String title = targetName.substring(0, targetName.lastIndexOf("."));
+                        String tag = targetName.substring(targetName.lastIndexOf("."));
                         Log.d("nameTitle", title + "2" + tag);
                         values.put(MediaStore.Images.Media.TITLE, title + "2" + tag);
                         values.put(MediaStore.Images.Media.DISPLAY_NAME, title + "2" + tag);
-    //                values.put(MediaStore.Images.Media.DESCRIPTION, "NewNa");
-    //                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
                         Long tmp_targetPath_Date = Long.parseLong(targetPath_Date) / 1000 + 1;
-    //                Long tmp_targetPath_Date = Long.parseLong(targetPath_Date);
                         String tmp_str_targetPath = Long.toString(tmp_targetPath_Date);
-    //                values.put(MediaStore.Images.Media.DATE_ADDED, targetPath_Date);
-    //                values.put(MediaStore.Images.Media.DATE_TAKEN, targetPath_Date);
-    //                values.put(MediaStore.Images.Media.DATE_MODIFIED,targetPath_Date);
                         values.put(MediaStore.Images.Media.DATE_ADDED, tmp_str_targetPath);
                         values.put(MediaStore.Images.Media.DATE_TAKEN, tmp_str_targetPath);
                         values.put(MediaStore.Images.Media.DATE_MODIFIED, tmp_str_targetPath);
@@ -236,11 +267,8 @@ public class BubblingPhotoActivity extends GalleryActivity {
                             int update3 = resolver.update(editPath, values, null, null);
                         }
                         new SingleMediaScanner(mContext, editAbPath);
-    //                mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, editPath));
-    //                MediaScanner scanner = MediaScanner.newInstance(mContext);
-    //                scanner.mediaScanning(editPath.getPath());
-    //                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-    //                File file = new File(editPath.toString());
+
+                    }
                 }
                 finish();
             }
@@ -254,4 +282,85 @@ public class BubblingPhotoActivity extends GalleryActivity {
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_photo);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void createIMG(Uri editPath,String editAbPath, String TargetName) throws FileNotFoundException {
+
+//      핸드폰으로 찍은 사진일 때 따로 다시 저장
+        BitmapFactory.Options bitOption=new BitmapFactory.Options();
+        bitOption.inSampleSize=1;
+        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(editPath),null,bitOption);
+
+        //storage
+        ContentValues values = new ContentValues();
+        ContentResolver contentResolver = getContentResolver();
+
+        String title = TargetName.substring(0, TargetName.lastIndexOf("."));
+        String tag = TargetName.substring(TargetName.lastIndexOf("."));
+
+        values.put(MediaStore.Images.Media.TITLE, title + "2" + tag);
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, title + "2" + tag);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
+        // 파일을 write중이라면 다른곳에서 데이터요구를 무시하겠다는 의미입니다.
+        values.put(MediaStore.Images.Media.IS_PENDING, 1);
+
+
+
+        String ExternalPath=editAbPath;
+//                = editAbPath.toString();
+        ExternalPath=ExternalPath.substring(0,ExternalPath.lastIndexOf("/"));
+        ExternalPath=ExternalPath.substring(0,ExternalPath.lastIndexOf("/"));
+        Log.e("externalPath",ExternalPath);
+//        Uri collection = Uri.parse(ExterxnalPath);
+        Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+//        Uri item = contentResolver.insert(Uri.parse(ExternalPath), values);
+        Uri item = contentResolver.insert(collection, values);
+
+        try {
+            ParcelFileDescriptor pdf = contentResolver.openFileDescriptor(item, "w", null);
+            if (pdf == null) {
+
+            } else {
+                InputStream inputStream = getImageInputStream(bitmap);
+                byte[] strToByte = getBytes(inputStream);
+                FileOutputStream fos = new FileOutputStream(pdf.getFileDescriptor());
+                fos.write(strToByte);
+                fos.close();
+                inputStream.close();
+                pdf.close();
+                contentResolver.update(item, values, null, null);
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("RealBad..","잘못햇어여어ㅠ1");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e("RealBad..","잘못햇어여어ㅠ2");
+            e.printStackTrace();
+        }
+        values.clear();
+        // 파일을 모두 write하고 다른곳에서 사용할 수 있도록 0으로 업데이트를 해줍니다.
+        values.put(MediaStore.Images.Media.IS_PENDING, 0);
+        contentResolver.update(item, values, null, null);
+//        canvas.restore();
+    }
+    private InputStream getImageInputStream(Bitmap bmp) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        byte[] bitmapData = bytes.toByteArray();
+        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapData);
+
+        return bs;
+    }
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
 }

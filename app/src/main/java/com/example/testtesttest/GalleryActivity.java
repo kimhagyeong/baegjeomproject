@@ -237,28 +237,36 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
                     String abPath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 //                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
-                    Log.d("Aburl",abPath);
+                    Log.e("BucketFolder",folder);
                     String exifDate="null";
-                    try {
-                        ExifInterface exif = new ExifInterface(abPath);
-                        String tmpStr = exif.getAttribute(ExifInterface.TAG_DATETIME)+"";
+//                    try{
+//                        ExifInterface exif = new ExifInterface(abPath);
+//                        String tmpStr = exif.getAttribute(ExifInterface.TAG_CAMERA_OWNER_NAME)+"";
+//                        Log.e("SoftwareTT",tmpStr);
+//                    }catch (IOException e){
+//                        e.printStackTrace();
+//                    }
 
-                        if(!tmpStr.equals("null")){
-                            Log.d("tmpStr1",tmpStr);
-                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-                            Date to = transFormat.parse(tmpStr);
-                            exifDate=to.getTime()+"";
-                        }
-                        else{
-                            exifDate="null";
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        ExifInterface exif = new ExifInterface(abPath);
+//                        String tmpStr = exif.getAttribute(ExifInterface.TAG_DATETIME)+"";
+//
+//                        if(!tmpStr.equals("null")){
+//                            Log.d("tmpStr1",tmpStr);
+//                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+//                            Date to = transFormat.parse(tmpStr);
+//                            exifDate=to.getTime()+"";
+//                        }
+//                        else{
+//                            exifDate="null";
+//                        }
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 
                    String date = "null";
-                    if(exifDate.equals("null")){
+//                    if(exifDate.equals("null")){
                         if (dateTaken != null && dateAdded != null) {date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;}
                         else {
                             date = dateTaken==null?(dateAdded==null?"":dateAdded):dateTaken;
@@ -270,25 +278,25 @@ public abstract class GalleryActivity extends AppCompatActivity {
                             date=Long.toString(Long.parseLong(date)*1000);
                         }
                         Log.e("Ohhhh2",date);
-                    }
-                    else{
-//                        Long tmpDate = Long.parseLong(exifDate);
-                        Long tmpD = Long.parseLong(exifDate)/1000000000;
-                        Log.d("Ohhhh3",Long.toString(tmpD));
-                        Long tmpDate = Long.parseLong(exifDate);
-
-                        if(tmpD<=1){
-                            tmpDate = Long.parseLong(exifDate)*1000;
-//                            Log.e("test3","나는 작아2"+tmpD);
-                        }
-//                        if(Long.parseLong(date)/1000000000<=1){
-//                            Log.e("test3","나는 넘어");
-////                           tmpDate=tmpDate*1000;
-//                        }
-
-                        date=Long.toString(tmpDate);
-                        Log.d("Ohhhh2",date);
-                    }
+//                    }
+////                    else{
+//////                        Long tmpDate = Long.parseLong(exifDate);
+////                        Long tmpD = Long.parseLong(exifDate)/1000000000;
+////                        Log.d("Ohhhh3",Long.toString(tmpD));
+////                        Long tmpDate = Long.parseLong(exifDate);
+////
+////                        if(tmpD<=1){
+////                            tmpDate = Long.parseLong(exifDate)*1000;
+//////                            Log.e("test3","나는 작아2"+tmpD);
+////                        }
+//////                        if(Long.parseLong(date)/1000000000<=1){
+//////                            Log.e("test3","나는 넘어");
+////////                           tmpDate=tmpDate*1000;
+//////                        }
+////
+////                        date=Long.toString(tmpDate);
+////                        Log.d("Ohhhh2",date);
+////                    }
 
 
                     //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
