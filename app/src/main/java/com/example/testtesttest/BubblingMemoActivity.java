@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.text.StaticLayout;
@@ -38,6 +39,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 
 public class BubblingMemoActivity extends GalleryActivity {
@@ -196,16 +198,20 @@ public class BubblingMemoActivity extends GalleryActivity {
 
         //storage
         ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM+"/Camera");
         values.put(MediaStore.Images.Media.DISPLAY_NAME, "fileName.jpg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
 
-//        String folder = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME));
-//        values.put(MediaStore.Images.Media.BUCKET_DISPLAY_NAME,"Camera");
         // 파일을 write중이라면 다른곳에서 데이터요구를 무시하겠다는 의미입니다.
         values.put(MediaStore.Images.Media.IS_PENDING, 1);
 
         ContentResolver contentResolver = getContentResolver();
-        Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+        Set<String> volumeNames = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            volumeNames = MediaStore.getExternalVolumeNames(context);
+        }
+        String firstVolumeName = volumeNames.iterator().next();
+        Uri collection = MediaStore.Images.Media.getContentUri(firstVolumeName);
         Uri item = contentResolver.insert(collection, values);
 
         try {

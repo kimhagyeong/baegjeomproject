@@ -298,6 +298,7 @@ public class BubblingPhotoActivity extends GalleryActivity {
         String title = TargetName.substring(0, TargetName.lastIndexOf("."));
         String tag = TargetName.substring(TargetName.lastIndexOf("."));
 
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, "/DCIM/Camera/");
         values.put(MediaStore.Images.Media.TITLE, title + "2" + tag);
         values.put(MediaStore.Images.Media.DISPLAY_NAME, title + "2" + tag);
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/*");

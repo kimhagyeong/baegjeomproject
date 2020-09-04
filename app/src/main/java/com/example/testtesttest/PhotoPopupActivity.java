@@ -73,7 +73,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        EditText GPS_Lati = new EditText(this);
+        EditText editTime = new EditText(this);
 
         //사진출력
         ImageView iv = findViewById(R.id.photopop);
@@ -90,7 +90,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
             exif = new ExifInterface(stream);
             builder.setTitle(date)
                     .setMessage(showExif(exif))
-                    .setView(GPS_Lati);
+                    .setView(editTime);
             //data = showExif(exif);
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,13 +109,15 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Log.e("Input Stream", e.toString());
                 }
-                if (GPS_Lati.getParent() != null)
-                    ((ViewGroup) GPS_Lati.getParent()).removeView(GPS_Lati);
+                if (editTime.getParent() != null)
+                    ((ViewGroup) editTime.getParent()).removeView(editTime);
                 try {
                     ExifInterface exif = new ExifInterface(abPath);
-                    exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, "2020:08:05 19:15:15");
-                    exif.setAttribute(ExifInterface.TAG_DATETIME, "2020:08:05 19:15:15");
-                    exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, "2020:08:05 19:15:15");
+
+                    exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, editTime.getText().toString());
+                    exif.setAttribute(ExifInterface.TAG_DATETIME, editTime.getText().toString());
+                    exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, editTime.getText().toString());
+                    exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, editTime.getText().toString());
                     exif.saveAttributes();
 
                     new SingleMediaScanner(mContext, abPath);
@@ -126,6 +128,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Log.e("set attribute error", e.toString());
                 }
+
             }
         });
     }

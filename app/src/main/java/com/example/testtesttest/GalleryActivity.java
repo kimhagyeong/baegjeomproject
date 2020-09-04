@@ -237,7 +237,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
                     String abPath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 //                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
-                    Log.e("BucketFolder",folder);
+                    Log.e("BucketFolder",abPath);
                     String exifDate="null";
 //                    try{
 //                        ExifInterface exif = new ExifInterface(abPath);
