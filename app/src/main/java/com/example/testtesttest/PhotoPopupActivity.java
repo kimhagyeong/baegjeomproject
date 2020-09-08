@@ -114,10 +114,12 @@ public class PhotoPopupActivity extends AppCompatActivity {
                 try {
                     ExifInterface exif = new ExifInterface(abPath);
 
-                    exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, editTime.getText().toString());
-                    exif.setAttribute(ExifInterface.TAG_DATETIME, editTime.getText().toString());
-                    exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, editTime.getText().toString());
-                    exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, editTime.getText().toString());
+                    String strTime = editTime.getText().toString();
+                    Log.e("strTime",strTime);
+                    exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, strTime);
+                    exif.setAttribute(ExifInterface.TAG_DATETIME, strTime);
+                    exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, strTime);
+                    exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, strTime);
                     exif.saveAttributes();
 
                     new SingleMediaScanner(mContext, abPath);

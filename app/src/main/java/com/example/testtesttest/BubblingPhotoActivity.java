@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -51,8 +52,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class BubblingPhotoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
@@ -248,16 +251,57 @@ public class BubblingPhotoActivity extends GalleryActivity {
                             values.clear();
                         }
 
+                        //이름 바꾸기
                         String title = targetName.substring(0, targetName.lastIndexOf("."));
                         String tag = targetName.substring(targetName.lastIndexOf("."));
                         Log.d("nameTitle", title + "2" + tag);
                         values.put(MediaStore.Images.Media.TITLE, title + "2" + tag);
                         values.put(MediaStore.Images.Media.DISPLAY_NAME, title + "2" + tag);
+
+                        //날짜 바꾸기
                         Long tmp_targetPath_Date = Long.parseLong(targetPath_Date) / 1000 + 1;
                         String tmp_str_targetPath = Long.toString(tmp_targetPath_Date);
                         values.put(MediaStore.Images.Media.DATE_ADDED, tmp_str_targetPath);
                         values.put(MediaStore.Images.Media.DATE_TAKEN, tmp_str_targetPath);
                         values.put(MediaStore.Images.Media.DATE_MODIFIED, tmp_str_targetPath);
+
+//                        values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM+"/Camera");
+                        //폴더 바꾸기
+//                        if(targetAbPath.indexOf("DCIM")>=0){
+//                            String subFolder = targetAbPath.substring(targetAbPath.indexOf("DCIM")+4,targetAbPath.lastIndexOf("/"));
+//                            Log.e("DCIMTest1",subFolder);
+//                            values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM+subFolder);
+//                        }
+//                        else if(targetAbPath.indexOf("Pictures")>=0){
+//                            String subFolder = targetAbPath.substring(targetAbPath.indexOf("Pictures")+8,targetAbPath.lastIndexOf("/"));
+//                            Log.d("DCIMTest2",subFolder);
+//                            values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES+subFolder);
+//                        }
+//                        else if(targetAbPath.indexOf("Download")>=0) {
+//                            String subFolder = targetAbPath.substring(targetAbPath.indexOf("Download")+8,targetAbPath.lastIndexOf("/"));
+//                            Log.d("DCIMTest3",subFolder);
+//                            values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS+subFolder);
+//                        }
+//                        else{
+//
+//                        }
+
+//                        Set<String> volumeNames = null;
+//                        volumeNames = MediaStore.getExternalVolumeNames(mContext);
+//                        Iterator<String> volumenamesiter =  volumeNames.iterator();
+//                        String firstVolumeName = volumenamesiter.next();
+//                        String secondVolumeName = volumenamesiter.next();
+//                        String volumeName;
+//
+//                        if(targetAbPath.indexOf(secondVolumeName)>=0){
+//                            volumeName=secondVolumeName;
+//                        }
+//                        else if(targetAbPath.indexOf(firstVolumeName)>=0){
+//                            volumeName=firstVolumeName;
+//                        }
+//                        else{
+//                            volumeName=MediaStore.VOLUME_EXTERNAL_PRIMARY;
+//                        }
 
                         int update2 = resolver.update(editPath, values, null, null);
 

@@ -142,31 +142,9 @@ public class BubblingMemoActivity extends GalleryActivity {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), path);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.photo2,options);
 
-
-//        ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), path);
-//        Bitmap bitmap = null;
-//        try {
-//            bitmap = ImageDecoder.decodeBitmap(source);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
         Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-//
-//        Bitmap tempBitmap = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.HARDWARE);
-//        }
 
         Canvas canvas = new Canvas(tempBitmap);
 
@@ -178,10 +156,6 @@ public class BubblingMemoActivity extends GalleryActivity {
         paint2.setTextSize(textSize);
         paint2.setColor(Color.LTGRAY);
         paint2.setAntiAlias(true);
-
-
-//        StaticLayout.Builder builder = StaticLayout.Builder.obtain(memo, 0, memo.length(), paint2,  bitmap.getWidth()-textSize );
-//        StaticLayout textLayout = builder.build();
 
         StaticLayout.Builder builder = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -210,9 +184,17 @@ public class BubblingMemoActivity extends GalleryActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             volumeNames = MediaStore.getExternalVolumeNames(context);
         }
+
+
         String firstVolumeName = volumeNames.iterator().next();
+//        String secondVolumeName = volumeNames.iterator().next();
+
         Uri collection = MediaStore.Images.Media.getContentUri(firstVolumeName);
         Uri item = contentResolver.insert(collection, values);
+//        Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+//        Log.e("externalC",volumeNames.toString());
+//        Log.e("externalP",MediaStore.VOLUME_EXTERNAL_PRIMARY);
+//        Log.d("externalP",MediaStore.VOLUME_INTERNAL);
 
         try {
             ParcelFileDescriptor pdf = contentResolver.openFileDescriptor(item, "w", null);
