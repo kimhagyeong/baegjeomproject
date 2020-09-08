@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
+    BackPressedForFinish backPressedForFinish;
+
     String[] permission_list = {
             //5g 핸드폰의 경우
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        backPressedForFinish = new BackPressedForFinish(this);
 
         checkPermission();
         ///////툴바랑 하단메뉴바 설정중
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Button button3 = findViewById(R.id.bubblingFolder );
         Button button4 = findViewById(R.id.bubblingMemo );
         Button button5 = findViewById(R.id.bubblingFace );
-        Button button6 = findViewById(R.id.Howtouse );
+        Button button6 = findViewById(R.id.howtouse);
 
         View.OnClickListener Buttons=new View.OnClickListener(){
             public void onClick(View v) {
@@ -69,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                         Intent in5 = new Intent(MainActivity.this, BubblingFaceActivity.class);
                         startActivity(in5);
                         break;
-                    case R.id.Howtouse:
-                        Intent in6 = new Intent(MainActivity.this, HowtouseActivity.class);
+                    case R.id.howtouse:
+                        Intent in6 = new Intent(MainActivity.this, HowtoUseActivity.class);
                         startActivity(in6);
                         break;
                 }
@@ -118,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     //////////////////>권한 설정
+    /*
+    @Override
+    public void onBackPressed() {
+
+        // BackPressedForFinish 클래시의 onBackPressed() 함수를 호출한다.
+        backPressedForFinish.onBackPressed();
+    }
+     */
 }
     /*Intent in = new Intent(MainActivity.this, AllalbumActivity.class);
     startActivity(in);*/

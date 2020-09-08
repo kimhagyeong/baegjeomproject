@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#B7DEE1"
+            android:background="#D9E7F6"
             android:gravity="start"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -28,112 +28,125 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:background="@drawable/grabg"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
-            android:layout_height="458dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical"
-            android:layout_marginTop="50dp">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+        <!--
+                <Button
+                    android:id="@+id/app_close"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="50px"
+                    android:background="@drawable/home_close" />
+        !-->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:layout_marginTop="50px"
+            app:srcCompat="@drawable/up" />
 
-            <ImageView
-                android:id="@+id/imageView2"
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px">
+
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent">
 
-                app:srcCompat="@drawable/bubblesoap" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/bubblingPhoto"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/all"
+                    android:scaleType="centerInside" />
+
+                <Button
+                    android:id="@+id/allAlbum"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/gallery" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/bubblingFolder"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/folder" />
+
+                <Button
+                    android:id="@+id/bubblingMemo"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/memo" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <Button
+                    android:id="@+id/bubblingFace"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/face" />
+
+                <Button
+                    android:id="@+id/howtouse"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/howtouse" />
+
+            </TableRow>
+
+        </TableLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center">
 
-            <Button
-                android:id="@+id/allAlbum"
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@drawable/button_act"
-                android:text="all\n gallery "
-                android:textSize="13dp"
-                app:layout_constraintEnd_toStartOf="@+id/bubblingPhoto"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"
+                app:barrierDirection="left" />
 
-            <Button
-                android:id="@+id/bubblingPhoto"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@drawable/button_act"
-                android:text=" Bubbling \nPhoto"
-                android:textSize="13dp"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintEnd_toStartOf="@+id/bubblingFolder"
-                app:layout_constraintStart_toEndOf="@+id/allAlbum"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
 
-            <Button
-                android:id="@+id/bubblingFolder"
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="@drawable/button_act"
-                android:text=" Bubbling \nFolder"
-                android:textSize="13dp"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/bubblingPhoto"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/bubblingMemo"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="64dp"
-                android:background="@drawable/button_act"
-                android:text="Bubbling\nMemo "
-                android:textSize="13dp"
-                app:layout_constraintEnd_toStartOf="@+id/bubblingFace"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/bubblingFace"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="64dp"
-                android:background="@drawable/button_act"
-                android:text=" Bubbling \nFace"
-                android:textSize="13dp"
-                app:layout_constraintEnd_toStartOf="@+id/Howtouse"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toEndOf="@+id/bubblingMemo"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/Howtouse"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="64dp"
-                android:background="@drawable/button_act"
-                android:text=" How to\nUse"
-                android:textSize="13dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toEndOf="@+id/bubblingFace"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"
+                app:barrierDirection="top" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
