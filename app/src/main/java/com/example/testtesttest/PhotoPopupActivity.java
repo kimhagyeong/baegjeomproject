@@ -115,7 +115,8 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     ExifInterface exif = new ExifInterface(abPath);
 
                     String strTime = editTime.getText().toString();
-                    Log.e("strTime",strTime);
+//                    String strTime = "2020:08:05 19:15:15";
+//                    Log.e("strTime",strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME, strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, strTime);

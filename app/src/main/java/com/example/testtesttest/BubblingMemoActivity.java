@@ -122,7 +122,7 @@ public class BubblingMemoActivity extends GalleryActivity {
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                                 Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
                             }else{
-                                inputToGallery(imageBitmapList.get(i).getImagePath(),input.getText().toString());
+                                inputToGallery(imageBitmapList.get(i).getImagePath(),input.getText().toString(), imageBitmapList.get(i).getImageDate());
                             }
                         }
                         dialog.dismiss();
@@ -135,7 +135,7 @@ public class BubblingMemoActivity extends GalleryActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void inputToGallery(Uri path, String memo){
+    public void inputToGallery(Uri path, String memo, String Date){
         context = getApplicationContext();
         resources = getResources();
 
@@ -175,6 +175,12 @@ public class BubblingMemoActivity extends GalleryActivity {
         values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM+"/Camera");
         values.put(MediaStore.Images.Media.DISPLAY_NAME, "fileName.jpg");
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/*");
+
+        Long tmp_targetPath_Date = Long.parseLong(Date) / 1000 + 1;
+        String tmp_str_targetPath = Long.toString(tmp_targetPath_Date);
+//        values.put(MediaStore.Images.Media.DATE_ADDED, tmp_str_targetPath);
+//        values.put(MediaStore.Images.Media.DATE_TAKEN, tmp_str_targetPath);
+//        values.put(MediaStore.Images.Media.DATE_MODIFIED, tmp_str_targetPath);
 
         // 파일을 write중이라면 다른곳에서 데이터요구를 무시하겠다는 의미입니다.
         values.put(MediaStore.Images.Media.IS_PENDING, 1);

@@ -1,7 +1,12 @@
 package com.example.testtesttest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.IdRes;
@@ -10,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import java.io.File;
 
 
 public class BubblingFolderActivity extends GalleryActivity {
@@ -79,13 +86,93 @@ public class BubblingFolderActivity extends GalleryActivity {
                    public void onClick( DialogInterface dialog, int which) {
 
                        //여기서 메타데이터 수정 이벤트
-                       for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
-                           //이건 키 값
-                           Log.e("test1",Integer.toString(gridAdapter.mSelectedItems.keyAt(i)));
-                           //이건 주소 값
-                           Log.d("test1",imageBitmapList.get(i).getImagePath().toString());
+//                       for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
+//                           String editTime = imageBitmapList.get(i).getImageDate();
+//                           String editName = imageBitmapList.get(i).getImageName();
+//                           Uri editPath = imageBitmapList.get(i).getImagePath();
+//                           String editAbPath = imageBitmapList.get(i).getImageAbPate();
+//
+//                           ContentValues values = new ContentValues();
+//                           ContentResolver resolver = mContext.getContentResolver();
+//
+//                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                               values.put(MediaStore.Images.Media.IS_PENDING, 1);
+//                               int update = resolver.update(editPath, values, null, null);
+//                               values.clear();
+//                           }
+//
+//                           //이름 바꾸기
+//                           String title = editTime+"_"+strPicFolder;
+//                           String tag = editName.substring(editName.lastIndexOf("."));
+//                           values.put(MediaStore.Images.Media.TITLE, title + tag);
+//                           values.put(MediaStore.Images.Media.DISPLAY_NAME, title + tag);
+//
+////                           날짜 바꾸기
+//                           Long tmp_targetPath_Date = Long.parseLong(editTime) / 1000 + 1;
+//                           String tmp_str_targetPath = Long.toString(tmp_targetPath_Date);
+//                           values.put(MediaStore.Images.Media.DATE_ADDED, tmp_str_targetPath);
+//                           values.put(MediaStore.Images.Media.DATE_TAKEN, tmp_str_targetPath);
+//                           values.put(MediaStore.Images.Media.DATE_MODIFIED, tmp_str_targetPath);
 
-                       }
+                           //폴더 바꾸기 폴더를 어떻게 찾지?
+                           File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),strPicFolder);
+                           if (folder.exists()) {
+                               Log.e("folderPath","여기 있네요");
+                               Log.d("folderPath",Environment.DIRECTORY_DCIM);
+                               Log.d("folderPath",Environment.DIRECTORY_DOCUMENTS);
+
+//                               values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + strPicFolder);
+                           }
+//                           else{
+//                               folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),strPicFolder);
+//                               if (folder.exists()) {
+//                                   values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + strPicFolder);
+//                               }
+//                               else{
+//                                   folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),strPicFolder);
+//                                   if (folder.exists()) {
+//                                       values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + strPicFolder);
+//                                   }
+//                                   else{
+//                                       Toast.makeText(getApplicationContext(), "폴더가 범위 밖에 있어요", Toast.LENGTH_SHORT).show();
+//                                   }
+//                               }
+//                           }
+
+
+//                           Boolean isExist = file.
+//                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                               if (targetAbPath.indexOf("DCIM") >= 0) {
+//                                   String subFolder = targetAbPath.substring(targetAbPath.indexOf("DCIM") + 4, targetAbPath.lastIndexOf("/"));
+//                                   Log.e("DCIMTest1", subFolder);
+//                                   values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + subFolder);
+//                               } else if (targetAbPath.indexOf("Pictures") >= 0) {
+//                                   String subFolder = targetAbPath.substring(targetAbPath.indexOf("Pictures") + 8, targetAbPath.lastIndexOf("/"));
+//                                   Log.d("DCIMTest2", subFolder);
+//                                   values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + subFolder);
+//                               } else if (targetAbPath.indexOf("Download") >= 0) {
+//                                   String subFolder = targetAbPath.substring(targetAbPath.indexOf("Download") + 8, targetAbPath.lastIndexOf("/"));
+//                                   Log.d("DCIMTest3", subFolder);
+//                                   values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + subFolder);
+//                               } else {
+//
+//                               }
+//                           }
+//                           else{
+//                               Toast.makeText(getApplicationContext(), "안드로이드 버전 10 미만에서는 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
+//                           }
+
+//                           int update2 = resolver.update(editPath, values, null, null);
+//
+//                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                               values.clear();
+//                               values.put(MediaStore.Images.Media.IS_PENDING, 0);
+//                               int update3 = resolver.update(editPath, values, null, null);
+//                           }
+//                           new SingleMediaScanner(mContext, editAbPath);
+//
+//
+//                       }
 
                        dialog.dismiss();
                        finish();
