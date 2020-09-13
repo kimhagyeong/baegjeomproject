@@ -330,28 +330,6 @@ public class BubblingPhotoActivity extends GalleryActivity {
                         else{
                             Toast.makeText(getApplicationContext(), "안드로이드 버전 10 미만에서는 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
                         }
-//                        Set<String> volumeNames = null;
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                            volumeNames = MediaStore.getExternalVolumeNames(mContext);
-//                        }
-//                        else{
-//                            volumeNames = MediaStore.;
-//
-//                        }
-//                        Iterator<String> volumenamesiter =  volumeNames.iterator();
-//                        String firstVolumeName = volumenamesiter.next();
-//                        String secondVolumeName = volumenamesiter.next();
-//                        String volumeName;
-//
-//                        if(targetAbPath.indexOf(secondVolumeName)>=0){
-//                            volumeName=secondVolumeName;
-//                        }
-//                        else if(targetAbPath.indexOf(firstVolumeName)>=0){
-//                            volumeName=firstVolumeName;
-//                        }
-//                        else{
-//                            volumeName=MediaStore.VOLUME_EXTERNAL_PRIMARY;
-//                        }
 
                         int update2 = resolver.update(editPath, values, null, null);
 
@@ -576,29 +554,6 @@ public class BubblingPhotoActivity extends GalleryActivity {
         else{
             Toast.makeText(getApplicationContext(), "안드로이드 버전 10 미만에서는 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
         }
-//                        Set<String> volumeNames = null;
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                            volumeNames = MediaStore.getExternalVolumeNames(mContext);
-//                        }
-//                        else{
-//                            volumeNames = MediaStore.;
-//
-//                        }
-//                        Iterator<String> volumenamesiter =  volumeNames.iterator();
-//                        String firstVolumeName = volumenamesiter.next();
-//                        String secondVolumeName = volumenamesiter.next();
-//                        String volumeName;
-//
-//                        if(targetAbPath.indexOf(secondVolumeName)>=0){
-//                            volumeName=secondVolumeName;
-//                        }
-//                        else if(targetAbPath.indexOf(firstVolumeName)>=0){
-//                            volumeName=firstVolumeName;
-//                        }
-//                        else{
-//                            volumeName=MediaStore.VOLUME_EXTERNAL_PRIMARY;
-//                        }
-
         int update2 = resolver.update(editPath, values, null, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
