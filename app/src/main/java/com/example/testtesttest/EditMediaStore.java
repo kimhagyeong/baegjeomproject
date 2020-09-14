@@ -69,6 +69,52 @@ public class EditMediaStore {
             int update3 = resolver.update(editPath, values, null, null);
         }
         new SingleMediaScanner(mContext, editAbPath);
+        Toast.makeText(mContext.getApplicationContext(), "정상 완료!", Toast.LENGTH_SHORT).show();
+    }
 
+    // call from BubblingFolder
+    public EditMediaStore(Context mContext, Uri editPath, String editAbPath, String targetAbPath){
+        ContentValues values = new ContentValues();
+        ContentResolver resolver = mContext.getContentResolver();
+
+        values.put(MediaStore.Images.Media.IS_PENDING, 1);
+        int update = resolver.update(editPath, values, null, null);
+        values.clear();
+
+        //폴더 바꾸기
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if(editAbPath.indexOf("storage/emulated")==-1){
+                Toast.makeText(mContext.getApplicationContext(), "카메라로 찍은 사진이나 \nSD 카드의 사진을 조작 할 때,\n폴더 이동은 되지 않습니다.", Toast.LENGTH_SHORT).show();
+                Log.e("isSDCard",editAbPath);
+            }
+            else{
+                if (targetAbPath.indexOf("DCIM") >= 0) {
+                    String subFolder = targetAbPath.substring(targetAbPath.indexOf("DCIM") + 4);
+                    Log.e("DCIMTest1", subFolder);
+                    values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + subFolder);
+                } else if (targetAbPath.indexOf("Pictures") >= 0) {
+                    String subFolder = targetAbPath.substring(targetAbPath.indexOf("Pictures") + 8);
+                    Log.d("DCIMTest2", subFolder);
+                    values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + subFolder);
+                } else if (targetAbPath.indexOf("Download") >= 0) {
+                    String subFolder = targetAbPath.substring(targetAbPath.indexOf("Download") + 8);
+                    Log.d("DCIMTest3", subFolder);
+                    values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + subFolder);
+                }else{
+                    Toast.makeText(mContext.getApplicationContext(), "예상하지 못한 파일 경로로 \n 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else{
+            Toast.makeText(mContext.getApplicationContext(), "안드로이드 버전 10 미만에서는 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
+        int update2 = resolver.update(editPath, values, null, null);
+
+        values.clear();
+        values.put(MediaStore.Images.Media.IS_PENDING, 0);
+        int update3 = resolver.update(editPath, values, null, null);
+
+        new SingleMediaScanner(mContext, editAbPath);
+        Toast.makeText(mContext.getApplicationContext(), "정상 완료!", Toast.LENGTH_SHORT).show();
     }
 }
