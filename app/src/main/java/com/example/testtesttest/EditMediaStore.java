@@ -24,7 +24,7 @@ public class EditMediaStore {
         //이름 바꾸기
         String title = targetName.substring(0, targetName.lastIndexOf("."));
         String tag = targetName.substring(targetName.lastIndexOf("."));
-        Log.d("nameTitle", title + "2" + tag);
+
         values.put(MediaStore.Images.Media.TITLE, title + "2" + tag);
         values.put(MediaStore.Images.Media.DISPLAY_NAME, title + "2" + tag);
 

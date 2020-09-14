@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.service.autofill.FillEventHistory;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,9 +43,11 @@ public class EditExif {
         this.targetName = targetName;
     }
 
+    public void setIsStartEdit(boolean isStart){ this.isStartEdit = isStart; }
+
     public boolean startEditExif(){
         try{
-            setExif(editAbPath,targetPath_Date,editPath);
+            setExif(editAbPath,targetPath_Date);
         }catch (Exception e){
             e.printStackTrace();
             isTakenCamera=true;
@@ -78,7 +81,7 @@ public class EditExif {
                                 Log.e("relativePath",tmpUri.toString());
 
                                 try {
-                                    setExif(tmpPath,targetPath_Date,tmpUri);
+                                    setExif(tmpPath,targetPath_Date);
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }finally {
@@ -94,10 +97,10 @@ public class EditExif {
                 }
             }
         }
-        return true;
+        return isTakenCamera;
     }
 
-    protected void setExif(String editAbPath, String targetPath_Date, Uri editPath) throws Exception{
+    protected void setExif(String editAbPath, String targetPath_Date) throws Exception{
 
             ExifInterface exif = new ExifInterface(editAbPath);
 
