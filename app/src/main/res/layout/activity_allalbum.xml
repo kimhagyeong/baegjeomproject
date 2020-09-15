@@ -5,7 +5,7 @@
     android:id="@+id/allAlbumLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".mainActivity.MainActivity">
 
     <include
         android:id="@+id/include1_all"

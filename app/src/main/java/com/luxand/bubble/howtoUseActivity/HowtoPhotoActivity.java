@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.howtoUseActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -6,13 +6,16 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
+
+import com.luxand.bubble.R;
+
 @RequiresApi(api = Build.VERSION_CODES.M)
 
-public class HowtoFolderActivity extends HowtoUseActivity {
+public class HowtoPhotoActivity extends HowtoUseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.howtofolder);  // layout xml 과 자바파일을 연결
+        setContentView(R.layout.howtophoto);  // layout xml 과 자바파일을 연결
 
         Button a = (Button) findViewById(R.id.how_close);
         a.setOnClickListener(new View.OnClickListener() {

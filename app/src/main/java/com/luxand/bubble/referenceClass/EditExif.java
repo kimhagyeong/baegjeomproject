@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.referenceClass;
 
 import android.content.ContentUris;
 import android.content.Context;

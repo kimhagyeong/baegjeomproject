@@ -1,10 +1,12 @@
-package com.luxand.bubble;
+package com.luxand.bubble.mainActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+
+import com.luxand.bubble.mainActivity.MainActivity;
 
 public class SplashActivity extends Activity {
 
@@ -25,7 +27,7 @@ public class SplashActivity extends Activity {
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

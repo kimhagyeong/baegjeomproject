@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.referenceClass;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.luxand.bubble.R;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class SideImageAdapter extends RecyclerView.Adapter<SideImageAdapter.View
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    SideImageAdapter(ArrayList<imageFolder> list, Context context, GridImageAdapter g) {
+    public SideImageAdapter(ArrayList<imageFolder> list, Context context, GridImageAdapter g) {
         ga = g;
         mData = list ;
         mContext = context;

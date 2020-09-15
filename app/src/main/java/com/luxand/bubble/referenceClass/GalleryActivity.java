@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.referenceClass;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,6 +18,12 @@ import androidx.core.view.MenuCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.luxand.bubble.referenceClass.GridImageAdapter;
+import com.luxand.bubble.R;
+import com.luxand.bubble.referenceClass.SideImageAdapter;
+import com.luxand.bubble.referenceClass.dateImage;
+import com.luxand.bubble.referenceClass.imageFolder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

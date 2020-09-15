@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.referenceClass;
 
 import android.util.SparseBooleanArray;
 import android.net.Uri;

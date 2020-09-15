@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.mainActivity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,13 +19,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.exifinterface.media.ExifInterface;
 
 import com.luxand.FSDK;
+import com.luxand.bubble.referenceClass.DBHelper;
+import com.luxand.bubble.R;
+import com.luxand.bubble.referenceClass.GalleryActivity;
+import com.luxand.bubble.referenceClass.SingleMediaScanner;
+import com.luxand.bubble.referenceClass.dateImage;
+import com.luxand.bubble.referenceClass.imageFolder;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

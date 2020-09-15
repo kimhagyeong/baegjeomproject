@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.referenceClass;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.luxand.bubble.R;
+import com.luxand.bubble.mainActivity.PhotoPopupActivity;
 
 import java.util.ArrayList;
 //이미지들을 격자로 출력하는 클래스
@@ -51,7 +53,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    GridImageAdapter(ArrayList<dateImage> list, int lastAb,Context c) {
+    public GridImageAdapter(ArrayList<dateImage> list, int lastAb, Context c) {
         imageBitmapList = list ;
         chipSize = 10;
         context = c;
@@ -123,7 +125,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
 
     private void toggleItemSelected(int position){
         if(strr.equals("All Album")){
-            Intent img= new Intent(context,PhotoPopupActivity.class);
+            Intent img= new Intent(context, PhotoPopupActivity.class);
             img.putExtra("path",imageBitmapList.get(position).getImagePath().toString());
             img.putExtra("date",imageBitmapList.get(position).getImageDate());
             img.putExtra("abPath",imageBitmapList.get(position).getImageAbPate());

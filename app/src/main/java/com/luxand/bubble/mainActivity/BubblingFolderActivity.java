@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.mainActivity;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +8,10 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+
+import com.luxand.bubble.referenceClass.EditMediaStore;
+import com.luxand.bubble.R;
+import com.luxand.bubble.referenceClass.GalleryActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;

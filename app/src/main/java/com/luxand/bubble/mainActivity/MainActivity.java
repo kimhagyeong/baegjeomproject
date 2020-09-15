@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.mainActivity;
 
 
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.luxand.bubble.referenceClass.BackPressedForFinish;
+import com.luxand.bubble.howtoUseActivity.HowtoUseActivity;
+import com.luxand.bubble.R;
 
 public class MainActivity extends AppCompatActivity {
     BackPressedForFinish backPressedForFinish;

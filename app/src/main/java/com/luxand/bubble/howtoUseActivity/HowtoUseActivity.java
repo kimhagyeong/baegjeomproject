@@ -1,9 +1,12 @@
-package com.luxand.bubble;
+package com.luxand.bubble.howtoUseActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.luxand.bubble.R;
+import com.luxand.bubble.mainActivity.MainActivity;
 
 public class HowtoUseActivity extends MainActivity {
 

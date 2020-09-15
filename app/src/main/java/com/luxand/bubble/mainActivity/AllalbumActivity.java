@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.mainActivity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.IdRes;
 import androidx.annotation.RequiresApi;
 
+import com.luxand.bubble.R;
+import com.luxand.bubble.referenceClass.GalleryActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;

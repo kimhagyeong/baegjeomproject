@@ -1,4 +1,4 @@
-package com.luxand.bubble;
+package com.luxand.bubble.referenceClass;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -18,6 +18,8 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.luxand.bubble.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
