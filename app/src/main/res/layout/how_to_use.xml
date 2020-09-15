@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="30px">
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/how_back"
@@ -26,24 +26,11 @@
         android:orientation="horizontal"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:layout_marginTop="30px">
+        android:layout_marginTop="35dp">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/howphoto"
-                android:layout_width="360dp"
-                android:layout_height="98dp"
-                android:layout_marginLeft="72px"
-                android:layout_marginBottom="72px"
-                android:background="@drawable/how_photo" />
-        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -57,6 +44,19 @@
                 android:layout_marginBottom="72px"
                 android:background="@drawable/how_gallery" />
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/howphoto"
+                android:layout_width="360dp"
+                android:layout_height="98dp"
+                android:layout_marginLeft="72px"
+                android:layout_marginBottom="72px"
+                android:background="@drawable/how_photo" />
         </TableRow>
 
         <TableRow

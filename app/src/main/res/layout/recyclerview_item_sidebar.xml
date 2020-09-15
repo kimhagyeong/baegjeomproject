@@ -16,20 +16,21 @@
             android:id="@+id/sidebar_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="17.9dp"
             android:adjustViewBounds="true"
             />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/sidefolder"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:src="@drawable/sidefolder" />
         <TextView
             android:id="@+id/side_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="asdasd"
-            android:layout_marginTop="55dp"
-            android:textSize="10sp"
+            android:layout_marginTop="90dp"
+            android:textSize="12sp"
             android:gravity="center"
             android:lines="1"
             />

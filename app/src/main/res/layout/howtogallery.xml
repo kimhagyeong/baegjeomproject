@@ -1,67 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/ll_writeChoice"
+    android:background="@drawable/transparent_back"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/how_close"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/close"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"></LinearLayout>
+        android:layout_weight="4">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="0dp"
-        android:layout_weight="2">
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="3.3"
-            android:paddingTop="10dp"
-            android:paddingLeft="20dp"
-            android:paddingBottom="10dp">
-            <ImageButton
-                android:id="@+id/btn_userWrite"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3.3"
-                android:background="@drawable/face"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="3.3"
-            android:padding="10dp">
-            <ImageButton
-                android:id="@+id/btn_waterWrite"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3.3"
-                android:background="@drawable/folder"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="3.3"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
-            <ImageButton
-                android:id="@+id/btn_noSmokingWrite"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3.3"
-                android:background="@drawable/gallery"/>
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/how_gallery_main" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"></LinearLayout>
 </LinearLayout>

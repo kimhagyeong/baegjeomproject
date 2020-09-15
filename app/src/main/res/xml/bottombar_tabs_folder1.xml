@@ -4,16 +4,22 @@
         id="@+id/tab_Home"
         icon="@drawable/back"
         title="Home"
+        inActiveColor="#878787"
+        activeColor="#878787"
         />
     <tab
         id="@+id/tab_folder"
         icon="@drawable/bubblingfolder"
         title="Refresh"
+        inActiveColor="#878787"
+        activeColor="#878787"
         />
     <tab
         id="@+id/tab_next"
         icon="@drawable/next"
         title="Next"
+        inActiveColor="#878787"
+        activeColor="#878787"
         />
 
 </tabs>

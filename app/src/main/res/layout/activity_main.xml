@@ -66,19 +66,19 @@
                 android:layout_height="match_parent">
 
                 <Button
+                    android:id="@+id/allAlbum"
+                    android:layout_width="226dp"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/gallery" />
+
+                <Button
                     android:id="@+id/bubblingPhoto"
                     android:layout_width="226dp"
                     android:layout_height="168dp"
                     android:layout_weight="1"
                     android:background="@drawable/all"
                     android:scaleType="centerInside" />
-
-                <Button
-                    android:id="@+id/allAlbum"
-                    android:layout_width="226dp"
-                    android:layout_height="168dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/gallery" />
             </TableRow>
 
             <TableRow
