@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.testtesttest">
+    package="com.luxand.bubble">
     <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -16,13 +16,13 @@
         android:theme="@style/AppTheme"
         >
         <activity
-            android:name="MainActivity"
+            android:name="com.luxand.bubble.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <!--여기는 스플래시 액티비티입니당-->
         <activity
-            android:name=".SplashActivity"
+            android:name="com.luxand.bubble.SplashActivity"
             android:theme="@style/SplashTheme"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -33,68 +33,68 @@
         <!--여기까지 스플래시인데 오류가있다면 말해주세용-->
 
         <activity
-            android:name=".BubblingPhotoActivity"
+            android:name="com.luxand.bubble.BubblingPhotoActivity"
             android:label="@string/photo"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-        android:name=".BubblingFolderActivity"
+        android:name="com.luxand.bubble.BubblingFolderActivity"
         android:label="@string/folder"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-            android:name=".AllalbumActivity"
+            android:name="com.luxand.bubble.AllalbumActivity"
             android:label="@string/allalbum"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-            android:name=".BubblingMemoActivity"
+            android:name="com.luxand.bubble.BubblingMemoActivity"
             android:label="Memo"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-            android:name=".BubblingFaceActivity"
+            android:name="com.luxand.bubble.BubblingFaceActivity"
             android:label="Face"
             android:theme="@style/AppTheme.NoActionBar"
             />
 
         <activity
-            android:name=".HowtoUseActivity"
+            android:name="com.luxand.bubble.HowtoUseActivity"
             android:label="Howtouse"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-            android:name=".PhotoPopupActivity"
+            android:name="com.luxand.bubble.PhotoPopupActivity"
             android:label="@string/photopopup"
             android:theme="@style/AppTheme"
             />
 
         <activity
-            android:name=".HowtoPhotoActivity"
+            android:name="com.luxand.bubble.HowtoPhotoActivity"
             android:label="HowtousePhoto"
             android:theme="@style/AppTheme.NoActionBar"
             />
 
         <activity
-            android:name=".HowtoGalleryActivity"
+            android:name="com.luxand.bubble.HowtoGalleryActivity"
             android:label="HowtouseGallery"
             android:theme="@style/AppTheme.NoActionBar"
             />
 
         <activity
-            android:name=".HowtoFolderActivity"
+            android:name="com.luxand.bubble.HowtoFolderActivity"
             android:label="HowtouseFolder"
             android:theme="@style/AppTheme.NoActionBar"
             />
 
         <activity
-            android:name=".HowtoMemoActivity"
+            android:name="com.luxand.bubble.HowtoMemoActivity"
             android:label="HowtouseMemo"
             android:theme="@style/AppTheme.NoActionBar"
             />
 
         <activity
-            android:name=".HowtoFaceActivity"
+            android:name="com.luxand.bubble.HowtoFaceActivity"
             android:label="HowtouseFace"
             android:theme="@style/AppTheme.NoActionBar"
             />
