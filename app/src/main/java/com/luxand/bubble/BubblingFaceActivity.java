@@ -205,10 +205,10 @@ public class BubblingFaceActivity extends GalleryActivity {
                     Toast.makeText(getApplicationContext(), "기간이 형식과 다릅니다", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
-                //String millis1 = Long.toString(date1.getTime());
-                //String millis2 = Long.toString(date2.getTime());
-                String millis1 = "1484924400000";
-                String millis2 = "1485183599000";
+                String millis1 = Long.toString(date1.getTime());
+                String millis2 = Long.toString(date2.getTime());
+                //String millis1 = "1484924400000";
+                //String millis2 = "1485183599000";
                 Log.e("millis1", millis1);
                 Log.e("millis2", millis2);
                 //long millis = date.getTime();
