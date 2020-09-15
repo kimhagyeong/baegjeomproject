@@ -54,7 +54,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
         mContext = this;
         toolbar = findViewById(R.id.gallery_toolbar);
         setSupportActionBar(toolbar);
-        //makeDB();
+        makeDB();
         imageFolderList.addAll(getPicturePaths());
         imageFolderList.sort((i,j)->j.folderdate.compareTo(i.folderdate));
         try {
@@ -174,7 +174,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
 
     }
     //bubblingFaceActivity에서 오버라이딩
-    public void insertDB(String name,Uri uri, String date, String position){
+    public void insertDB(String name, Uri uri, String abPath, String date, String position){
 
     }
 
@@ -314,7 +314,7 @@ public abstract class GalleryActivity extends AppCompatActivity {
                         }
                     }
                     //Log.d("test1", "[name ="+name +"], ["+date+']'+contentUri+"["+folder);
-                    insertDB(name, contentUri,date,"");
+                    insertDB(name, contentUri, abPath, date,"");
                 } while (cursor.moveToNext());
                 cursor.close();
             }

@@ -630,10 +630,10 @@ public class BubblingFaceActivity extends GalleryActivity {
             Log.e("can't make template", file1);
             return null;
         }
-        max = images.size();
-        progressBar.setProgress(0);
+        //max = images.size();
+        //progressBar.setProgress(0);
 
-        progress = 0;
+        //progress = 0;
 
         for (int i = 0; i < images.size(); i++) {
             ExifInterface exif = new ExifInterface(images.get(i).getImageAbPate());
