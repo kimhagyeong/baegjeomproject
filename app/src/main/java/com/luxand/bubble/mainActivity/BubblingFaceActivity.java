@@ -224,12 +224,16 @@ public class BubblingFaceActivity extends GalleryActivity {
                 else {
                     int j = gridAdapter.mSelectedItems.keyAt(0);
                     try {
-                        imageFolderList.add(matchFacesInFolder(n, imageBitmapList.get(j).getImageAbPate(), millis1, millis2, fName));
+                        imageFolder folds = matchFacesInFolder(n, imageBitmapList.get(j).getImageAbPate(), millis1, millis2, fName);
+                        if (folds != null) {
+                            imageFolderList.add(folds);
+                            setFolderSelectState(imageFolderList.size() - 1);
+                            setImageBitmapList();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    setFolderSelectState(imageFolderList.size()-1);
-                    setImageBitmapList();
+
                 }
             }
         });
@@ -588,7 +592,7 @@ public class BubblingFaceActivity extends GalleryActivity {
         int s = FSDK.LoadImageFromFile(Image, file1);
         Log.e("file to FSDK", file1);
         if (s != 0) {
-            Log.e("can't detect file", file1);
+            Log.e("can't detect file", String.valueOf(s));
             return null;
         }
 
@@ -639,9 +643,13 @@ public class BubblingFaceActivity extends GalleryActivity {
 
         //progress = 0;
 
+        if (images.size() == 0)
+            return null;
+
         for (int i = 0; i < images.size(); i++) {
             ExifInterface exif = new ExifInterface(images.get(i).getImageAbPate());
-            String n = exif.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION);
+            String n = null;
+            n = exif.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION);
 
             if (n!= null && n.contains(name)) {
                 Log.e("TAG_IMAGE_DESCRIPTION", n);
@@ -718,13 +726,15 @@ public class BubblingFaceActivity extends GalleryActivity {
             Log.e("Similarity " + i, String.valueOf(f));
             if (f > 0.6) {
                 folds.addPics(images.get(i));
-                if (n.equals("null") || n.equals("")) {
+                if (n == null || n.equals("null") || n.equals("")) {
+                    Log.e("exif is null", "0");
                     exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION, name);
                     exif.saveAttributes();
                     new SingleMediaScanner(mContext, images.get(i).getImageAbPate());
                 }
                 else if (!n.contains(name)) {
-                    exif.setAttribute(ExifInterface.TAG_MODEL, n + ", " + name);
+                    Log.e("exif tag", n);
+                    exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION, n + ", " + name);
                     exif.saveAttributes();
                     new SingleMediaScanner(mContext, images.get(i).getImageAbPate());
                 }
