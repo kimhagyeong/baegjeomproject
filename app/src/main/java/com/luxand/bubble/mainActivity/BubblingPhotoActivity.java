@@ -13,6 +13,7 @@ import com.luxand.bubble.referenceClass.EditExif;
 import com.luxand.bubble.referenceClass.EditMediaStore;
 import com.luxand.bubble.R;
 import com.luxand.bubble.referenceClass.GalleryActivity;
+import com.luxand.bubble.referenceClass.searchRealTime;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -121,7 +122,8 @@ public class BubblingPhotoActivity extends GalleryActivity {
 
                         ////////////////mediastore 변경////////////////////
                         if(!isTakenCamera){
-                            new EditMediaStore(editPath,targetName,targetPath_Date,editAbPath,targetAbPath,mContext);
+                            searchRealTime realTime = new searchRealTime(targetAbPath, targetPath_Date);
+                            new EditMediaStore(editPath,targetName,realTime.getRealDate(),editAbPath,targetAbPath,mContext);
                         }
                 }
                 finish();

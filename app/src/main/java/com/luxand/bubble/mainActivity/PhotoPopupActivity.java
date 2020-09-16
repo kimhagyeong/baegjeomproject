@@ -23,12 +23,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.luxand.bubble.R;
+import com.luxand.bubble.referenceClass.EditExif;
+import com.luxand.bubble.referenceClass.EditMediaStore;
 import com.luxand.bubble.referenceClass.SingleMediaScanner;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -52,6 +57,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
         String path = img.getStringExtra("path");
         String date = img.getStringExtra("date");
         final String abPath = img.getStringExtra("abPath");
+        String name = img.getStringExtra("name");
         //abPath = abPath.substring(1);
         Log.e("abPath",abPath);
         Log.e("abPath",Environment.getExternalStorageDirectory().getAbsolutePath());
@@ -103,12 +109,13 @@ public class PhotoPopupActivity extends AppCompatActivity {
                 }
                 if (editTime.getParent() != null)
                     ((ViewGroup) editTime.getParent()).removeView(editTime);
+
+                Boolean isSaveExif = false;
+                String strTime = editTime.getText().toString();
                 try {
                     ExifInterface exif = new ExifInterface(abPath);
 
-                    String strTime = editTime.getText().toString();
-//                    String strTime = "2020:08:05 19:15:15";
-//                    Log.e("strTime",strTime);
+
                     exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME, strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, strTime);
@@ -116,14 +123,21 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     exif.saveAttributes();
 
                     new SingleMediaScanner(mContext, abPath);
-                    ///////////
-
-
+                    isSaveExif = true;
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e("set attribute error", e.toString());
+                } finally {
+                  if(isSaveExif){
+                      SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+                      Date to = null;
+                      try {
+                          to = transFormat.parse(strTime);
+                      } catch (ParseException e) {
+                          e.printStackTrace();
+                      }
+                      new EditMediaStore(uriPath,to.getTime()+"",abPath,mContext);
+                  }
                 }
-
             }
         });
     }
