@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -141,8 +142,10 @@ public class BubblingFaceActivity extends GalleryActivity {
         //final String[] items = publicfolderNames.toArray(new String[publicfolderNames.size()]);
 
         builder.setTitle("Face Detection and Make Folder");
+        if (dialogView.getParent() != null)
+            ((ViewGroup)dialogView.getParent()).removeView(dialogView);
         builder.setView(dialogView);
-        builder.setCancelable(false);
+        //builder.setCancelable(true);
 //                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
 //                    public void onClick(DialogInterface dialog, int which) {
 //                        strPicFolder=items[which];
@@ -237,27 +240,20 @@ public class BubblingFaceActivity extends GalleryActivity {
                 }
             }
         });
-        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+
             }
         });
-//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-////            @Override
-////            public void onDismiss(DialogInterface dialogInterface) {
-////
-////                AlertDialog.Builder innBuilder = new AlertDialog.Builder( BubblingFaceActivity.this);
-////                innBuilder.setTitle("해당 기간의 얼굴 사진을 찾습니다.");
-////                innBuilder.setView(progressBarLayout);
-////                innBuilder.setPositiveButton( "확인", new DialogInterface.OnClickListener(){
-////                    public void onClick( DialogInterface dialog, int which) {
-////                        dialog.dismiss();
-////                    }
-////                });
-////                innBuilder.show();
-////            }
-////        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                ((ViewGroup)dialogView.getParent()).removeView(dialogView);
+                gridAdapter.clearSelectedItem();
+            }
+        });
     }
 
     public void makeDB(){
@@ -747,7 +743,7 @@ public class BubblingFaceActivity extends GalleryActivity {
         }
         FSDK.FreeImage(Image);
         FSDK.FreeImage(RotatedImage);
-        isProcessing = false;
+        //isProcessing = false;
         return folds;
     }
 
