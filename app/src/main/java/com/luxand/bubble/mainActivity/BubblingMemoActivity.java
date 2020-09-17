@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.luxand.bubble.referenceClass.EditCreateImg;
 import com.luxand.bubble.R;
 import com.luxand.bubble.referenceClass.GalleryActivity;
+import com.luxand.bubble.referenceClass.searchRealTime;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -96,11 +97,13 @@ public class BubblingMemoActivity extends GalleryActivity {
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                                 Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
                             }else{
+                                searchRealTime realTime = new searchRealTime(imageBitmapList.get(keyAt).getImageAbPate(),imageBitmapList.get(keyAt).getImageDate());
                                 new EditCreateImg(
                                         imageBitmapList.get(keyAt).getImageName(),
                                         mContext,
                                         input.getText().toString(),
-                                        imageBitmapList.get(keyAt).getImageDate(),
+                                        realTime.getRealDate(),
+//                                        imageBitmapList.get(keyAt).getImageDate(),
                                         imageBitmapList.get(keyAt).getImageAbPate()
                                 );
                             }

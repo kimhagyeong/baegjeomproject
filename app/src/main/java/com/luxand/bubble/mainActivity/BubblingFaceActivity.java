@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -141,8 +142,10 @@ public class BubblingFaceActivity extends GalleryActivity {
         //final String[] items = publicfolderNames.toArray(new String[publicfolderNames.size()]);
 
         builder.setTitle("Face Detection and Make Folder");
+        if (dialogView.getParent() != null)
+            ((ViewGroup)dialogView.getParent()).removeView(dialogView);
         builder.setView(dialogView);
-        builder.setCancelable(false);
+        //builder.setCancelable(true);
 //                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
 //                    public void onClick(DialogInterface dialog, int which) {
 //                        strPicFolder=items[which];
@@ -224,36 +227,33 @@ public class BubblingFaceActivity extends GalleryActivity {
                 else {
                     int j = gridAdapter.mSelectedItems.keyAt(0);
                     try {
-                        imageFolderList.add(matchFacesInFolder(n, imageBitmapList.get(j).getImageAbPate(), millis1, millis2, fName));
+                        imageFolder folds = matchFacesInFolder(n, imageBitmapList.get(j).getImageAbPate(), millis1, millis2, fName);
+                        if (folds != null) {
+                            imageFolderList.add(folds);
+                            setFolderSelectState(imageFolderList.size() - 1);
+                            setImageBitmapList();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    setFolderSelectState(imageFolderList.size()-1);
-                    setImageBitmapList();
+
                 }
             }
         });
-        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+
             }
         });
-//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-////            @Override
-////            public void onDismiss(DialogInterface dialogInterface) {
-////
-////                AlertDialog.Builder innBuilder = new AlertDialog.Builder( BubblingFaceActivity.this);
-////                innBuilder.setTitle("해당 기간의 얼굴 사진을 찾습니다.");
-////                innBuilder.setView(progressBarLayout);
-////                innBuilder.setPositiveButton( "확인", new DialogInterface.OnClickListener(){
-////                    public void onClick( DialogInterface dialog, int which) {
-////                        dialog.dismiss();
-////                    }
-////                });
-////                innBuilder.show();
-////            }
-////        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                ((ViewGroup)dialogView.getParent()).removeView(dialogView);
+                gridAdapter.clearSelectedItem();
+            }
+        });
     }
 
     public void makeDB(){
@@ -588,7 +588,7 @@ public class BubblingFaceActivity extends GalleryActivity {
         int s = FSDK.LoadImageFromFile(Image, file1);
         Log.e("file to FSDK", file1);
         if (s != 0) {
-            Log.e("can't detect file", file1);
+            Log.e("can't detect file", String.valueOf(s));
             return null;
         }
 
@@ -639,9 +639,13 @@ public class BubblingFaceActivity extends GalleryActivity {
 
         //progress = 0;
 
+        if (images.size() == 0)
+            return null;
+
         for (int i = 0; i < images.size(); i++) {
             ExifInterface exif = new ExifInterface(images.get(i).getImageAbPate());
-            String n = exif.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION);
+            String n = null;
+            n = exif.getAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION);
 
             if (n!= null && n.contains(name)) {
                 Log.e("TAG_IMAGE_DESCRIPTION", n);
@@ -718,13 +722,15 @@ public class BubblingFaceActivity extends GalleryActivity {
             Log.e("Similarity " + i, String.valueOf(f));
             if (f > 0.6) {
                 folds.addPics(images.get(i));
-                if (n.equals("null") || n.equals("")) {
+                if (n == null || n.equals("null") || n.equals("")) {
+                    Log.e("exif is null", "0");
                     exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION, name);
                     exif.saveAttributes();
                     new SingleMediaScanner(mContext, images.get(i).getImageAbPate());
                 }
                 else if (!n.contains(name)) {
-                    exif.setAttribute(ExifInterface.TAG_MODEL, n + ", " + name);
+                    Log.e("exif tag", n);
+                    exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION, n + ", " + name);
                     exif.saveAttributes();
                     new SingleMediaScanner(mContext, images.get(i).getImageAbPate());
                 }
@@ -737,7 +743,7 @@ public class BubblingFaceActivity extends GalleryActivity {
         }
         FSDK.FreeImage(Image);
         FSDK.FreeImage(RotatedImage);
-        isProcessing = false;
+        //isProcessing = false;
         return folds;
     }
 

@@ -117,4 +117,33 @@ public class EditMediaStore {
         new SingleMediaScanner(mContext, editAbPath);
         Toast.makeText(mContext.getApplicationContext(), "정상 완료!", Toast.LENGTH_SHORT).show();
     }
+    // from AllalbumActivity
+    public EditMediaStore(Uri editPath,String targetPath_Date, String editAbPath, Context mContext){
+        ContentValues values = new ContentValues();
+        ContentResolver resolver = mContext.getContentResolver();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Images.Media.IS_PENDING, 1);
+            int update = resolver.update(editPath, values, null, null);
+            values.clear();
+        }
+
+        //날짜 바꾸기
+        Long tmp_targetPath_Date = Long.parseLong(targetPath_Date) / 1000 + 1;
+        String tmp_str_targetPath = Long.toString(tmp_targetPath_Date);
+        values.put(MediaStore.Images.Media.DATE_ADDED, tmp_str_targetPath);
+        values.put(MediaStore.Images.Media.DATE_TAKEN, tmp_str_targetPath);
+        values.put(MediaStore.Images.Media.DATE_MODIFIED, tmp_str_targetPath);
+
+
+        int update2 = resolver.update(editPath, values, null, null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.clear();
+            values.put(MediaStore.Images.Media.IS_PENDING, 0);
+            int update3 = resolver.update(editPath, values, null, null);
+        }
+        new SingleMediaScanner(mContext, editAbPath);
+        Toast.makeText(mContext.getApplicationContext(), "정상 완료!", Toast.LENGTH_SHORT).show();
+    }
 }

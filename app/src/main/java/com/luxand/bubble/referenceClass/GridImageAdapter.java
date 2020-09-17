@@ -129,6 +129,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
             img.putExtra("path",imageBitmapList.get(position).getImagePath().toString());
             img.putExtra("date",imageBitmapList.get(position).getImageDate());
             img.putExtra("abPath",imageBitmapList.get(position).getImageAbPate());
+            img.putExtra("name",imageBitmapList.get(position).getImageName());
 //            Uri uu=imageBitmapList.get(position).getImagePath();
 //            Log.e("test1",uu.toString());
             context.startActivity(img);

@@ -33,12 +33,14 @@ public class EditExif {
 
     public EditExif(String editAbPath, String targetPath_Date, Uri editPath, Context mContext,String targetAbPath, String name, String targetName){
         this.editAbPath = editAbPath;
-        this.targetPath_Date=targetPath_Date;
         this.editPath = editPath;
         this.mContext = mContext;
         this.targetAbPath = targetAbPath;
         this.name = name;
         this.targetName = targetName;
+
+        searchRealTime realTime = new searchRealTime(targetAbPath,targetPath_Date);
+        this.targetPath_Date=realTime.getRealDate();
     }
 
     public void setIsStartEdit(boolean isStart){ this.isStartEdit = isStart; }
