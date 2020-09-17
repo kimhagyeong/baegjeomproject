@@ -171,9 +171,11 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
                 notifyItemChanged(position);
                 total -= 1;
             } else {
-                mSelectedItems.put(position, true);
-                notifyItemChanged(position);
-                total += 1;
+                if (total < 1) {
+                    mSelectedItems.put(position, true);
+                    notifyItemChanged(position);
+                    total += 1;
+                }
             }
         }
         ((GalleryActivity)GalleryActivity.mContext).setVisibleMenu();

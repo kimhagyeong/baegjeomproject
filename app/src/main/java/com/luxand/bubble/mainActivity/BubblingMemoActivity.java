@@ -94,9 +94,9 @@ public class BubblingMemoActivity extends GalleryActivity {
 //                        for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
                             int keyAt = gridAdapter.mSelectedItems.keyAt(0);
 
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                                Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
-                            }else{
+//                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+//                                Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
+//                            }else{
                                 searchRealTime realTime = new searchRealTime(imageBitmapList.get(keyAt).getImageAbPate(),imageBitmapList.get(keyAt).getImageDate());
                                 new EditCreateImg(
                                         imageBitmapList.get(keyAt).getImageName(),
@@ -106,7 +106,7 @@ public class BubblingMemoActivity extends GalleryActivity {
 //                                        imageBitmapList.get(keyAt).getImageDate(),
                                         imageBitmapList.get(keyAt).getImageAbPate()
                                 );
-                            }
+//                            }
 //                        }
                         Toast.makeText(getApplicationContext(),input.getText().toString(), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();

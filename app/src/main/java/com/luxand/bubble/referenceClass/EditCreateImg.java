@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -131,7 +132,12 @@ public class EditCreateImg {
         textLayout.draw(canvas);
 
         this.inputStreamBitmap = tempBitmap;
-        inputValues();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            inputValues_v9();
+        }
+        else{
+            inputValues();
+        }
     }
 
     private void createBitmap(Uri editPath) throws FileNotFoundException {
@@ -140,7 +146,28 @@ public class EditCreateImg {
         Bitmap bitmap = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(editPath),null,bitOption);
 
         this.inputStreamBitmap = bitmap;
-        inputValues();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            inputValues_v9();
+        }
+        else{
+            inputValues();
+        }
+    }
+
+    private void inputValues_v9(){
+        File file_path;
+        file_path = new File(getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "/Camera/"+this.Title);
+        try{
+            FileOutputStream out = new FileOutputStream(file_path);
+            inputStreamBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        }catch(FileNotFoundException exception){
+            Log.e("FileNotFoundException", exception.getMessage());
+        }catch(IOException exception){
+            Log.e("IOException", exception.getMessage()); }
+
+        new SingleMediaScanner(mContext, file_path.toString());
     }
 
     private void inputValues(){
