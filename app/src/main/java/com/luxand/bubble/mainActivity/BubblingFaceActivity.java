@@ -207,10 +207,12 @@ public class BubblingFaceActivity extends GalleryActivity {
                 if (n.equals("name"))
                     n = "";
 
-                String inputDate1 = input11.getText().toString() + input12.getText().toString() + input13.getText().toString() + " 00:00:00";
-                String inputDate2 = input21.getText().toString() + input22.getText().toString() + input23.getText().toString() + " 23:59:59";
+                String inputDate1 = input11.getText().toString() + "/" + input12.getText().toString() + "/" + input13.getText().toString() + " 00:00:00";
+                Log.e("original date1", inputDate1);
+                String inputDate2 = input21.getText().toString() + "/" + input22.getText().toString() + "/" + input23.getText().toString() + " 23:59:59";
+                Log.e("original date1", inputDate2);
                 String fName = folder.getText().toString();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date1 = null;
                 Date date2 = null;
                 try {
@@ -587,6 +589,7 @@ public class BubblingFaceActivity extends GalleryActivity {
         while (cursor.moveToNext()) {
             Uri uri = Uri.parse(cursor.getString(1));
             Log.e("face uri", cursor.getString(1));
+            Log.e("face date", cursor.getString(3));
             dateImage d = new dateImage(uri, cursor.getString(3), cursor.getString(0), cursor.getString(2));
             images.add(d);
         }
@@ -650,8 +653,10 @@ public class BubblingFaceActivity extends GalleryActivity {
 
         //progress = 0;
 
-        if (images.size() == 0)
+        if (images.size() == 0) {
+            Log.e("image zero", "0");
             return null;
+        }
 
         for (int i = 0; i < images.size(); i++) {
             ExifInterface exif = new ExifInterface(images.get(i).getImageAbPate());

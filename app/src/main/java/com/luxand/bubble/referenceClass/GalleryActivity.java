@@ -333,8 +333,8 @@ public abstract class GalleryActivity extends AppCompatActivity {
 //        for (int i = 0; i < picFolders.size(); i++) {
 //            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
 //        }
-
-
+        if (picFolders.size() == 0)
+            return null;
         return picFolders;
     }
 }
