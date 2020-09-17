@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -29,6 +30,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
@@ -73,7 +77,9 @@ public class EditCreateImg {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }finally {
-                            new EditMediaStore(tmpUri,Title,targetPath_Date,tmpPath,targetAbPath,mContext);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                new EditMediaStore(tmpUri,Title,targetPath_Date,tmpPath,targetAbPath,mContext);
+                            }
                             Toast.makeText(mContext.getApplicationContext(), "새로운 이미지가 원하는 위치로 이동되었습니다!", Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -242,10 +248,14 @@ public class EditCreateImg {
         Cursor cursor = mContext.getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, "_data = '" + filePath + "'", null, null );
 
-        cursor.moveToNext();
-        int id = cursor.getInt( cursor.getColumnIndex( "_id" ) );
-
-        Uri uri = ContentUris.withAppendedId( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id );
+        Uri uri=null;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            uri=null;
+        }else{
+            cursor.moveToFirst();
+            int id = cursor.getInt(cursor.getColumnIndex("_id"));
+            uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+        }
 
         return uri;
 

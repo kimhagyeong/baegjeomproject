@@ -52,10 +52,10 @@ public class EditExif {
             e.printStackTrace();
             isTakenCamera=true;
             Log.e("ExifException", e.toString());
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                Toast.makeText(mContext.getApplicationContext(), "안드로이드 버전 10 미만은 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
-            }
-            else{
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+//                Toast.makeText(mContext.getApplicationContext(), "안드로이드 버전 10 미만은 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
+//            }
+//            else{
                 String title = name.substring(0, name.lastIndexOf("."));
                 String tag = name.substring(name.lastIndexOf("."));
                 Boolean isCreate=true;
@@ -78,14 +78,15 @@ public class EditExif {
                                 //상대경로로 만들어줌
                                 Uri tmpUri =Uri.fromFile(new File(tmpPath));
                                 tmpUri= getUriFromPath(tmpUri.toString());
-                                Log.e("relativePath",tmpUri.toString());
 
                                 try {
                                     setExif(tmpPath,targetPath_Date);
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }finally {
-                                    new EditMediaStore(tmpUri,targetName,targetPath_Date,tmpPath,targetAbPath,mContext);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        new EditMediaStore(tmpUri,targetName,targetPath_Date,tmpPath,targetAbPath,mContext);
+                                    }
                                     Toast.makeText(mContext.getApplicationContext(), "새로운 이미지가 원하는 위치로 이동되었습니다!", Toast.LENGTH_SHORT).show();
                                 }
                                 break;
@@ -95,13 +96,13 @@ public class EditExif {
                         }
                     }
                 }
-            }
+//            }
         }
         return isTakenCamera;
     }
 
     protected void setExif(String editAbPath, String targetPath_Date) throws Exception{
-
+            Boolean isThrow = false;
             ExifInterface exif = new ExifInterface(editAbPath);
 
             //time Formatting
@@ -143,15 +144,14 @@ public class EditExif {
 
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 //                    String tmpCamera=exifOrigin.getAttribute(ExifInterface.TAG_CAMERA_OWNER_NAME)+"";
-                        String tmpCamera = exifOrigin.getAttribute(ExifInterface.TAG_SOFTWARE) + "";
-
+                        String tmpCamera = exif.getAttribute(ExifInterface.TAG_SOFTWARE) + "";
+                        Log.e("tmpCamera",tmpCamera);
                         if (!tmpCamera.equals("null")) {
                             isTakenCamera = true;
-                            Toast.makeText(mContext.getApplicationContext(), "안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
+                            isThrow = true;
                         }
                     }
                 } catch (Exception e) {
-                    Log.e("RealBad..", "잘못햇어여어ㅠ");
                     e.printStackTrace();
                 }
 
@@ -162,6 +162,10 @@ public class EditExif {
                 isStartEdit = false;
             }
 
+            if(isThrow){
+                FileNotFoundException ex = new FileNotFoundException();
+                throw ex;
+            }
             exif.saveAttributes();
             new SingleMediaScanner(mContext, editAbPath);
 
@@ -173,13 +177,15 @@ public class EditExif {
         String filePath = fileUri.getPath();
         Cursor cursor = mContext.getContentResolver().query( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, "_data = '" + filePath + "'", null, null );
-
-        cursor.moveToNext();
-        int id = cursor.getInt( cursor.getColumnIndex( "_id" ) );
-
-        Uri uri = ContentUris.withAppendedId( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id );
+        Uri uri=null;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            uri=null;
+        }else{
+            cursor.moveToFirst();
+            int id = cursor.getInt(cursor.getColumnIndex("_id"));
+            uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+        }
 
         return uri;
-
     }
 }
