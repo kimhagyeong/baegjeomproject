@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -40,6 +41,7 @@ public class EditCreateImg {
     private Bitmap inputStreamBitmap;
     private Context mContext;
     private String Title;
+    private String abPath;
 
     // from BubblingMemo
     public EditCreateImg(String Title, Context mContext, String memo, String targetPath_Date, String targetAbPath){
@@ -47,6 +49,7 @@ public class EditCreateImg {
         String title = Title.substring(0, Title.lastIndexOf("."));
         String tag = Title.substring(Title.lastIndexOf("."));
         this.Title = title+"_memo"+tag;
+        abPath = targetAbPath;
 
         Boolean isDoneCreate=true;
         try {
@@ -109,7 +112,11 @@ public class EditCreateImg {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.photo2,options);
+        //Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.photo2,options);
+        Bitmap bitmap = BitmapFactory.decodeFile(abPath, options);
+//        Matrix rotateMatrix = new Matrix();
+//        rotateMatrix.postRotate(-90);
+//        Bitmap bitmap = Bitmap.createBitmap(bitmapOrigin, 0, 0, bitmapOrigin.getWidth(), bitmapOrigin.getHeight(), rotateMatrix, false);
 
         Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
