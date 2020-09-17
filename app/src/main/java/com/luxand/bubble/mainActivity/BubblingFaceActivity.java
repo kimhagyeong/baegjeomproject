@@ -47,8 +47,12 @@ public class BubblingFaceActivity extends GalleryActivity {
 
     private boolean mIsFailed = false;
 
-    EditText input1;
-    EditText input2;
+    EditText input11;
+    EditText input21;
+    EditText input12;
+    EditText input22;
+    EditText input13;
+    EditText input23;
     EditText name;
     EditText folder;
     LinearLayout dialogView;
@@ -190,8 +194,12 @@ public class BubblingFaceActivity extends GalleryActivity {
 //                    }
 //                }, 0);
 
-                input1 = dialogView.findViewById(R.id.face_inputText1);
-                input2 = dialogView.findViewById(R.id.face_inputText2);
+                input11 = dialogView.findViewById(R.id.face_inputText11);
+                input21 = dialogView.findViewById(R.id.face_inputText21);
+                input12 = dialogView.findViewById(R.id.face_inputText12);
+                input22 = dialogView.findViewById(R.id.face_inputText22);
+                input13 = dialogView.findViewById(R.id.face_inputText13);
+                input23 = dialogView.findViewById(R.id.face_inputText23);
                 name = dialogView.findViewById(R.id.face_nameText);
                 folder = dialogView.findViewById(R.id.face_folderText);
 
@@ -199,45 +207,48 @@ public class BubblingFaceActivity extends GalleryActivity {
                 if (n.equals("name"))
                     n = "";
 
-                String inputDate1 = input1.getText().toString() + " 00:00:00";
-                String inputDate2 = input2.getText().toString() + " 23:59:59";
+                String inputDate1 = input11.getText().toString() + input12.getText().toString() + input13.getText().toString() + " 00:00:00";
+                String inputDate2 = input21.getText().toString() + input22.getText().toString() + input23.getText().toString() + " 23:59:59";
                 String fName = folder.getText().toString();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
                 Date date1 = null;
                 Date date2 = null;
                 try {
                     date1 = sdf.parse(inputDate1);
                     date2 = sdf.parse(inputDate2);
                 } catch (ParseException e) {
-                    Toast.makeText(getApplicationContext(), "기간이 형식과 다릅니다", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
-                String millis1 = Long.toString(date1.getTime());
-                String millis2 = Long.toString(date2.getTime());
-                //String millis1 = "1484924400000";
-                //String millis2 = "1485183599000";
-                Log.e("millis1", millis1);
-                Log.e("millis2", millis2);
-                //long millis = date.getTime();
+                if (date1 != null && date2 != null) {
+                    String millis1 = Long.toString(date1.getTime());
+                    String millis2 = Long.toString(date2.getTime());
+                    //String millis1 = "1484924400000";
+                    //String millis2 = "1485183599000";
+                    Log.e("millis1", millis1);
+                    Log.e("millis2", millis2);
+                    //long millis = date.getTime();
 
-                //finish();
+                    //finish();
 
-                if (gridAdapter.mSelectedItems.size() != 1)
-                    Toast.makeText(getApplicationContext(), "이미지를 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
-                else {
-                    int j = gridAdapter.mSelectedItems.keyAt(0);
-                    try {
-                        imageFolder folds = matchFacesInFolder(n, imageBitmapList.get(j).getImageAbPate(), millis1, millis2, fName);
-                        if (folds != null) {
-                            imageFolderList.add(folds);
-                            setFolderSelectState(imageFolderList.size() - 1);
-                            setImageBitmapList();
+                    if (gridAdapter.mSelectedItems.size() != 1)
+                        Toast.makeText(getApplicationContext(), "이미지를 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
+                    else {
+                        int j = gridAdapter.mSelectedItems.keyAt(0);
+                        try {
+                            imageFolder folds = matchFacesInFolder(n, imageBitmapList.get(j).getImageAbPate(), millis1, millis2, fName);
+                            if (folds != null) {
+                                imageFolderList.add(folds);
+                                setFolderSelectState(imageFolderList.size() - 1);
+                                setImageBitmapList();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
+                    }
                 }
+                else
+                    Toast.makeText(getApplicationContext(), "기간이 형식과 다릅니다", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

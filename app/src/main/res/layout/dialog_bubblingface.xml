@@ -11,30 +11,126 @@
 <!--        android:text="Face Detection and Make Folder"-->
 <!--        android:layout_marginBottom="20dp"-->
 <!--        />-->
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:id="@+id/face_nameText"
-        />
-    <EditText
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    이름    : "
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="5dp"
+             />
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:id="@+id/face_nameText"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="yyyy/mm/dd"
-        android:id="@+id/face_inputText1"
-        />
-    <EditText
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="언제부터 : "
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YYYY"
+            android:id="@+id/face_inputText11"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / "
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MM"
+            android:id="@+id/face_inputText12"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / "
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD"
+            android:id="@+id/face_inputText13"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="yyyy/mm/dd"
-        android:id="@+id/face_inputText2"
-        />
-    <EditText
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="언제까지 : "
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YYYY"
+            android:id="@+id/face_inputText21"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / "
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MM"
+            android:id="@+id/face_inputText22"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / "
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD"
+            android:id="@+id/face_inputText23"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Folder Name"
-        android:id="@+id/face_folderText"
-        />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="폴더 이름 : "
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            />
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Folder Name"
+            android:id="@+id/face_folderText"
+            />
+    </LinearLayout>
+
+
 <!--    <Button-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
