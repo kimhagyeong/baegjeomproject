@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_Home"
+        icon="@drawable/back"
+        title="Home"
+        inActiveColor="#878787"
+        activeColor="#878787"
+        />
+    <tab
+        id="@+id/tab_photo"
+        icon="@drawable/bubblingmemo"
+        title="Refresh"
+        inActiveColor="#878787"
+        activeColor="#878787"
+        />
+    <tab
+        id="@+id/tab_next"
+        icon="@drawable/next"
+        title="Next"
+        inActiveColor="#878787"
+        activeColor="#878787"
+        />
+
+</tabs>
