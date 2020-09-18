@@ -40,8 +40,6 @@ import java.util.Date;
 
 public class BubblingFaceActivity extends GalleryActivity {
     AlertDialog.Builder builder;
-    int folderState=0;
-    String strPicFolder;
     private DBHelper helper;
     private SQLiteDatabase db;
 
@@ -56,14 +54,6 @@ public class BubblingFaceActivity extends GalleryActivity {
     EditText name;
     EditText folder;
     LinearLayout dialogView;
-    LinearLayout progressBarLayout;
-    ProgressBar progressBar;
-
-    Handler handler = new Handler();
-    boolean isProcessing = false;
-
-    int progress = 0;
-    int max = 10;
 
     public void showErrorAndClose(String error, int code) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -129,71 +119,14 @@ public class BubblingFaceActivity extends GalleryActivity {
 
         createAndSetAdapter();
         dialogView = (LinearLayout) View.inflate(BubblingFaceActivity.this, R.layout.dialog_bubblingface, null);
-        progressBarLayout = (LinearLayout) View.inflate(BubblingFaceActivity.this, R.layout.progressbaar_bubblingface, null);
-        progressBar = (ProgressBar) progressBarLayout.findViewById(R.id.face_progress);
-        //progressBar.setProgress(0);
         builder = new AlertDialog.Builder(BubblingFaceActivity.this);
-//        final String[] items = {"Apple", "Banana", "Orange", "Grapes"};
-
-
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT);
-//        input1.setLayoutParams(lp);
-//        input2.setLayoutParams(lp);
-//        input1.setText("yyyy/MM/dd");
-//        input2.setText("yyyy/MM/dd");
-        //final String[] items = publicfolderNames.toArray(new String[publicfolderNames.size()]);
-
         builder.setTitle("Face Detection and Make Folder");
         if (dialogView.getParent() != null)
             ((ViewGroup)dialogView.getParent()).removeView(dialogView);
         builder.setView(dialogView);
-        //builder.setCancelable(true);
-//                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        strPicFolder=items[which];
-//                        Toast.makeText(getApplicationContext(), items[which]+ " is clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
             @Override
-            public void onClick(DialogInterface dialog, int id)
-            {
-                //dialog.dismiss();
-
-
-                //innBuilder.create();
-                isProcessing = true;
-//                Handler mHandler = new Handler(Looper.getMainLooper());
-//                mHandler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        handler.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                innBuilder.show();
-//                            }
-//                        });
-//                        while(isProcessing) {
-//                            handler.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                    progressBar.setMax(max);
-//                                    progressBar.setProgress(progress);
-//                                }
-//                            });
-//                            try {
-//                                Thread.sleep(1000);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//                    }
-//                }, 0);
-
+            public void onClick(DialogInterface dialog, int id) {
                 input11 = dialogView.findViewById(R.id.face_inputText11);
                 input21 = dialogView.findViewById(R.id.face_inputText21);
                 input12 = dialogView.findViewById(R.id.face_inputText12);
@@ -228,9 +161,6 @@ public class BubblingFaceActivity extends GalleryActivity {
                     //String millis2 = "1485183599000";
                     Log.e("millis1", millis1);
                     Log.e("millis2", millis2);
-                    //long millis = date.getTime();
-
-                    //finish();
 
                     if (gridAdapter.mSelectedItems.size() != 1)
                         Toast.makeText(getApplicationContext(), "이미지를 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
@@ -648,13 +578,14 @@ public class BubblingFaceActivity extends GalleryActivity {
             Log.e("can't make template", file1);
             return null;
         }
-        //max = images.size();
-        //progressBar.setProgress(0);
-
-        //progress = 0;
 
         if (images.size() == 0) {
             Log.e("image zero", "0");
+            Toast.makeText(getApplicationContext(), "기간내에 사진이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+            return null;
+        } else if (images.size() > 20) {
+            Log.e("image over", "20");
+            Toast.makeText(getApplicationContext(), "기간내에 너무 많은 사진이 존재합니다.", Toast.LENGTH_SHORT).show();
             return null;
         }
 
@@ -754,12 +685,10 @@ public class BubblingFaceActivity extends GalleryActivity {
             FSDK.FreeImage(Image2);
             FSDK.FreeImage(RotatedImage2);
 
-//            progress++;
-//            progressBar.setProgress(progress);
         }
         FSDK.FreeImage(Image);
         FSDK.FreeImage(RotatedImage);
-        //isProcessing = false;
+
         return folds;
     }
 
