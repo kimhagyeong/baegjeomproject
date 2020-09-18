@@ -225,75 +225,17 @@ public abstract class GalleryActivity extends AppCompatActivity {
                     String dateAdded = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_ADDED));
                     String abPath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 //                    String dateModified = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATE_MODIFIED));
-                    Log.e("BucketFolderAB",abPath);
-                    Log.d("BucketFolderRB",contentUri.toString());
-                    String exifDate="null";
-//                    try{
-//                        ExifInterface exif = new ExifInterface(abPath);
-//                        String tmpStr = exif.getAttribute(ExifInterface.TAG_CAMERA_OWNER_NAME)+"";
-//                        Log.e("SoftwareTT",tmpStr);
-//                    }catch (IOException e){
-//                        e.printStackTrace();
-//                    }
-
-//                    try {
-//                        ExifInterface exif = new ExifInterface(abPath);
-//                        String tmpStr = exif.getAttribute(ExifInterface.TAG_DATETIME)+"";
-//
-//                        if(!tmpStr.equals("null")){
-//                            Log.d("tmpStr1",tmpStr);
-//                            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-//                            Date to = transFormat.parse(tmpStr);
-//                            exifDate=to.getTime()+"";
-//                        }
-//                        else{
-//                            exifDate="null";
-//                        }
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
 
                    String date = "null";
-//                    if(exifDate.equals("null")){
                         if (dateTaken != null && dateAdded != null) {date = dateTaken.compareTo(dateAdded)==-1?dateTaken:dateAdded;}
                         else {
                             date = dateTaken==null?(dateAdded==null?"":dateAdded):dateTaken;
                         }
 
                         Long tmpD =Long.parseLong(date)/1000000000;
-                        Log.d("Ohhhh3",Long.toString(tmpD));
                         if(tmpD<=1){
                             date=Long.toString(Long.parseLong(date)*1000);
                         }
-                        Log.e("Ohhhh2",date);
-//                    }
-////                    else{
-//////                        Long tmpDate = Long.parseLong(exifDate);
-////                        Long tmpD = Long.parseLong(exifDate)/1000000000;
-////                        Log.d("Ohhhh3",Long.toString(tmpD));
-////                        Long tmpDate = Long.parseLong(exifDate);
-////
-////                        if(tmpD<=1){
-////                            tmpDate = Long.parseLong(exifDate)*1000;
-//////                            Log.e("test3","나는 작아2"+tmpD);
-////                        }
-//////                        if(Long.parseLong(date)/1000000000<=1){
-//////                            Log.e("test3","나는 넘어");
-////////                           tmpDate=tmpDate*1000;
-//////                        }
-////
-////                        date=Long.toString(tmpDate);
-////                        Log.d("Ohhhh2",date);
-////                    }
-
-
-                    //date가 멋있게 나오니 가독성 있게 읽으려면 아래 단계로 확인해보길
-                    String format = "MM-dd-yyyy HH:mm:ss";
-                    SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.KOREAN);
-                    Long T = Long.parseLong(date);
-                    String dateTime = formatter.format(new Date(T));
-                    Log.e("test1", name + "|" + dateTime);
 
                     //여기까지
 
@@ -330,9 +272,6 @@ public abstract class GalleryActivity extends AppCompatActivity {
         finally{
             cursor.close();
         }
-//        for (int i = 0; i < picFolders.size(); i++) {
-//            Log.d("picture folders", picFolders.get(i).getFolderName() + " and path = " + picFolders.get(i).getPath() + " " + picFolders.get(i).getNumberOfPics());
-//        }
         if (picFolders.size() == 0)
             return null;
         return picFolders;

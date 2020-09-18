@@ -44,6 +44,8 @@ public class EditCreateImg {
     private String abPath;
 
     // from BubblingMemo
+    // 메모는 canvas로 새롭게 이미지를 만들어서 저장함.
+    // createCanvas(memo)가 특징임
     public EditCreateImg(String Title, Context mContext, String memo, String targetPath_Date, String targetAbPath){
         this.mContext = mContext;
         String title = Title.substring(0, Title.lastIndexOf("."));
@@ -59,6 +61,10 @@ public class EditCreateImg {
             isDoneCreate=false;
         }
         finally {
+            // create 가 잘되면 생성된 이미지의 주소를 다시 찾아서
+            // 그 주소의 exif date를 선택했던 이미지의 date로 바꿔주고
+            // mediastore의 date와 폴더 위치도 바꾸어 준다.
+            // 단, 버전 9에서는 폴더 이동, 상대경로 추출이 어렵다.
             if(isDoneCreate){
                 String childName = "/Camera/" + this.Title;
                 while (true) {
@@ -96,6 +102,7 @@ public class EditCreateImg {
 
     }
     // from BubblingPhoto
+    // bubbling photo 에서는 editExif에서 호출되기 때문에 이미지 생성도 불러온 bitmap 주소로 하며 throw만 잘해주면 된다.
     public EditCreateImg(Uri editPath, String Title, Context mContext) throws FileNotFoundException {
         this.mContext = mContext;
         this.Title = Title;
@@ -108,16 +115,13 @@ public class EditCreateImg {
         }
     }
 
+    // bitmap을 생성하고 난 후에는 value값을 넣어준다
+    // 버전 9와 그 이상의 버전은 서로 입출력하는 방식이 다름으로 따로 처리한다.
     private void createCanvas(String memo){
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        //Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.photo2,options);
         Bitmap bitmap = BitmapFactory.decodeFile(abPath, options);
-//        Matrix rotateMatrix = new Matrix();
-//        rotateMatrix.postRotate(-90);
-//        Bitmap bitmap = Bitmap.createBitmap(bitmapOrigin, 0, 0, bitmapOrigin.getWidth(), bitmapOrigin.getHeight(), rotateMatrix, false);
-
         Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(tempBitmap);

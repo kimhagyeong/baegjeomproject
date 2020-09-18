@@ -8,7 +8,7 @@
         activeColor="#878787"
         />
     <tab
-        id="@+id/tab_folder"
+        id="@+id/tab_photo"
         icon="@drawable/bubblingfolder"
         title="Refresh"
         inActiveColor="#878787"

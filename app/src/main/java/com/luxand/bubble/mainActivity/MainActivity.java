@@ -21,14 +21,8 @@ public class MainActivity extends AppCompatActivity {
     BackPressedForFinish backPressedForFinish;
 
     String[] permission_list = {
-            //5g 핸드폰의 경우
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-
-            //5g 핸드폰 아닌 경우
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//            Manifest.permission.READ_EXTERNAL_STORAGE
-
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,15 +118,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    //////////////////>권한 설정
-    /*
-    @Override
-    public void onBackPressed() {
-
-        // BackPressedForFinish 클래시의 onBackPressed() 함수를 호출한다.
-        backPressedForFinish.onBackPressed();
-    }
-     */
 }
-    /*Intent in = new Intent(MainActivity.this, AllalbumActivity.class);
-    startActivity(in);*/

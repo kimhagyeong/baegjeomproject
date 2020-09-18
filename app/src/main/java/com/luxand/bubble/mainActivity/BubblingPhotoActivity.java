@@ -20,14 +20,12 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 public class BubblingPhotoActivity extends GalleryActivity {
     AlertDialog.Builder builder;
-//    Context BubbleContext;
     int photoState=0;
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_bubblingphoto);
         super.onCreate(savedInstanceState);
         folderSelectState = getIntent().getIntExtra("folderState",0);
-//        BubbleContext=getApplicationContext();
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
         bottomBar.setDefaultTab(R.id.tab_photo);
 
@@ -69,7 +67,8 @@ public class BubblingPhotoActivity extends GalleryActivity {
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
-
+                // 선택한 이미지는 총 2장이 되어야 동작하며 마지막에 선택한 이미지가 무엇인지 찾아야 함.
+                // 그래야 마지막에 선택한 이미지의 메타데이터를 복사하여 첫번째에 선택한 이미지에 넣음.
                 if(gridAdapter.lastAbPath!=-1&&gridAdapter.mSelectedItems.size()==2) {
                         Uri editPath;
                         String editAbPath;
@@ -84,6 +83,7 @@ public class BubblingPhotoActivity extends GalleryActivity {
 
                         Boolean isTakenCamera=false;
 
+                        // key 값이 뒤에 있는 것이 나중에 선택한 사진일때
                         if(gridAdapter.lastAbPath==gridAdapter.mSelectedItems.keyAt(1)){
                             //0번째 사진이 1번째 사진 옆에 배치
                             editPath = imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(0)).getImagePath();

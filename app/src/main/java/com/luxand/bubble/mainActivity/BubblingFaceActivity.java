@@ -80,7 +80,7 @@ public class BubblingFaceActivity extends GalleryActivity {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
-        setContentView(R.layout.activity_bubblingfolder);
+        setContentView(R.layout.activity_bubblingface);
         super.onCreate(savedInstanceState);
         folderSelectState = getIntent().getIntExtra("folderState",0);
 
@@ -95,7 +95,7 @@ public class BubblingFaceActivity extends GalleryActivity {
         makeDB();
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_folder);
+        bottomBar.setDefaultTab(R.id.tab_photo);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -103,7 +103,7 @@ public class BubblingFaceActivity extends GalleryActivity {
                     case R.id.tab_Home:
                         finish();
                         break;
-                    case R.id.tab_folder:
+                    case R.id.tab_photo:
 
                         break;
                     case R.id.tab_next:
@@ -118,7 +118,7 @@ public class BubblingFaceActivity extends GalleryActivity {
             //가운데 아이템이 활성화 되어있는 상태고 다시 눌렀을 때 선택한거 다사라짐
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                if(tabId==R.id.tab_folder){
+                if(tabId==R.id.tab_photo){
                     gridAdapter.clearSelectedItem();
                 }else if(tabId==R.id.tab_next){
                     AlertDialog alertDialog = builder.create();
@@ -319,7 +319,7 @@ public class BubblingFaceActivity extends GalleryActivity {
     public void onResume(){
         super.onResume();
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_folder);
+        bottomBar.setDefaultTab(R.id.tab_photo);
     }
     @Override
     protected void onDestroy() {

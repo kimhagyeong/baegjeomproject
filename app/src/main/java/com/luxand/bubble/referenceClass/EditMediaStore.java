@@ -11,6 +11,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class EditMediaStore {
+
+    // memo 나 photo 의 경우 시간과 폴더 위치, 파일 이름 모두 바꾸지만
+    // folder 에 경우는 폴더 위치만
+    // allalbum activity의 경우는 시간만 바꾸면 된다.
+    // mediastore는 버전에 따라 먹히는 태그 들이 다르다.
     public EditMediaStore(Uri editPath, String targetName, String targetPath_Date, String editAbPath, String targetAbPath, Context mContext){
         ContentValues values = new ContentValues();
         ContentResolver resolver = mContext.getContentResolver();
@@ -43,15 +48,12 @@ public class EditMediaStore {
             else{
                 if (targetAbPath.indexOf("DCIM") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("DCIM") + 4, targetAbPath.lastIndexOf("/"));
-                    Log.e("DCIMTest1", subFolder);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + subFolder);
                 } else if (targetAbPath.indexOf("Pictures") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("Pictures") + 8, targetAbPath.lastIndexOf("/"));
-                    Log.d("DCIMTest2", subFolder);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + subFolder);
                 } else if (targetAbPath.indexOf("Download") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("Download") + 8, targetAbPath.lastIndexOf("/"));
-                    Log.d("DCIMTest3", subFolder);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + subFolder);
                 }else{
                     Toast.makeText(mContext.getApplicationContext(), "예상하지 못한 파일 경로로 \n 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
@@ -85,20 +87,16 @@ public class EditMediaStore {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if(editAbPath.indexOf("storage/emulated")==-1){
                 Toast.makeText(mContext.getApplicationContext(), "카메라로 찍은 사진이나 \nSD 카드의 사진을 조작 할 때,\n폴더 이동은 되지 않습니다.", Toast.LENGTH_SHORT).show();
-                Log.e("isSDCard",editAbPath);
             }
             else{
                 if (targetAbPath.indexOf("DCIM") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("DCIM") + 4);
-                    Log.e("DCIMTest1", subFolder);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + subFolder);
                 } else if (targetAbPath.indexOf("Pictures") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("Pictures") + 8);
-                    Log.d("DCIMTest2", subFolder);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + subFolder);
                 } else if (targetAbPath.indexOf("Download") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("Download") + 8);
-                    Log.d("DCIMTest3", subFolder);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + subFolder);
                 }else{
                     Toast.makeText(mContext.getApplicationContext(), "예상하지 못한 파일 경로로 \n 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
@@ -117,6 +115,7 @@ public class EditMediaStore {
         new SingleMediaScanner(mContext, editAbPath);
         Toast.makeText(mContext.getApplicationContext(), "정상 완료!", Toast.LENGTH_SHORT).show();
     }
+
     // from AllalbumActivity
     public EditMediaStore(Uri editPath,String targetPath_Date, String editAbPath, Context mContext){
         ContentValues values = new ContentValues();

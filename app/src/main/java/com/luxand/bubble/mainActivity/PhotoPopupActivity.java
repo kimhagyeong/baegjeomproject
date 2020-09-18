@@ -38,6 +38,7 @@ import java.util.List;
 
 
 import android.content.Context;
+import android.widget.Toast;
 
 //allalbum에서 클릭했을 때 사진 크게 보여주고 메타데이터 보여주는 액티비티
 //메타데이터는 업그레이드되면서 안보여짐..
@@ -58,12 +59,10 @@ public class PhotoPopupActivity extends AppCompatActivity {
         String date = img.getStringExtra("date");
         final String abPath = img.getStringExtra("abPath");
         String name = img.getStringExtra("name");
-        //abPath = abPath.substring(1);
         Log.e("abPath",abPath);
         Log.e("abPath",Environment.getExternalStorageDirectory().getAbsolutePath());
 
         Uri uriPath=Uri.parse(path);
-//        uriPath=MediaStore.setRequireOriginal((uriPath));
         InputStream stream= null;
         try {
             stream = getContentResolver().openInputStream(uriPath);
@@ -115,17 +114,16 @@ public class PhotoPopupActivity extends AppCompatActivity {
                 try {
                     ExifInterface exif = new ExifInterface(abPath);
 
-
                     exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME, strTime);
                     exif.setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, strTime);
                     exif.setAttribute(ExifInterface.TAG_GPS_DATESTAMP, strTime);
                     exif.saveAttributes();
-
                     new SingleMediaScanner(mContext, abPath);
                     isSaveExif = true;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"핸드폰으로 직접 찍은 사진은 변경이 되지 않습니다!", Toast.LENGTH_SHORT).show();
                 } finally {
                   if(isSaveExif){
                       SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");

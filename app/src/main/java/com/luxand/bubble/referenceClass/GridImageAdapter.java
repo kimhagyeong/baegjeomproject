@@ -165,6 +165,19 @@ public class GridImageAdapter extends RecyclerView.Adapter<GridImageAdapter.View
 //            Log.d("test1",mSelectedItems.toString());
 //            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
         }
+        else if(strr.equals("Folder")) {
+            if (mSelectedItems.get(position, false)) {
+                mSelectedItems.delete(position);
+                notifyItemChanged(position);
+                total -= 1;
+            } else {
+                mSelectedItems.put(position, true);
+                notifyItemChanged(position);
+                total += 1;
+            }
+//            Log.d("test1",mSelectedItems.toString());
+//            Log.e("test1",imageBitmapList.get(position).getImagePath().toString());
+        }
         else{
             if (mSelectedItems.get(position, false)) {
                 mSelectedItems.delete(position);

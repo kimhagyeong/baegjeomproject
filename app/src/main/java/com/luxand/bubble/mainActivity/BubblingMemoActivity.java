@@ -31,12 +31,12 @@ public class BubblingMemoActivity extends GalleryActivity {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;    //this
-        setContentView(R.layout.activity_bubblingfolder);
+        setContentView(R.layout.activity_bubblingmemo);
         super.onCreate(savedInstanceState);
         folderSelectState = getIntent().getIntExtra("folderState",0);
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_folder);
+        bottomBar.setDefaultTab(R.id.tab_photo);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -44,7 +44,7 @@ public class BubblingMemoActivity extends GalleryActivity {
                     case R.id.tab_Home:
                         finish();
                         break;
-                    case R.id.tab_folder:
+                    case R.id.tab_photo:
 
                         break;
                     case R.id.tab_next:
@@ -59,7 +59,7 @@ public class BubblingMemoActivity extends GalleryActivity {
             //가운데 아이템이 활성화 되어있는 상태고 다시 눌렀을 때 선택한거 다사라짐
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                if(tabId==R.id.tab_folder){
+                if(tabId==R.id.tab_photo){
                     gridAdapter.clearSelectedItem();
                 }else if(tabId==R.id.tab_next){
                     AlertDialog alertDialog = builder.create();
@@ -91,23 +91,20 @@ public class BubblingMemoActivity extends GalleryActivity {
                 innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
                     public void onClick( DialogInterface dialog, int which) {
                         //여기서 메타데이터 수정 이벤트
-//                        for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
-                            int keyAt = gridAdapter.mSelectedItems.keyAt(0);
-
-//                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-//                                Toast.makeText(getApplicationContext(),"안드로이드 버전 10 이하는 제공하지 않는 서비스입니다.\n다른 이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
-//                            }else{
-                                searchRealTime realTime = new searchRealTime(imageBitmapList.get(keyAt).getImageAbPate(),imageBitmapList.get(keyAt).getImageDate());
-                                new EditCreateImg(
-                                        imageBitmapList.get(keyAt).getImageName(),
-                                        mContext,
-                                        input.getText().toString(),
-                                        realTime.getRealDate(),
-//                                        imageBitmapList.get(keyAt).getImageDate(),
-                                        imageBitmapList.get(keyAt).getImageAbPate()
-                                );
-//                            }
-//                        }
+                        //선택한 이미지의 키 값
+                        int keyAt = gridAdapter.mSelectedItems.keyAt(0);
+                        //미디어 스토어에 저장된 date 값이 실제 exif에 저장된 date 값과 다를 수 있기 때문에 진짜 값이 무엇인지 찾는 과정.
+                        searchRealTime realTime = new searchRealTime(imageBitmapList.get(keyAt).getImageAbPate(),imageBitmapList.get(keyAt).getImageDate());
+                        //memo는 새로운 이미지를 생성하고
+                        //이미지를 찾아서 exif 에 입력하고
+                        //그 이미지에 mediastore 를 변경함
+                        new EditCreateImg(
+                                imageBitmapList.get(keyAt).getImageName(),
+                                mContext,
+                                input.getText().toString(),
+                                realTime.getRealDate(),
+                                imageBitmapList.get(keyAt).getImageAbPate()
+                        );
                         Toast.makeText(getApplicationContext(),input.getText().toString(), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         finish();
@@ -115,7 +112,6 @@ public class BubblingMemoActivity extends GalleryActivity {
                 }); innBuilder.show();
             }
         });
-
     }
 
 
@@ -124,6 +120,6 @@ public class BubblingMemoActivity extends GalleryActivity {
     public void onResume(){
         super.onResume();
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_folder);
+        bottomBar.setDefaultTab(R.id.tab_photo);
     }
 }

@@ -31,7 +31,7 @@ public class BubblingFolderActivity extends GalleryActivity {
         folderSelectState = getIntent().getIntExtra("folderState",0);
 
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_folder);
+        bottomBar.setDefaultTab(R.id.tab_photo);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -39,7 +39,7 @@ public class BubblingFolderActivity extends GalleryActivity {
                     case R.id.tab_Home:
                         finish();
                         break;
-                    case R.id.tab_folder:
+                    case R.id.tab_photo:
 
                         break;
                     case R.id.tab_next:
@@ -54,7 +54,7 @@ public class BubblingFolderActivity extends GalleryActivity {
             //가운데 아이템이 활성화 되어있는 상태고 다시 눌렀을 때 선택한거 다사라짐
             @Override
             public void onTabReSelected(@IdRes int tabId) {
-                if(tabId==R.id.tab_folder){
+                if(tabId==R.id.tab_photo){
                     gridAdapter.clearSelectedItem();
                 }else if(tabId==R.id.tab_next){
                     AlertDialog alertDialog = builder.create();
@@ -62,10 +62,9 @@ public class BubblingFolderActivity extends GalleryActivity {
                 }
             }
         });
-
+        // alertDialog 생성
         createAndSetAdapter();
         builder = new AlertDialog.Builder(BubblingFolderActivity.this);
-//        final String[] items = {"Apple", "Banana", "Orange", "Grapes"};
         final String[] items = publicfolderNames.toArray(new String[publicfolderNames.size()]);
 
         builder.setTitle("Let's go Bubbling!")
@@ -84,8 +83,6 @@ public class BubblingFolderActivity extends GalleryActivity {
                innBuilder.setTitle(strPicFolder);
                innBuilder .setPositiveButton( "확인", new DialogInterface.OnClickListener(){
                    public void onClick( DialogInterface dialog, int which) {
-
-
                        String folderPath;
                        // 폴더의 위치를 찾아야 함.
                        // DCIM
@@ -110,7 +107,7 @@ public class BubblingFolderActivity extends GalleryActivity {
                                }
                            }
                        }
-                       Log.e("findFolder",folderPath);
+                       //folder의 위치를 못찾거나(fail) sd카드이거나 폰의 버전이 9이하이면 폴더 이동 막힘
                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                            Toast.makeText(mContext.getApplicationContext(), "안드로이드 버전 10 미만에서는 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
                        }
@@ -119,6 +116,7 @@ public class BubblingFolderActivity extends GalleryActivity {
                        }
                        else{
                            for(int i=0;i<gridAdapter.mSelectedItems.size();i++){
+                               // folder 이동시킬 때는 mediaStore만 사용해서 이동시킴
                                new EditMediaStore(
                                        mContext,
                                        imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImagePath(),
@@ -127,13 +125,10 @@ public class BubblingFolderActivity extends GalleryActivity {
                                );
                            }
                        }
-
                        dialog.dismiss();
                        finish();
                    }
                }); innBuilder.show();
-
-
             }
         });
     }
@@ -143,6 +138,6 @@ public class BubblingFolderActivity extends GalleryActivity {
     public void onResume(){
         super.onResume();
         BottomBar bottomBar = (BottomBar)findViewById(R.id.bottomBar);
-        bottomBar.setDefaultTab(R.id.tab_folder);
+        bottomBar.setDefaultTab(R.id.tab_photo);
     }
 }
