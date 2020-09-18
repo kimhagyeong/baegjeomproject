@@ -121,7 +121,9 @@ public class BubblingFolderActivity extends GalleryActivity {
                                        mContext,
                                        imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImagePath(),
                                        imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImageAbPate(),
-                                       folderPath
+                                       folderPath,
+                                       imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImageName(),
+                                       imageBitmapList.get(gridAdapter.mSelectedItems.keyAt(i)).getImageDate()
                                );
                            }
                        }

@@ -75,13 +75,16 @@ public class EditMediaStore {
     }
 
     // call from BubblingFolder
-    public EditMediaStore(Context mContext, Uri editPath, String editAbPath, String targetAbPath){
+    public EditMediaStore(Context mContext, Uri editPath, String editAbPath, String targetAbPath,String targetName,String date){
         ContentValues values = new ContentValues();
         ContentResolver resolver = mContext.getContentResolver();
 
         values.put(MediaStore.Images.Media.IS_PENDING, 1);
         int update = resolver.update(editPath, values, null, null);
         values.clear();
+
+        //이름 바꾸기
+        String tag = targetName.substring(targetName.lastIndexOf("."));
 
         //폴더 바꾸기
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -92,12 +95,23 @@ public class EditMediaStore {
                 if (targetAbPath.indexOf("DCIM") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("DCIM") + 4);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM + subFolder);
+
+                    values.put(MediaStore.Images.Media.TITLE, subFolder.substring(1)+"_"+date + "2" + tag);
+                    values.put(MediaStore.Images.Media.DISPLAY_NAME, subFolder.substring(1)+"_"+date + "2" + tag);
+
                 } else if (targetAbPath.indexOf("Pictures") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("Pictures") + 8);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + subFolder);
+
+                    values.put(MediaStore.Images.Media.TITLE, subFolder.substring(1)+"_"+date + "2" + tag);
+                    values.put(MediaStore.Images.Media.DISPLAY_NAME, subFolder.substring(1)+"_"+date + "2" + tag);
+
                 } else if (targetAbPath.indexOf("Download") >= 0) {
                     String subFolder = targetAbPath.substring(targetAbPath.indexOf("Download") + 8);
                     values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + subFolder);
+
+                    values.put(MediaStore.Images.Media.TITLE, subFolder.substring(1)+"_"+date + "2" + tag);
+                    values.put(MediaStore.Images.Media.DISPLAY_NAME, subFolder.substring(1)+"_"+date + "2" + tag);
                 }else{
                     Toast.makeText(mContext.getApplicationContext(), "예상하지 못한 파일 경로로 \n 폴더 이동이 되지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
