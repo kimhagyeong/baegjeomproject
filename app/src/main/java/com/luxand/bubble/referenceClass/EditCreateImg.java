@@ -192,7 +192,6 @@ public class EditCreateImg {
         ContentValues values = new ContentValues();
         ContentResolver contentResolver = mContext.getContentResolver();
 
-
         values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_DCIM+"/Camera");
         values.put(MediaStore.Images.Media.TITLE, Title);
         values.put(MediaStore.Images.Media.DISPLAY_NAME, Title);
@@ -200,10 +199,8 @@ public class EditCreateImg {
         // 파일을 write중이라면 다른곳에서 데이터요구를 무시하겠다는 의미입니다.
         values.put(MediaStore.Images.Media.IS_PENDING, 1);
 
-
         Uri collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
         Uri item = contentResolver.insert(collection, values);
-
         try {
             ParcelFileDescriptor pdf = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {

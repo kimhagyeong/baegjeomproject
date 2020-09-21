@@ -22,13 +22,11 @@ public class SingleMediaScanner implements MediaScannerConnectionClient {
     @Override
     public void onMediaScannerConnected() {
         mMs.scanFile(path, null);
-        Log.e("scanning","스캔중");
     }
 
     @Override
     public void onScanCompleted(String path, Uri uri) {
         mMs.disconnect();
-        Log.e("scanning","스캔끝");
     }
 
 }

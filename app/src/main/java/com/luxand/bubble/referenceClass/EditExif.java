@@ -114,8 +114,6 @@ public class EditExif {
             Long T2 = Long.parseLong(Long.toString(tmpTargetDate));
             String dateTime = formatter.format(new Date(T1));
             String dateTime2 = formatter.format(new Date(T2));
-            Log.d("testDate1", targetPath_Date);
-            Log.e("testDate", dateTime);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
