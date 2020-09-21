@@ -92,6 +92,18 @@ public class HowtoUseActivity extends MainActivity {
             }
         });
 
+        Button f = (Button) findViewById(R.id.howinformation);
+        f.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재 화면의 제어권자
+                        HowtoInformationActivity.class); // 다음 넘어갈 클래스 지정
+                intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent); // 다음 화면으로 넘어간다
+            }
+        });
+
     } // end onCreate()
 
     /*

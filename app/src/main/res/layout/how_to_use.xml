@@ -41,9 +41,23 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/howinformation"
+                android:layout_width="360dp"
+                android:layout_height="78dp"
+                android:layout_marginLeft="72px"
+                android:layout_marginBottom="72px"
+                android:background="@drawable/how_information" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
                 android:id="@+id/howgallery"
                 android:layout_width="360dp"
-                android:layout_height="98dp"
+                android:layout_height="78dp"
                 android:layout_marginLeft="72px"
                 android:layout_marginBottom="72px"
                 android:background="@drawable/how_gallery" />
@@ -57,7 +71,7 @@
             <Button
                 android:id="@+id/howphoto"
                 android:layout_width="360dp"
-                android:layout_height="98dp"
+                android:layout_height="78dp"
                 android:layout_marginLeft="72px"
                 android:layout_marginBottom="72px"
                 android:background="@drawable/how_photo" />
@@ -70,7 +84,7 @@
             <Button
                 android:id="@+id/howfolder"
                 android:layout_width="360dp"
-                android:layout_height="98dp"
+                android:layout_height="78dp"
                 android:layout_marginLeft="72px"
                 android:layout_marginBottom="72px"
                 android:background="@drawable/how_folder" />
@@ -84,7 +98,7 @@
             <Button
                 android:id="@+id/howmemo"
                 android:layout_width="360dp"
-                android:layout_height="98dp"
+                android:layout_height="78dp"
                 android:layout_marginLeft="72px"
                 android:layout_marginBottom="72px"
                 android:background="@drawable/how_memo" />
@@ -98,7 +112,7 @@
             <Button
                 android:id="@+id/howface"
                 android:layout_width="360dp"
-                android:layout_height="98dp"
+                android:layout_height="78dp"
                 android:layout_marginLeft="72px"
                 android:layout_marginBottom="72px"
                 android:background="@drawable/how_face" />
