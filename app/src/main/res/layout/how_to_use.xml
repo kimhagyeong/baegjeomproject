@@ -17,7 +17,7 @@
         <Button
             android:id="@+id/how_back"
             android:layout_width="match_parent"
-            android:layout_height="175dp"
+            android:layout_height="150dp"
             android:background="@drawable/how_title" />
     </LinearLayout>
 

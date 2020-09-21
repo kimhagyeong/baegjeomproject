@@ -57,6 +57,10 @@
             android:layout_marginTop="50px"
             app:srcCompat="@drawable/up" />
 
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,14 +73,14 @@
                 <Button
                     android:id="@+id/allAlbum"
                     android:layout_width="226dp"
-                    android:layout_height="168dp"
+                    android:layout_height="138dp"
                     android:layout_weight="1"
                     android:background="@drawable/gallery" />
 
                 <Button
                     android:id="@+id/bubblingPhoto"
                     android:layout_width="226dp"
-                    android:layout_height="168dp"
+                    android:layout_height="138dp"
                     android:layout_weight="1"
                     android:background="@drawable/all"
                     android:scaleType="centerInside" />
@@ -89,14 +93,14 @@
                 <Button
                     android:id="@+id/bubblingFolder"
                     android:layout_width="226dp"
-                    android:layout_height="168dp"
+                    android:layout_height="138dp"
                     android:layout_weight="1"
                     android:background="@drawable/folder" />
 
                 <Button
                     android:id="@+id/bubblingMemo"
                     android:layout_width="226dp"
-                    android:layout_height="168dp"
+                    android:layout_height="138dp"
                     android:layout_weight="1"
                     android:background="@drawable/memo" />
             </TableRow>
@@ -109,21 +113,20 @@
                 <Button
                     android:id="@+id/bubblingFace"
                     android:layout_width="226dp"
-                    android:layout_height="168dp"
+                    android:layout_height="138dp"
                     android:layout_weight="1"
                     android:background="@drawable/face" />
 
                 <Button
                     android:id="@+id/howtouse"
                     android:layout_width="226dp"
-                    android:layout_height="168dp"
+                    android:layout_height="138dp"
                     android:layout_weight="1"
                     android:background="@drawable/howtouse" />
 
             </TableRow>
-
         </TableLayout>
-
+        </ScrollView>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
@@ -149,7 +152,6 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="top" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
 
 
