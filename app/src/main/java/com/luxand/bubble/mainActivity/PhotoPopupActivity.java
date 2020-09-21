@@ -106,11 +106,10 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Log.e("Input Stream", e.toString());
                 }
-                if (editTime.getParent() != null)
-                    ((ViewGroup) editTime.getParent()).removeView(editTime);
 
                 Boolean isSaveExif = false;
-                String strTime = editTime.getText().toString();
+                String strTime = null;
+                strTime = editTime.getText().toString();
                 try {
                     ExifInterface exif = new ExifInterface(abPath);
 
@@ -125,7 +124,7 @@ public class PhotoPopupActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),"핸드폰으로 직접 찍은 사진은 변경이 되지 않습니다!", Toast.LENGTH_SHORT).show();
                 } finally {
-                  if(isSaveExif){
+                  if(isSaveExif) {
                       SimpleDateFormat transFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
                       Date to = null;
                       try {
@@ -133,9 +132,20 @@ public class PhotoPopupActivity extends AppCompatActivity {
                       } catch (ParseException e) {
                           e.printStackTrace();
                       }
-                      new EditMediaStore(uriPath,to.getTime()+"",abPath,mContext);
+                      if (to != null) {
+                          new EditMediaStore(uriPath, to.getTime() + "", abPath, mContext);
+                      }
+                      else
+                          Toast.makeText(getApplicationContext(),"맞는 형태를 입력해주세요", Toast.LENGTH_SHORT).show();
+
                   }
                 }
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                ((ViewGroup)editTime.getParent()).removeView(editTime);
             }
         });
     }
