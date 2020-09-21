@@ -73,14 +73,14 @@
                 <Button
                     android:id="@+id/allAlbum"
                     android:layout_width="226dp"
-                    android:layout_height="138dp"
+                    android:layout_height="158dp"
                     android:layout_weight="1"
                     android:background="@drawable/gallery" />
 
                 <Button
                     android:id="@+id/bubblingPhoto"
                     android:layout_width="226dp"
-                    android:layout_height="138dp"
+                    android:layout_height="158dp"
                     android:layout_weight="1"
                     android:background="@drawable/all"
                     android:scaleType="centerInside" />
@@ -93,14 +93,14 @@
                 <Button
                     android:id="@+id/bubblingFolder"
                     android:layout_width="226dp"
-                    android:layout_height="138dp"
+                    android:layout_height="158dp"
                     android:layout_weight="1"
                     android:background="@drawable/folder" />
 
                 <Button
                     android:id="@+id/bubblingMemo"
                     android:layout_width="226dp"
-                    android:layout_height="138dp"
+                    android:layout_height="158dp"
                     android:layout_weight="1"
                     android:background="@drawable/memo" />
             </TableRow>
@@ -113,14 +113,14 @@
                 <Button
                     android:id="@+id/bubblingFace"
                     android:layout_width="226dp"
-                    android:layout_height="138dp"
+                    android:layout_height="158dp"
                     android:layout_weight="1"
                     android:background="@drawable/face" />
 
                 <Button
                     android:id="@+id/howtouse"
                     android:layout_width="226dp"
-                    android:layout_height="138dp"
+                    android:layout_height="158dp"
                     android:layout_weight="1"
                     android:background="@drawable/howtouse" />
 
