@@ -583,7 +583,7 @@ public class BubblingFaceActivity extends GalleryActivity {
             Log.e("image zero", "0");
             Toast.makeText(getApplicationContext(), "기간내에 사진이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
             return null;
-        } else if (images.size() > 20) {
+        } else if (images.size() > 30) {
             Log.e("image over", "20");
             Toast.makeText(getApplicationContext(), "기간내에 너무 많은 사진이 존재합니다.", Toast.LENGTH_SHORT).show();
             return null;
