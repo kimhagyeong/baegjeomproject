@@ -105,10 +105,10 @@ public class EditCreateImg {
     }
     // from BubblingPhoto
     // bubbling photo 에서는 editExif에서 호출되기 때문에 이미지 생성도 불러온 bitmap 주소로 하며 throw만 잘해주면 된다.
-    public EditCreateImg(Uri editPath, String Title, Context mContext) throws FileNotFoundException {
+    public EditCreateImg(Uri editPath, String Title, Context mContext, int ori) throws FileNotFoundException {
         this.mContext = mContext;
         this.Title = Title;
-
+        orientation = ori;
         try {
             createBitmap(editPath);
         } catch (FileNotFoundException e) {

@@ -30,6 +30,7 @@ public class EditExif {
     public Boolean isTakenCamera = false;
     private String name;
     private String targetName;
+    private int orientation;
 
     public EditExif(String editAbPath, String targetPath_Date, Uri editPath, Context mContext,String targetAbPath, String name, String targetName){
         this.editAbPath = editAbPath;
@@ -41,6 +42,8 @@ public class EditExif {
 
         searchRealTime realTime = new searchRealTime(targetAbPath,targetPath_Date);
         this.targetPath_Date=realTime.getRealDate();
+        searchRealTime realOrientate = new searchRealTime(editAbPath,targetPath_Date);
+        this.orientation = realOrientate.getOrientation();
     }
 
     public void setIsStartEdit(boolean isStart){ this.isStartEdit = isStart; }
@@ -58,7 +61,7 @@ public class EditExif {
             String tag = name.substring(name.lastIndexOf("."));
             Boolean isCreate=true;
             try {
-                new EditCreateImg(editPath, title + "_2" + tag, mContext);
+                new EditCreateImg(editPath, title + "_2" + tag, mContext,orientation);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
                 isCreate=false;
