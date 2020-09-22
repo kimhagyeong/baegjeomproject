@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class searchRealTime {
     private String realDate;
+    private int orientation;
 
     public searchRealTime(String abPath,String MediaStoreDate ){
 
@@ -20,6 +21,11 @@ public class searchRealTime {
         try {
             ExifInterface exif = new ExifInterface(abPath);
             String tmpStr = exif.getAttribute(ExifInterface.TAG_DATETIME)+"";
+            String ori = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+            if (ori != null)
+                orientation = Integer.parseInt(ori);
+            else
+                orientation = 0;
 
             if(!tmpStr.equals("null")){
                 Log.d("tmpStr1",tmpStr);
@@ -53,4 +59,5 @@ public class searchRealTime {
 
     }
     public String getRealDate(){return realDate;}
+    public int getOrientation(){return orientation;}
 }

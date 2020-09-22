@@ -103,7 +103,8 @@ public class BubblingMemoActivity extends GalleryActivity {
                                 mContext,
                                 input.getText().toString(),
                                 realTime.getRealDate(),
-                                imageBitmapList.get(keyAt).getImageAbPate()
+                                imageBitmapList.get(keyAt).getImageAbPate(),
+                                realTime.getOrientation()
                         );
                         Toast.makeText(getApplicationContext(),input.getText().toString(), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();

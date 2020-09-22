@@ -42,16 +42,18 @@ public class EditCreateImg {
     private Context mContext;
     private String Title;
     private String abPath;
+    private int orientation;
 
     // from BubblingMemo
     // 메모는 canvas로 새롭게 이미지를 만들어서 저장함.
     // createCanvas(memo)가 특징임
-    public EditCreateImg(String Title, Context mContext, String memo, String targetPath_Date, String targetAbPath){
+    public EditCreateImg(String Title, Context mContext, String memo, String targetPath_Date, String targetAbPath, int ori){
         this.mContext = mContext;
         String title = Title.substring(0, Title.lastIndexOf("."));
         String tag = Title.substring(Title.lastIndexOf("."));
         this.Title = title+"_memo"+tag;
         abPath = targetAbPath;
+        orientation = ori;
 
         Boolean isDoneCreate=true;
         try {
@@ -121,7 +123,12 @@ public class EditCreateImg {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(abPath, options);
+        Bitmap bitmapOrigin = BitmapFactory.decodeFile(abPath, options);
+        Matrix rotateMatrix = new Matrix();
+        rotateMatrix.postRotate((orientation%4-1)*90);
+        Bitmap bitmap = Bitmap.createBitmap(bitmapOrigin, 0, 0, bitmapOrigin.getWidth(), bitmapOrigin.getHeight(), rotateMatrix, false);
+
+        //Bitmap bitmap = BitmapFactory.decodeFile(abPath, options);
         Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(tempBitmap);
