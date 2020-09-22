@@ -125,7 +125,10 @@ public class EditCreateImg {
 
         Bitmap bitmapOrigin = BitmapFactory.decodeFile(abPath, options);
         Matrix rotateMatrix = new Matrix();
-        rotateMatrix.postRotate((orientation%4-1)*90);
+        if (orientation == 0)
+            rotateMatrix.postRotate(0);
+        else
+            rotateMatrix.postRotate((orientation%4-1)*90);
         Bitmap bitmap = Bitmap.createBitmap(bitmapOrigin, 0, 0, bitmapOrigin.getWidth(), bitmapOrigin.getHeight(), rotateMatrix, false);
 
         //Bitmap bitmap = BitmapFactory.decodeFile(abPath, options);
@@ -169,6 +172,9 @@ public class EditCreateImg {
         bitOption.inSampleSize=1;
         Bitmap bitmapOrigin = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(editPath),null,bitOption);
         Matrix rotateMatrix = new Matrix();
+        if (orientation == 0)
+            rotateMatrix.postRotate(0);
+        else
         rotateMatrix.postRotate((orientation%4-1)*90);
         Bitmap bitmap = Bitmap.createBitmap(bitmapOrigin, 0, 0, bitmapOrigin.getWidth(), bitmapOrigin.getHeight(), rotateMatrix, false);
 
