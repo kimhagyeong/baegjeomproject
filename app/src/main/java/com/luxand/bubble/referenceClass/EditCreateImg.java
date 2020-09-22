@@ -167,7 +167,11 @@ public class EditCreateImg {
     private void createBitmap(Uri editPath) throws FileNotFoundException {
         BitmapFactory.Options bitOption=new BitmapFactory.Options();
         bitOption.inSampleSize=1;
-        Bitmap bitmap = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(editPath),null,bitOption);
+        Bitmap bitmapOrigin = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(editPath),null,bitOption);
+        Matrix rotateMatrix = new Matrix();
+        rotateMatrix.postRotate((orientation%4-1)*90);
+        Bitmap bitmap = Bitmap.createBitmap(bitmapOrigin, 0, 0, bitmapOrigin.getWidth(), bitmapOrigin.getHeight(), rotateMatrix, false);
+
 
         this.inputStreamBitmap = bitmap;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {

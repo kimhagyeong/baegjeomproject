@@ -58,7 +58,7 @@ public class EditExif {
             String tag = name.substring(name.lastIndexOf("."));
             Boolean isCreate=true;
             try {
-                new EditCreateImg(editPath,title + "_2" + tag,mContext);
+                new EditCreateImg(editPath, title + "_2" + tag, mContext);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
                 isCreate=false;
